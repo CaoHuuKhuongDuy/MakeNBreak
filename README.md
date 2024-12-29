@@ -16,8 +16,8 @@ Giải nén và để vào thư folder MakeNBreak
 ## Build MakeNBreak
 Tới đây ta đã có thể build và run project thông qua 2 cậu lệnh 
 ```
-javac --module-path javafx-sdk-23.0.1/lib   --add-modules javafx.controls -d bin src/Main.java
-java --module-path javafx-sdk-23.0.1/lib   --add-modules javafx.controls -cp bin Main
+javac --module-path javafx-sdk-23.0.1/lib   --add-modules javafx.controls -d bin src/com.Main.java
+java --module-path javafx-sdk-23.0.1/lib   --add-modules javafx.controls -cp bin com.Main
 ```
 
 Nhưng để thuận tiện trong việc code và compile trong project, mình recommend nên cài đặt Make về máy để chạy file Makefile

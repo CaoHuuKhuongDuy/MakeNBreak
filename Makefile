@@ -1,8 +1,8 @@
 # Define paths and settings
 JAVAFX_LIB := javafx-sdk-23.0.1/lib  # Modify with your JavaFX SDK path
-SRC_DIR := src
+SRC_DIR := src/com
 BIN_DIR := bin
-MAIN_CLASS := Main
+MAIN_CLASS := com.Main
 JAVA_FILES := $(wildcard $(SRC_DIR)/*.java)
 
 # The target to compile the Java files
