@@ -46,3 +46,5 @@ Sau khi install make, ta chỉ cần `cd` vào thư mục MakeNBreak và run
 make run
 ```
 
+Note: Ngoài ra ta có thể config JavaFX trên IntelliJ khỏi cần dùng đến Makefile. GPT để biết rõ hơn..
+
