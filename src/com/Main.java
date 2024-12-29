@@ -21,28 +21,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        // JavaFX-related UI setup
-        // Create a rectangle (your character entity)
-        Rectangle character = new Rectangle(100, 100, 100, 50);  // width, height, and initial position
-        character.setFill(Color.BLUE);
-
-//         Handle mouse pressed event to record the mouse offset from the rectangle's position
-        character.setOnMousePressed(event -> {
-            System.out.println("Mouse pressed");
-            System.out.flush(); // Force flush
-            offsetX = event.getSceneX() - character.getTranslateX();
-            offsetY = event.getSceneY() - character.getTranslateY();
-        });
-
-        // Handle mouse dragged event to update the position of the rectangle
-        character.setOnMouseDragged(event -> {
-            System.out.println("Mouse dragged");
-            System.out.flush(); // Force flush
-            // Set the new position based on the mouse movement
-            character.setTranslateX(event.getSceneX() - offsetX);
-            character.setTranslateY(event.getSceneY() - offsetY);
-        });
-
         // Generate building blocks (this could be moved to another method or class as needed)
         Coordinate defaultPosition = new Coordinate(0, 0);
         Coordinate cell00 = new Coordinate(0, 0);
@@ -58,9 +36,10 @@ public class Main extends Application {
         BuildingBlock buildingBlock1 = new BuildingBlock(new Vector<>(Arrays.asList(cell01, cell10, cell11, cell12)), defaultPosition, Color.RED, true);
         BuildingBlock buildingBlock2 = new BuildingBlock(new Vector<>(Arrays.asList(cell00, cell10, cell11, cell21)), defaultPosition, Color.BLUE, true);
         BuildingBlock buildingBlock3 = new BuildingBlock(new Vector<>(Arrays.asList(cell00, cell01, cell10, cell11)), defaultPosition, Color.GREEN, true);
-        BuildingBlock buildingBlock4 = new BuildingBlock(new Vector<>(Arrays.asList(cell01, cell10, cell11)), defaultPosition, Color.GREY, true);
+        BuildingBlock buildingBlock4 = new BuildingBlock(new Vector<>(Arrays.asList(cell01, cell10, cell11)), defaultPosition, Color.PINK, true);
+        BuildingBlock buildingBlock5 = new BuildingBlock(new Vector<>(Arrays.asList(cell01, cell10, cell11, cell12, cell21)), defaultPosition, Color.PURPLE, true);
 
-        ListBuildingBlock listBuildingBlock = new ListBuildingBlock(new Vector<>(Arrays.asList(buildingBlock1, buildingBlock2, buildingBlock3, buildingBlock4)));
+        ListBuildingBlock listBuildingBlock = new ListBuildingBlock(new Vector<>(Arrays.asList(buildingBlock1, buildingBlock2, buildingBlock3, buildingBlock4, buildingBlock5)));
 
         // Create a GridPane to hold the colored rectangles representing the building
         GridPane buildingGrid = new GridPane();
