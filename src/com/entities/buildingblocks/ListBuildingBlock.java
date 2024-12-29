@@ -76,7 +76,6 @@ public class ListBuildingBlock {
                 }
             }
         }
-        System.out.println(numberBlock);
         return building;
     }
 

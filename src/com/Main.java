@@ -149,7 +149,6 @@ public class Main extends Application {
         BuildingBlock buildingBlock4 = new BuildingBlock(new Vector<>(Arrays.asList(cell01, cell10, cell11)), defaultPosition, Color.GREY, true);
 
         ListBuildingBlock listBuildingBlock = new ListBuildingBlock(new Vector<>(Arrays.asList(buildingBlock1, buildingBlock2, buildingBlock3, buildingBlock4)));
-        Color[][] building = listBuildingBlock.generateBuilding(20, 20, 10);
 
         // Create a GridPane to hold the colored rectangles representing the building
         GridPane buildingGrid = new GridPane();
@@ -157,17 +156,22 @@ public class Main extends Application {
         buildingGrid.setHgap(1);  // Horizontal gap between cells
         buildingGrid.setTranslateX(250);  // X position offset
         buildingGrid.setTranslateY(200);
+        // listener for mouse pressed event
+        buildingGrid.setOnMousePressed(event -> {
+            Color[][] building = listBuildingBlock.generateBuilding(20, 20, 10);
+            // Populate the grid with rectangles based on the building's color matrix
+            // clear building grid
+            buildingGrid.getChildren().clear();
+            for (int row = 0; row < building.length; row++) {
+                for (int col = 0; col < building[row].length; col++) {
+                    Color color = building[row][col];
 
-        // Populate the grid with rectangles based on the building's color matrix
-        for (int row = 0; row < building.length; row++) {
-            for (int col = 0; col < building[row].length; col++) {
-                Color color = building[row][col];
-
-                // Create a rectangle for each cell and set its color
-                Rectangle rectangle = new Rectangle(30, 30, color);  // 30x30 size for each cell
-                buildingGrid.add(rectangle, col, row);  // Add rectangle to grid at (col, row)
+                    // Create a rectangle for each cell and set its color
+                    Rectangle rectangle = new Rectangle(30, 30, color);  // 30x30 size for each cell
+                    buildingGrid.add(rectangle, col, row);  // Add rectangle to grid at (col, row)
+                }
             }
-        }
+        });
 
         // Create a root container (StackPane) and add the building grid and rectangle to it
         StackPane root = new StackPane();
