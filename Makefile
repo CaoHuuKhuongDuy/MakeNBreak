@@ -3,13 +3,14 @@ JAVAFX_LIB := javafx-sdk-23.0.1/lib  # Modify with your JavaFX SDK path
 SRC_DIR := src/com
 BIN_DIR := bin
 MAIN_CLASS := com.Main
-JAVA_FILES := $(wildcard $(SRC_DIR)/*.java)
+JAVA_FILES := $(shell find $(SRC_DIR) -name "*.java")  # Use 'find' to gather all Java files
 
 # The target to compile the Java files
 all: compile
 
 # Compile Java files using javac
 compile:
+	mkdir -p $(BIN_DIR)  # Ensure the bin directory exists
 	javac --module-path $(JAVAFX_LIB) --add-modules javafx.controls -d $(BIN_DIR) $(JAVA_FILES)
 
 # Run the Java program
