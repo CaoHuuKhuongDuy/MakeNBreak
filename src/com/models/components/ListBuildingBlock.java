@@ -1,4 +1,4 @@
-package com.models.buildingblocks;
+package com.models.components;
 
 import com.commons.Coordinate;
 

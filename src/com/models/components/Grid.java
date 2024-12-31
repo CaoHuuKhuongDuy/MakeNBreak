@@ -1,6 +1,7 @@
-package com.models;
+package com.models.components;
 
 import com.commons.Coordinate;
+import com.models.Entity;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 

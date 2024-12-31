@@ -1,6 +1,6 @@
 package com.commons;
 
-import com.models.buildingblocks.ListBuildingBlock;
+import com.models.components.ListBuildingBlock;
 import javafx.scene.paint.Color;
 
 public class Globals {
