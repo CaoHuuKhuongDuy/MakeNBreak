@@ -2,9 +2,12 @@ package com.entities.buildingblocks;
 
 import com.commons.Coordinate;
 import com.entities.Entity;
+import com.commons.Coordinate;
 import java.util.HashSet;
 import java.util.Vector;
 import javafx.scene.paint.Color;
+
+import javax.swing.text.Position;
 
 
 public class BuildingBlock extends Entity {
@@ -17,6 +20,16 @@ public class BuildingBlock extends Entity {
         super(position, interactable);
         this.cells = cells;
         this.color = color;
+        this.occupied = new boolean[MAX_SIZE][MAX_SIZE];
+        for (Coordinate cell : cells) {
+            this.occupied[cell.x][cell.y] = true;
+        }
+    }
+
+    public BuildingBlock(Vector<Coordinate> cells) {
+        super(new Coordinate(0, 0), true);
+        this.color = Color.TRANSPARENT;
+        this.cells = cells;
         this.occupied = new boolean[MAX_SIZE][MAX_SIZE];
         for (Coordinate cell : cells) {
             this.occupied[cell.x][cell.y] = true;
