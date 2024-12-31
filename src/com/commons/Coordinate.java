@@ -21,10 +21,8 @@ public class Coordinate implements Comparable<Coordinate> {
         this.priority = priority;
     }
 
-    // Override compareTo method to define custom comparison logic
     @Override
     public int compareTo(Coordinate other) {
-        // Compare by priority (ascending order)
         return Integer.compare(this.priority, other.priority);
     }
 }
