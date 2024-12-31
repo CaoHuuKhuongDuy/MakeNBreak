@@ -25,7 +25,8 @@ public class SwitchScreen implements EventHandler<MouseEvent> {
     }
 
     public SwitchScreen handler(Screen nextScreen) {
-        return new SwitchScreen(this.primaryStage, nextScreen);
+        this.setScreen(nextScreen);
+        return this;
     }
 
     @Override

@@ -23,8 +23,6 @@ public class Main extends Application {
         Scene dummyScene = new Scene(dummyLayout);
         primaryStage.setScene(dummyScene);
 
-//        Screen gameScreen = new GameScreen(primaryStage);
-//        gameScreen.display();
         Screen mainScreen = new MainScreen(primaryStage);
         mainScreen.display();
         primaryStage.setFullScreen(true);
@@ -40,3 +38,6 @@ public class Main extends Application {
         launch(args);
     }
 }
+
+
+
