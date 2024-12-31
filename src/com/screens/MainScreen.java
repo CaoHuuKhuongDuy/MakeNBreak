@@ -28,7 +28,7 @@ public class MainScreen extends Screen {
 
         Button playGameButton = new Button("Play Game");
 
-        playGameButton.setOnMouseClicked(this.switchScreen.handler(new GameScreen(primaryStage)));
+        playGameButton.setOnMouseClicked(this.switchScreen.setScreen(new GameScreen(primaryStage)));
         playGameButton.setLayoutX(800);
         playGameButton.setLayoutY(400);
 

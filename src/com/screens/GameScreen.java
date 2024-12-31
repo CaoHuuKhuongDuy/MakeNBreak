@@ -31,7 +31,7 @@ public class GameScreen extends Screen {
 
         Button backButton = new Button("Back");
         backButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10px 20px; -fx-border-radius: 10px;");
-        backButton.setOnMouseClicked(this.switchScreen.handler(new MainScreen(primaryStage)));
+        backButton.setOnMouseClicked(this.switchScreen.setScreen(new MainScreen(primaryStage)));
 
         Button generateCardButton = new Button("Generate Card");
         generateCardButton.setStyle("-fx-background-color: #FF5733; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10px 20px; -fx-border-radius: 10px;");

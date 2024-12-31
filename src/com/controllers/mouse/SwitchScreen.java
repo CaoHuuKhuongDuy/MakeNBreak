@@ -4,7 +4,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.event.EventHandler;
 import com.screens.Screen;
 import javafx.stage.Stage;
-import java.util.function.Consumer;
 
 
 public class SwitchScreen implements EventHandler<MouseEvent> {
@@ -20,12 +19,8 @@ public class SwitchScreen implements EventHandler<MouseEvent> {
         this.primaryStage = primaryStage;
     }
 
-    public void setScreen(Screen nextScreen) {
+    public SwitchScreen setScreen(Screen nextScreen) {
         this.nextScreen = nextScreen;
-    }
-
-    public SwitchScreen handler(Screen nextScreen) {
-        this.setScreen(nextScreen);
         return this;
     }
 
