@@ -3,20 +3,17 @@ package com.screens;
 import com.commons.Coordinate;
 import com.commons.Globals;
 import com.controllers.mouse.SwitchScreen;
-import com.entities.Card;
-import javafx.application.Platform;
+import com.models.Card;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.scene.Scene;
 
 
 public class GameScreen extends Screen {
     private SwitchScreen switchScreen;
     private Card currentCard;
+    private int cardNumber = 0;
 
     public GameScreen(Stage primaryStage) {
         super(primaryStage);
@@ -54,12 +51,13 @@ public class GameScreen extends Screen {
     }
 
     private void regenerateCard() {
+        cardNumber++;
         if (currentCard != null) {
             this.layout.getChildren().remove(currentCard);
         }
 
-        Card newCard1 = new  Card(Globals.listBuildingBlock.generateBuilding(20, 20, 10), new Coordinate(700, 50), 400, 250);
-        Card newCard2 = new  Card(Globals.listBuildingBlock.generateBuilding(20, 20, 10), new Coordinate(1200, 50), 400, 250);
+        Card newCard1 = new  Card(Globals.listBuildingBlock.generateBuilding(20, 20, 10), new Coordinate(700, 50), 400, 250, cardNumber);
+        Card newCard2 = new  Card(Globals.listBuildingBlock.generateBuilding(20, 20, 10), new Coordinate(1200, 50), 400, 250, cardNumber);
 
         newCard1.draw();
         newCard2.draw();

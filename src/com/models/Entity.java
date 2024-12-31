@@ -1,4 +1,4 @@
-package com.entities;
+package com.models;
 import com.commons.Coordinate;
 import com.commons.Globals;
 import javafx.scene.canvas.Canvas;

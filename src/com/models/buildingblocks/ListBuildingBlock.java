@@ -1,4 +1,4 @@
-package com.entities.buildingblocks;
+package com.models.buildingblocks;
 
 import com.commons.Coordinate;
 
@@ -10,8 +10,6 @@ import java.util.Random;
 import com.commons.Globals;
 import javafx.scene.paint.Color;
 import java.util.Arrays;
-import java.util.Vector;
-
 
 
 public class ListBuildingBlock {

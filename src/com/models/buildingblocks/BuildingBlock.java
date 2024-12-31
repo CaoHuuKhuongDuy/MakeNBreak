@@ -1,13 +1,10 @@
-package com.entities.buildingblocks;
+package com.models.buildingblocks;
 
 import com.commons.Coordinate;
-import com.entities.Entity;
-import com.commons.Coordinate;
-import java.util.HashSet;
+import com.models.Entity;
+
 import java.util.Vector;
 import javafx.scene.paint.Color;
-
-import javax.swing.text.Position;
 
 
 public class BuildingBlock extends Entity {

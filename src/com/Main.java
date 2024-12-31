@@ -1,8 +1,6 @@
 package com;
 
 import com.commons.Globals;
-import com.entities.buildingblocks.BuildingBlock;
-import com.screens.GameScreen;
 import com.screens.MainScreen;
 import com.screens.Screen;
 import javafx.application.Application;
@@ -10,9 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.util.Arrays;
-import java.util.Vector;
 
 public class Main extends Application {
 

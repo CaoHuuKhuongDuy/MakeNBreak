@@ -1,11 +1,8 @@
-package com.entities;
+package com.models;
 
 import com.commons.Coordinate;
-import com.commons.Globals;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-
-import java.util.Random;
 
 public class Grid extends Entity {
     private Color[][] matrix;
