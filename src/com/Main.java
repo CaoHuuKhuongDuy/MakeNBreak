@@ -21,7 +21,7 @@ public class Main extends Application {
 
         Screen mainScreen = new IntroScreen(primaryStage);
         mainScreen.display();
-        primaryStage.setFullScreen(true);
+        primaryStage.setFullScreen(false);
         double screenWidth = javafx.stage.Screen.getPrimary().getBounds().getWidth();
         double screenHeight = javafx.stage.Screen.getPrimary().getBounds().getHeight();
         Globals.setDefaultResolution((int)screenWidth, (int)screenHeight);

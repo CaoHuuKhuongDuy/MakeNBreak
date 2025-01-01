@@ -1,9 +1,12 @@
 package com.screens;
 
 import com.controllers.mouse.SwitchScreen;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -25,9 +28,11 @@ public class IntroScreen extends Screen {
     public void display() {
         this.getChildren().clear();
 
-        Image image = new Image("/assets/image/example.png");  // Replace with actual image path
+        Image image = new Image(getClass().getResource("/resource/assets/image/IntroScreen.png").toExternalForm());
+        // Replace with actual image path
         ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(300); // Set the image width
+        imageView.setFitWidth(1024); // Set the image width
+        imageView.setFitHeight(768);
         imageView.setPreserveRatio(true);
 
         // Create the buttons
@@ -40,7 +45,15 @@ public class IntroScreen extends Screen {
             System.out.println("Button 1 clicked");
         });
 
-        this.getChildren().add(button1);
+        button1.setOnMouseClicked(this.switchScreen.setScreen(new MainScreen(primaryStage)));
+        StackPane stackPane = new StackPane();
+        stackPane.getChildren().addAll(imageView, button1);
+
+        StackPane.setAlignment(button1, Pos.CENTER); // Center the button on the image
+        double offsetY = imageView.getFitHeight() / 2 - 300;
+        StackPane.setMargin(button1, new Insets(-offsetY, 0, 0, 0)); // Move button slightly up if needed
+
+        this.getChildren().add(stackPane);
 
 
         this.primaryStage.getScene().setRoot(this);
