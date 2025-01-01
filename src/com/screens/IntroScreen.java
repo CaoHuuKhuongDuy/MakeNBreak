@@ -25,10 +25,11 @@ public class IntroScreen extends Screen {
     public void display() {
         this.getChildren().clear();
 
-//        Image image = new Image("/assets/image/example.png");  // Replace with actual image path
-//        ImageView imageView = new ImageView(image);
-//        imageView.setFitWidth(300); // Set the image width
-//        imageView.setPreserveRatio(true);
+        Image image = new Image("file:assets/images/example.png");
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(800);
+        imageView.setPreserveRatio(true);
+        this.getChildren().add(imageView);
 
         // Create the buttons
         Button button1 = new Button("Button 1");
