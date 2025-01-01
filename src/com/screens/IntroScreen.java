@@ -50,8 +50,8 @@ public class IntroScreen extends Screen {
         stackPane.getChildren().addAll(imageView, button1);
 
         StackPane.setAlignment(button1, Pos.CENTER); // Center the button on the image
-        double offsetY = imageView.getFitHeight() / 2 - 300;
-        StackPane.setMargin(button1, new Insets(-offsetY, 0, 0, 0)); // Move button slightly up if needed
+        double offsetY = imageView.getFitHeight() / 4 + 100;
+        StackPane.setMargin(button1, new Insets(offsetY, 0, 0, 0)); // Move button slightly up if needed
 
         this.getChildren().add(stackPane);
 
