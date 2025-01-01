@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.scene.shape.Rectangle;
 
 
 public class MainScreen extends Screen {
@@ -33,6 +34,10 @@ public class MainScreen extends Screen {
         playGameButton.setLayoutY(400);
 
         this.getChildren().add(playGameButton);
+
+        Rectangle test = new Rectangle(100, 100, 100, 100);
+        test.setOnMouseClicked(this.switchScreen.setScreen(new GameScreen(primaryStage)));
+        this.getChildren().add(test);
 
         this.primaryStage.getScene().setRoot(this);
     }

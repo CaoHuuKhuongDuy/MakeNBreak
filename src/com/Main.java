@@ -1,6 +1,7 @@
 package com;
 
 import com.commons.Globals;
+import com.screens.IntroScreen;
 import com.screens.MainScreen;
 import com.screens.Screen;
 import javafx.application.Application;
@@ -18,7 +19,7 @@ public class Main extends Application {
         Scene dummyScene = new Scene(dummyLayout);
         primaryStage.setScene(dummyScene);
 
-        Screen mainScreen = new MainScreen(primaryStage);
+        Screen mainScreen = new IntroScreen(primaryStage);
         mainScreen.display();
         primaryStage.setFullScreen(true);
         double screenWidth = javafx.stage.Screen.getPrimary().getBounds().getWidth();

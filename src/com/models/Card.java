@@ -58,7 +58,6 @@ public class Card extends Entity {
         gc.fillText(Integer.toString(this.number), this.width * 0.05, this.height * 0.15); // Draw the number
         gc.fillText(Integer.toString(this.number), this.width * 0.87, this.height * 0.15); // Draw the number
 
-
         this.getChildren().add(canvas);
     }
 }
