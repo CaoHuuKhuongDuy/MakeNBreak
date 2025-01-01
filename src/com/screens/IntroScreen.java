@@ -25,7 +25,7 @@ public class IntroScreen extends Screen {
     public void display() {
         this.getChildren().clear();
 
-        Image image = new Image("file:assets/image/example.png");
+        Image image = new Image("file:assets/images/example.png");
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(800);
         imageView.setPreserveRatio(true);
