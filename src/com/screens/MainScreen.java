@@ -24,7 +24,7 @@ public class MainScreen extends Screen {
 
     @Override
     public void display() {
-        layout.getChildren().clear();
+        this.getChildren().clear();
 
         Button playGameButton = new Button("Play Game");
 
@@ -32,8 +32,8 @@ public class MainScreen extends Screen {
         playGameButton.setLayoutX(800);
         playGameButton.setLayoutY(400);
 
-        layout.getChildren().add(playGameButton);
+        this.getChildren().add(playGameButton);
 
-        this.primaryStage.getScene().setRoot(layout);
+        this.primaryStage.getScene().setRoot(this);
     }
 }

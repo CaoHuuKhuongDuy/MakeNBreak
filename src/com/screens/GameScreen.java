@@ -27,7 +27,7 @@ public class GameScreen extends Screen {
 
     @Override
     public void display() {
-        this.layout.getChildren().clear();
+        this.getChildren().clear();
 
         Button backButton = new Button("Back");
         backButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10px 20px; -fx-border-radius: 10px;");
@@ -45,16 +45,14 @@ public class GameScreen extends Screen {
         generateCardButton.setLayoutX(750);
         generateCardButton.setLayoutY(800);
 
-        this.layout.getChildren().addAll(backButton, generateCardButton);
+        this.getChildren().addAll(backButton, generateCardButton);
 
-        this.primaryStage.getScene().setRoot(layout);
+        this.primaryStage.getScene().setRoot(this);
     }
 
     private void regenerateCard() {
         cardNumber++;
-        if (currentCard != null) {
-            this.layout.getChildren().remove(currentCard);
-        }
+        if (currentCard != null) this.getChildren().remove(currentCard);
 
         Card newCard1 = new  Card(Globals.listBuildingBlock.generateBuilding(20, 20, 10), new Coordinate(700, 50), 400, 250, cardNumber);
         Card newCard2 = new  Card(Globals.listBuildingBlock.generateBuilding(20, 20, 10), new Coordinate(1200, 50), 400, 250, cardNumber);
@@ -63,8 +61,8 @@ public class GameScreen extends Screen {
         newCard2.draw();
 
         currentCard = newCard1;
-        this.layout.getChildren().add(currentCard);
-        this.layout.getChildren().add(newCard2);
+        this.getChildren().add(currentCard);
+        this.getChildren().add(newCard2);
     }
 
 }
