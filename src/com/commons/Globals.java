@@ -8,6 +8,7 @@ public class Globals {
     public static Color[] listColors = {Color.RED, Color.YELLOW, Color.LIGHTGREEN, Color.CYAN, Color.BROWN, Color.BLUE, Color.PURPLE, Color.DARKGRAY, Color.PINK, Color.DARKGREEN};
     public static int DEFAULT_WIDTH;
     public static int DEFAULT_HEIGHT;
+    public static App app = new App();
 
     public static void setDefaultResolution(int width, int height) {
         DEFAULT_WIDTH = width;
