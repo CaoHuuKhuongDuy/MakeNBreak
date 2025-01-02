@@ -42,7 +42,10 @@ public class IntroScreen extends Screen {
         //titleImageView.setPreserveRatio(true);
 
         // Create the buttons
-        Button button1 = new Button("Button 1");
+        Button button1 = new Button();
+        ImageView imageViewButton1 = new ImageView(new Image("/resource/assets/image/StartButton.png"));
+        button1.setGraphic(imageViewButton1);
+        button1.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
         Button button2 = new Button("Button 2");
 
         // Add event handlers for buttons
@@ -51,12 +54,12 @@ public class IntroScreen extends Screen {
             System.out.println("Button 1 clicked");
         });
 
-        button1.setOnMouseClicked(this.switchScreen.setScreen(new LoadingScreen(primaryStage)));
+        button1.setOnMouseClicked(this.switchScreen.setScreen(new MainScreen(primaryStage)));
         StackPane stackPane = new StackPane();
         stackPane.getChildren().addAll(imageView, titleImageView, button1);
 
         StackPane.setAlignment(button1, Pos.CENTER); // Center the button on the image
-        double offsetY = imageView.getFitHeight() / 4 + 100;
+        double offsetY = imageView.getFitHeight() / 4 + 250;
         StackPane.setMargin(button1, new Insets(offsetY, 0, 0, 0)); // Move button slightly up if needed
 
         StackPane.setAlignment(titleImageView, Pos.CENTER);
