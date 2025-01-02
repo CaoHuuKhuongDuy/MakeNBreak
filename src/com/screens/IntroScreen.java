@@ -35,6 +35,12 @@ public class IntroScreen extends Screen {
         imageView.setFitHeight(768);
         imageView.setPreserveRatio(true);
 
+        Image titleImage = new Image(getClass().getResource("/resource/assets/image/titleSlanted.png").toExternalForm());
+        ImageView titleImageView = new ImageView(titleImage);
+        //titleImageView.setFitWidth(5118); // Set the image width
+        //titleImageView.setFitHeight(4911);
+        //titleImageView.setPreserveRatio(true);
+
         // Create the buttons
         Button button1 = new Button("Button 1");
         Button button2 = new Button("Button 2");
@@ -45,13 +51,17 @@ public class IntroScreen extends Screen {
             System.out.println("Button 1 clicked");
         });
 
-        button1.setOnMouseClicked(this.switchScreen.setScreen(new MainScreen(primaryStage)));
+        button1.setOnMouseClicked(this.switchScreen.setScreen(new LoadingScreen(primaryStage)));
         StackPane stackPane = new StackPane();
-        stackPane.getChildren().addAll(imageView, button1);
+        stackPane.getChildren().addAll(imageView, titleImageView, button1);
 
         StackPane.setAlignment(button1, Pos.CENTER); // Center the button on the image
         double offsetY = imageView.getFitHeight() / 4 + 100;
         StackPane.setMargin(button1, new Insets(offsetY, 0, 0, 0)); // Move button slightly up if needed
+
+        StackPane.setAlignment(titleImageView, Pos.CENTER);
+        double offset = imageView.getFitHeight() / 4;
+        StackPane.setMargin(titleImageView, new Insets(-offset, 0, 0, 0));
 
         this.getChildren().add(stackPane);
 
