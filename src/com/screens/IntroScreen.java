@@ -28,12 +28,12 @@ public class IntroScreen extends Screen {
     public void display() {
         this.getChildren().clear();
 
-        Image image = new Image(getClass().getResource("/resource/assets/image/IntroScreen.png").toExternalForm());
-        // Replace with actual image path
+        Image image = new Image("file:assets/images/example.png");
         ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(1024); // Set the image width
-        imageView.setFitHeight(768);
+        imageView.setFitWidth(800);
+
         imageView.setPreserveRatio(true);
+        this.getChildren().add(imageView);
 
         Image titleImage = new Image(getClass().getResource("/resource/assets/image/titleSlanted.png").toExternalForm());
         ImageView titleImageView = new ImageView(titleImage);
