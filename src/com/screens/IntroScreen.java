@@ -25,7 +25,7 @@ public class IntroScreen extends Screen {
 
     @Override
     public void display() {
-        this.getChildren().removeIf(node -> this.getChildren().indexOf(node) > 0); //removes children with an index greater than 0 (skipping the background at index 0).
+        this.getChildren().clear(); //removes children with an index greater than 0 (skipping the background at index 0).
 
 
         //Image image = new Image("/resource/assets/image/background.png");
@@ -37,9 +37,6 @@ public class IntroScreen extends Screen {
 
         Image titleImage = new Image("/resource/assets/image/titleSlanted.png");
         ImageView titleImageView = new ImageView(titleImage);
-        //titleImageView.setFitWidth(5118); // Set the image width
-        //titleImageView.setFitHeight(4911);
-        //titleImageView.setPreserveRatio(true);
 
         // Create the buttons
         Button button1 = new Button();
@@ -56,12 +53,13 @@ public class IntroScreen extends Screen {
 
         button1.setOnMouseClicked(this.switchScreen.setScreen(new LoadingScreen(primaryStage)));
 
-        StackPane.setAlignment(button1, Pos.CENTER);
-        StackPane.setMargin(button1, new Insets(400, 0, 0, 0)); // Move button slightly up if needed
+        titleImageView.setLayoutX(0); // Center alignment on X-axis (in a Pane, you'd need to manually adjust for centering)
+        titleImageView.setLayoutY(30); // Adjust Y-position
 
-        StackPane.setAlignment(titleImageView, Pos.TOP_CENTER);
-        StackPane.setMargin(titleImageView, new Insets(30, 0, 0, 0));
+        button1.setLayoutX(413); // Adjust X-position for button1
+        button1.setLayoutY(573); // Adjust Y-position for button1
 
+        // Add all the elements to the Pane
         this.getChildren().addAll(titleImageView, button1);
 
 

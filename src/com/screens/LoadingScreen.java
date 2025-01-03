@@ -11,6 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import com.controllers.action.SwitchScreen;
 
 
 public class LoadingScreen extends Screen {
@@ -24,9 +25,13 @@ public class LoadingScreen extends Screen {
 
     @Override
     public void initHandlers() {
+
         // Initialize progress bar
         progressBar = new ProgressBar(0);
-        //progressBar.setStyle("-fx-accent: #A39B32; -fx-border-color: #4D0000; -fx-border-width: 3px; -fx-background-color: transparent"); // Optional: Change the color of the progress bar
+        //progressBar.setStyle("-fx-accent: #A39B32;
+        //                      -fx-border-color: #4D0000;
+        //                      -fx-border-width: 3px;
+        //                      -fx-background-color: transparent");
         progressBar.getStylesheets().add("/resource/assets/styles/progressBar.css");
         progressBar.setPrefWidth(512); // Set preferred width
         progressBar.setPrefHeight(28); // Set preferred height
@@ -51,21 +56,23 @@ public class LoadingScreen extends Screen {
                         new KeyValue(progressBar.progressProperty(), 1.0))
         );
 
+        timeline.setOnFinished(new SwitchScreen(primaryStage, new MainScreen(primaryStage)));
+
     }
 
     @Override
     public void display() {
-        this.getChildren().removeIf(node -> this.getChildren().indexOf(node) > 0);
+        this.getChildren().clear();
 
         Image titleImage = new Image("/resource/assets/image/titleSlanted.png");
         ImageView titleImageView = new ImageView(titleImage);
 
         // Center the progress bar
-        StackPane.setAlignment(progressBar, javafx.geometry.Pos.CENTER);
-        StackPane.setMargin(progressBar, new Insets(600, 0, 0, 0));
+        progressBar.setLayoutX(256); // Center alignment on X-axis (in a Pane, you'd need to manually adjust for centering)
+        progressBar.setLayoutY(646);
 
-        StackPane.setAlignment(titleImageView, Pos.TOP_CENTER);
-        StackPane.setMargin(titleImageView, new Insets(30, 0, 0, 0));
+        titleImageView.setLayoutX(0); // Center alignment on X-axis (in a Pane, you'd need to manually adjust for centering)
+        titleImageView.setLayoutY(30);
 
         // Add the StackPane to the screen
         this.getChildren().addAll(progressBar, titleImageView);

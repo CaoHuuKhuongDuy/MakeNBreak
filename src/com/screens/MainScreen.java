@@ -30,14 +30,17 @@ public class MainScreen extends Screen {
         Button playGameButton = new Button("Play Game");
 
         playGameButton.setOnMouseClicked(this.switchScreen.setScreen(new GameScreen(primaryStage)));
-        playGameButton.setLayoutX(800);
-        playGameButton.setLayoutY(400);
+        playGameButton.setLayoutX(470);
+        playGameButton.setLayoutY(370);
 
         this.getChildren().add(playGameButton);
 
-        Rectangle test = new Rectangle(100, 100, 100, 100);
+        Rectangle test = new Rectangle(50, 50, 50, 50);
         test.setOnMouseClicked(this.switchScreen.setScreen(new GameScreen(primaryStage)));
         this.getChildren().add(test);
+
+        test.setLayoutX(440);
+        test.setLayoutY(400);
 
         this.primaryStage.getScene().setRoot(this);
     }

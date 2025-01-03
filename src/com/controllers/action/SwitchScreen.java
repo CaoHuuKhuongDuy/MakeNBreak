@@ -1,12 +1,12 @@
-package com.controllers.mouse;
+package com.controllers.action;
 
-import javafx.scene.input.MouseEvent;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import com.screens.Screen;
 import javafx.stage.Stage;
 
 
-public class SwitchScreen implements EventHandler<MouseEvent> {
+public class SwitchScreen implements EventHandler<ActionEvent> {
     Stage primaryStage;
     Screen nextScreen;
 
@@ -25,15 +25,7 @@ public class SwitchScreen implements EventHandler<MouseEvent> {
     }
 
     @Override
-    public void handle(MouseEvent event) {
-        if (event.getEventType().equals(MouseEvent.MOUSE_CLICKED)) {
-            nextScreen.display();
-        }
-    }
-
-    public void switchScreenDirectly() {
-        if ( nextScreen != null) {
-            nextScreen.display();
-        }
+    public void handle(ActionEvent event) {
+        nextScreen.display();
     }
 }

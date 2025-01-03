@@ -1,19 +1,22 @@
 package com.screens;
 
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 
-public abstract class Screen extends StackPane {
+public abstract class Screen extends Pane {
     protected String title;
     protected Stage primaryStage;
-    private ImageView background;
 
     public Screen(Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.title = "";
-        setupBackground(); // Add background
+        setupBackground();
     }
 
     public Screen(Stage primaryStage, String title) {
@@ -23,14 +26,23 @@ public abstract class Screen extends StackPane {
     }
 
     private void setupBackground() {
-        // Load background image
-        Image image = new Image("/resource/assets/image/background.png");
-        background = new ImageView(image);
-        background.setFitWidth(1024);
-        background.setFitHeight(768);
-        background.setPreserveRatio(false);
 
-        this.getChildren().addFirst(background); // Always add background at index 0
+        BackgroundSize backgroundSize = new BackgroundSize(
+                1024,   // Width of the background
+                768,   // Height of the background
+                false, // Scale to width (false means it won't stretch)
+                false, // Scale to height (false means it won't stretch)
+                true,  // Keep aspect ratio (true means it maintains original aspect ratio)
+                false  // No repeat for background
+        );
+        setBackground(new Background(new BackgroundImage(
+                new Image("/resource/assets/image/background.png"), // Provide the path to your image
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.CENTER,
+                backgroundSize)
+        ));
+        setPrefSize(1024, 768);
     }
 
     public abstract void display();
