@@ -3,11 +3,15 @@ package com.screens;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.scene.Scene;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
 
 public class LoadingScreen extends Screen {
     private ProgressBar progressBar;
@@ -22,10 +26,10 @@ public class LoadingScreen extends Screen {
     public void initHandlers() {
         // Initialize progress bar
         progressBar = new ProgressBar(0);
-        progressBar.setStyle("-fx-accent: green;"); // Optional: Change the color of the progress bar
+        //progressBar.setStyle("-fx-accent: #A39B32; -fx-border-color: #4D0000; -fx-border-width: 3px; -fx-background-color: transparent"); // Optional: Change the color of the progress bar
+        progressBar.getStylesheets().add("/resource/assets/styles/progressBar.css");
         progressBar.setPrefWidth(512); // Set preferred width
         progressBar.setPrefHeight(28); // Set preferred height
-
 
         // Create a Timeline for loading animation
         timeline = new Timeline();
@@ -51,17 +55,20 @@ public class LoadingScreen extends Screen {
 
     @Override
     public void display() {
-        this.getChildren().clear();
+        this.getChildren().removeIf(node -> this.getChildren().indexOf(node) > 0);
 
-        // Create layout (e.g., StackPane) and add the progress bar
-        StackPane stackPane = new StackPane();
-        stackPane.getChildren().add(progressBar);
+        Image titleImage = new Image("/resource/assets/image/titleSlanted.png");
+        ImageView titleImageView = new ImageView(titleImage);
 
         // Center the progress bar
         StackPane.setAlignment(progressBar, javafx.geometry.Pos.CENTER);
+        StackPane.setMargin(progressBar, new Insets(600, 0, 0, 0));
+
+        StackPane.setAlignment(titleImageView, Pos.TOP_CENTER);
+        StackPane.setMargin(titleImageView, new Insets(30, 0, 0, 0));
 
         // Add the StackPane to the screen
-        this.getChildren().add(stackPane);
+        this.getChildren().addAll(progressBar, titleImageView);
 
         // Set the scene root
         this.primaryStage.getScene().setRoot(this);

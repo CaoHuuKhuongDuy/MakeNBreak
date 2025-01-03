@@ -7,7 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class IntroScreen extends Screen {
@@ -26,16 +25,17 @@ public class IntroScreen extends Screen {
 
     @Override
     public void display() {
-        this.getChildren().clear();
+        this.getChildren().removeIf(node -> this.getChildren().indexOf(node) > 0); //removes children with an index greater than 0 (skipping the background at index 0).
 
-        Image image = new Image(getClass().getResource("/resource/assets/image/IntroScreen.png").toExternalForm());
+
+        //Image image = new Image("/resource/assets/image/background.png");
         // Replace with actual image path
-        ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(1024); // Set the image width
-        imageView.setFitHeight(768);
-        imageView.setPreserveRatio(true);
+        //ImageView imageView = new ImageView(image);
+        //imageView.setFitWidth(1024); // Set the image width
+        //imageView.setFitHeight(768);
+        //imageView.setPreserveRatio(true);
 
-        Image titleImage = new Image(getClass().getResource("/resource/assets/image/titleSlanted.png").toExternalForm());
+        Image titleImage = new Image("/resource/assets/image/titleSlanted.png");
         ImageView titleImageView = new ImageView(titleImage);
         //titleImageView.setFitWidth(5118); // Set the image width
         //titleImageView.setFitHeight(4911);
@@ -54,19 +54,15 @@ public class IntroScreen extends Screen {
             System.out.println("Button 1 clicked");
         });
 
-        button1.setOnMouseClicked(this.switchScreen.setScreen(new MainScreen(primaryStage)));
-        StackPane stackPane = new StackPane();
-        stackPane.getChildren().addAll(imageView, titleImageView, button1);
+        button1.setOnMouseClicked(this.switchScreen.setScreen(new LoadingScreen(primaryStage)));
 
-        StackPane.setAlignment(button1, Pos.CENTER); // Center the button on the image
-        double offsetY = imageView.getFitHeight() / 4 + 250;
-        StackPane.setMargin(button1, new Insets(offsetY, 0, 0, 0)); // Move button slightly up if needed
+        StackPane.setAlignment(button1, Pos.CENTER);
+        StackPane.setMargin(button1, new Insets(400, 0, 0, 0)); // Move button slightly up if needed
 
-        StackPane.setAlignment(titleImageView, Pos.CENTER);
-        double offset = imageView.getFitHeight() / 4;
-        StackPane.setMargin(titleImageView, new Insets(-offset, 0, 0, 0));
+        StackPane.setAlignment(titleImageView, Pos.TOP_CENTER);
+        StackPane.setMargin(titleImageView, new Insets(30, 0, 0, 0));
 
-        this.getChildren().add(stackPane);
+        this.getChildren().addAll(titleImageView, button1);
 
 
         this.primaryStage.getScene().setRoot(this);

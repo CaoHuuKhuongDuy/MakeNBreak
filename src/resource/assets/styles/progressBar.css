@@ -1,0 +1,14 @@
+.progress-bar {
+    -fx-accent: #A39B32;                     /* Filled portion color */
+    -fx-border-color: #4D0000;               /* Border color */
+    -fx-border-width: 3px;                   /*Border thickness */
+    -fx-background-color: transparent;       /* Transparent background */
+}
+
+.progress-bar .track {
+    -fx-background-color: transparent;       /* Transparent unfilled track */
+ }
+
+.progress-bar .bar {
+    -fx-background-color: #A39B32;          /* Custom bar color (optional) */
+}
