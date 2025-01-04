@@ -6,7 +6,7 @@ import com.screens.Screen;
 import javafx.stage.Stage;
 
 
-public class SwitchScreen implements EventHandler<MouseEvent> {
+public class SwitchScreen implements EventHandler<MouseEvent>, Runnable{
     Stage primaryStage;
     Screen nextScreen;
 
@@ -31,9 +31,9 @@ public class SwitchScreen implements EventHandler<MouseEvent> {
         }
     }
 
-    public void switchScreenDirectly() {
-        if ( nextScreen != null) {
-            nextScreen.display();
-        }
+    // Triggered directly (Runnable)
+    @Override
+    public void run() {
+        nextScreen.display();
     }
 }
