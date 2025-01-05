@@ -31,7 +31,7 @@ public class Grid extends Entity {
                 cell.setFill(cellColor);
 
                 // Optionally, add a border to each cell
-                Color color = this.matrix[row][col] != null ? this.matrix[row][col].darker() : Color.rgb(255,128,0);
+                Color color = this.matrix[row][col] != null ? this.matrix[row][col].darker() : Color.rgb(255,248,163);
                 cell.setStroke(color); // Border color
                 double borderWith = this.matrix[row][col] != null ? cellSize / 10 : cellSize / 20;
                 cell.setStrokeWidth(borderWith);     // Border width
