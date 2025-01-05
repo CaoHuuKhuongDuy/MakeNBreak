@@ -1,5 +1,6 @@
 package com.screens;
 
+import com.commons.Globals;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
@@ -20,7 +21,7 @@ public abstract class Screen extends Pane {
         this.primaryStage = primaryStage;
         this.title = title;
         setupBackground("/resource/assets/image/background.png");
-        setPrefSize(1024, 768);
+        setPrefSize(Globals.DEFAULT_WIDTH, Globals.DEFAULT_HEIGHT);
     }
 
     // For setting a specific background in any screen

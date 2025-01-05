@@ -18,14 +18,11 @@ public class Main extends Application {
         VBox dummyLayout = new VBox(10, dummyLabel);
         Scene dummyScene = new Scene(dummyLayout);
         primaryStage.setScene(dummyScene);
+        Globals.setDefaultResolution(1024, 768);
 
         Screen mainScreen = new IntroScreen(primaryStage);
         mainScreen.display();
-        primaryStage.setFullScreen(false);
         primaryStage.setResizable(false);
-        double screenWidth = javafx.stage.Screen.getPrimary().getBounds().getWidth();
-        double screenHeight = javafx.stage.Screen.getPrimary().getBounds().getHeight();
-        Globals.setDefaultResolution((int)screenWidth, (int)screenHeight);
         primaryStage.setFullScreenExitHint("");
         primaryStage.setTitle("Make N Break");
         primaryStage.show();
