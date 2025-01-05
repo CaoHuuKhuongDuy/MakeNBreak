@@ -29,10 +29,10 @@ public class IntroScreen extends Screen {
         ImageView titleImageView = new ImageView(titleImage);
 
         // Create the buttons
-        Button button1 = new Button();
+        Button mainScreenButton = new Button();
         ImageView imageViewButton1 = new ImageView(new Image("/resource/assets/image/startButton.png"));
-        button1.setGraphic(imageViewButton1);
-        button1.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
+        mainScreenButton.setGraphic(imageViewButton1);
+        mainScreenButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
 
         Button button2 = new Button();
         ImageView imageViewButton2 = new ImageView(new Image("/resource/assets/image/quitButton.png"));
@@ -40,7 +40,7 @@ public class IntroScreen extends Screen {
         button2.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
 
         // Add event handlers for buttons
-        button1.setOnAction(event -> {
+        mainScreenButton.setOnAction(event -> {
             // Your action for button 1
             System.out.println("Button 1 clicked");
         });
@@ -51,19 +51,19 @@ public class IntroScreen extends Screen {
             Platform.exit();
         });
 
-        button1.setOnMouseClicked(this.switchScreen.setScreen(new LoadingScreen(primaryStage)));
+        mainScreenButton.setOnMouseClicked(this.switchScreen.setScreen(new LoadingScreen(primaryStage)));
 
         titleImageView.setLayoutX(0);
         titleImageView.setLayoutY(30);
 
-        button1.setLayoutX(413);
-        button1.setLayoutY(573);
+        mainScreenButton.setLayoutX(413);
+        mainScreenButton.setLayoutY(573);
 
         button2.setLayoutX(413);
         button2.setLayoutY(651);
 
         // Add all the elements to the Pane
-        this.getChildren().addAll(titleImageView, button1, button2);
+        this.getChildren().addAll(titleImageView, mainScreenButton, button2);
 
 
         this.primaryStage.getScene().setRoot(this);
