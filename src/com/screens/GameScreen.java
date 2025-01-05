@@ -4,6 +4,7 @@ import com.commons.Coordinate;
 import com.commons.Globals;
 import com.controllers.mouse.SwitchScreen;
 import com.models.Card;
+import com.models.CardType;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
@@ -51,11 +52,10 @@ public class GameScreen extends Screen {
     }
 
     private void regenerateCard() {
-        cardNumber++;
         if (currentCard != null) this.getChildren().remove(currentCard);
 
-        Card newCard1 = new  Card(Globals.listBuildingBlock.generateBuilding(20, 20, 10), new Coordinate(70, 50), 400, 250, cardNumber);
-        Card newCard2 = new  Card(Globals.listBuildingBlock.generateBuilding(20, 20, 10), new Coordinate(70, 320), 400, 250, cardNumber);
+        Card newCard1 = new  Card(Globals.listBuildingBlock.generateBuilding(10, 15, 10, CardType.MULTI), new Coordinate(70, 50), 261, 174, CardType.MULTI);
+        Card newCard2 = new  Card(Globals.listBuildingBlock.generateBuilding(10, 15, 10, CardType.SINGLE), new Coordinate(70, 320), 261, 174, CardType.SINGLE);
 
         newCard1.draw();
         newCard2.draw();

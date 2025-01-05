@@ -51,7 +51,7 @@ public class IntroScreen extends Screen {
             Platform.exit();
         });
 
-        mainScreenButton.setOnMouseClicked(this.switchScreen.setScreen(new LoadingScreen(primaryStage)));
+        mainScreenButton.setOnMouseClicked(this.switchScreen.setScreen(new GameScreen(primaryStage)));
 
         titleImageView.setLayoutX(0);
         titleImageView.setLayoutY(30);
