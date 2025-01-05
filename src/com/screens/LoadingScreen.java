@@ -8,7 +8,6 @@ import javafx.stage.Stage;
 
 public class LoadingScreen extends Screen {
 
-    private LoadingBar loadingBar;
     private SwitchScreen switchScreen;
 
     public LoadingScreen(Stage primaryStage) {
@@ -32,8 +31,8 @@ public class LoadingScreen extends Screen {
         titleImageView.setLayoutY(30);
 
         // Add loading bar
-        this.loadingBar = new LoadingBar(512, 48);
-        this.loadingBar.configureTimeline(() -> {
+        LoadingBar loadingBar = new LoadingBar(512, 48);
+        loadingBar.configureTimeline(() -> {
             switchScreen.setScreen(new MainScreen(primaryStage)).run();
         });
 
