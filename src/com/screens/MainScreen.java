@@ -29,12 +29,18 @@ public class MainScreen extends Screen {
 
         Button playGameButton = new Button("Play Game");
 
-        playGameButton.setOnMouseClicked(this.switchScreen.setScreen(new GameScreen(primaryStage)));
+        playGameButton.setOnMouseClicked(event -> {
+            switchScreen.setScreen(new GameScreen(primaryStage));  // Set the next screen
+            switchScreen.handle(event);  // Trigger the screen switch
+        });
         playGameButton.setLayoutX(470);
         playGameButton.setLayoutY(370);
 
         Rectangle test = new Rectangle(50, 50, 50, 50);
-        test.setOnMouseClicked(this.switchScreen.setScreen(new IntroScreen(primaryStage)));
+        test.setOnMouseClicked(event -> {
+            switchScreen.setScreen(new IntroScreen(primaryStage));  // Set the next screen
+            switchScreen.handle(event);  // Trigger the screen switch
+        });
 
         test.setLayoutX(440);
         test.setLayoutY(400);
