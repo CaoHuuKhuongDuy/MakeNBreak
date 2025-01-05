@@ -19,12 +19,13 @@ public abstract class Screen extends Pane {
     public Screen(Stage primaryStage, String title) {
         this.primaryStage = primaryStage;
         this.title = title;
-        setupBackground();
+        setupBackground("/resource/assets/image/background.png");
         setPrefSize(1024, 768);
     }
 
-    private void setupBackground() {
-        Image backgroundImage = new Image("/resource/assets/image/background.png");
+    // For setting a specific background in any screen
+    protected void setupBackground(String imagePath) {
+        Image backgroundImage = new Image(imagePath);
 
         BackgroundImage bgImage = new BackgroundImage(
                 backgroundImage,

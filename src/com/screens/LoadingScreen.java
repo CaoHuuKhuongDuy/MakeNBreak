@@ -32,7 +32,7 @@ public class LoadingScreen extends Screen {
         titleImageView.setLayoutY(30);
 
         // Add loading bar
-        this.loadingBar = new LoadingBar(512, 28);
+        this.loadingBar = new LoadingBar(512, 48);
         this.loadingBar.configureTimeline(() -> {
             switchScreen.setScreen(new MainScreen(primaryStage)).run();
         });
