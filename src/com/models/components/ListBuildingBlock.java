@@ -8,6 +8,7 @@ import java.util.PriorityQueue;
 import java.util.Random;
 
 import com.commons.Globals;
+import com.models.CardType;
 import javafx.scene.paint.Color;
 import java.util.Arrays;
 
@@ -38,8 +39,9 @@ public class ListBuildingBlock {
         BuildingBlock wBlock = new BuildingBlock(new Vector<>(Arrays.asList(cell00, cell10, cell11, cell21, cell22)));
         BuildingBlock caretBlock = new BuildingBlock(new Vector<>(Arrays.asList(cell00, cell01, cell02, cell10, cell20)));
         BuildingBlock bigZBlock = new BuildingBlock(new Vector<>(Arrays.asList(cell00, cell10, cell11, cell12, cell22)));
+        BuildingBlock IBlock = new BuildingBlock(new Vector<>(Arrays.asList(cell00, cell01, cell02)));
 
-        this.buildingBlocks = new Vector<>(Arrays.asList(tBlock, smallZBlock, oBlock, bigLBlock, plusBlock, qBlock, smallLBlock, wBlock, bigZBlock, caretBlock));
+        this.buildingBlocks = new Vector<>(Arrays.asList(tBlock, smallZBlock, oBlock, bigLBlock, plusBlock, qBlock, smallLBlock, wBlock, bigZBlock, caretBlock, IBlock));
     }
 
     public ListBuildingBlock(Vector<BuildingBlock> buildingBlocks) {
@@ -55,27 +57,30 @@ public class ListBuildingBlock {
     }
 
 
-    public Color[][] generateBuilding(int row, int col, int numberBlock) {
+    public Color[][] generateBuilding(int row, int col, int numberBlock, CardType cardType) {
         this.limitRow = row;
         this.limitCol = col;
         Random random = new Random();
         Color[][] building = new Color[row][col];
-        PriorityQueue < Coordinate> q = new PriorityQueue<>();
+        PriorityQueue<Coordinate> q = new PriorityQueue<>();
         q.add(new Coordinate(row - 1, random.nextInt(col)));
         int maxX = -1;
         boolean[][] inqueue = new boolean[row][col];
-        while (numberBlock > 0 && !q.isEmpty()) {
-            Coordinate candidateCell = q.poll();
-            if (isCellOccupied(candidateCell, building)) {
-                continue;
-            }
 
-            Collections.shuffle(this.buildingBlocks);
-            for (BuildingBlock buildingBlock : this.buildingBlocks) {
+        if (cardType == CardType.SINGLE) {
+            BuildingBlock singleBlock = null;
+            singleBlock = this.buildingBlocks.get(random.nextInt(this.buildingBlocks.size()));
+
+            while (numberBlock > 0 && !q.isEmpty()) {
+                Coordinate candidateCell = q.poll();
+                if (isCellOccupied(candidateCell, building)) {
+                    continue;
+                }
+
                 Coordinate offset = new Coordinate();
-                if (tryPlaceBlock(candidateCell, buildingBlock, building, offset)) {
+                if (tryPlaceBlock(candidateCell, singleBlock, building, offset)) {
                     numberBlock--;
-                    for (Coordinate cell : buildingBlock.getCells()) {
+                    for (Coordinate cell : singleBlock.getCells()) {
                         Coordinate newPos = new Coordinate(cell.x - offset.x, cell.y - offset.y);
                         if (!isCellOccupied(new Coordinate(newPos.x - 1, newPos.y), building) && !inqueue[newPos.x - 1][newPos.y]) {
                             inqueue[newPos.x - 1][newPos.y] = true;
@@ -83,7 +88,7 @@ public class ListBuildingBlock {
                         }
                         maxX = Math.max(maxX, newPos.x);
                     }
-                    for (Coordinate cell : buildingBlock.getCells()) {
+                    for (Coordinate cell : singleBlock.getCells()) {
                         Coordinate newPos = new Coordinate(cell.x - offset.x, cell.y - offset.y);
                         if (newPos.x != maxX) continue;
                         if (!isCellOccupied(new Coordinate(newPos.x, newPos.y - 1), building) && !inqueue[newPos.x][newPos.y - 1]) {
@@ -95,10 +100,51 @@ public class ListBuildingBlock {
                             q.add(new Coordinate(newPos.x, newPos.y + 1));
                         }
                     }
-                    break;
+
+                }
+
+            }
+
+        }
+
+        else {
+            while (numberBlock > 0 && !q.isEmpty()) {
+                Coordinate candidateCell = q.poll();
+                if (isCellOccupied(candidateCell, building)) {
+                    continue;
+                }
+
+                Collections.shuffle(this.buildingBlocks);
+                for (BuildingBlock buildingBlock : this.buildingBlocks) {
+                    Coordinate offset = new Coordinate();
+                    if (tryPlaceBlock(candidateCell, buildingBlock, building, offset)) {
+                        numberBlock--;
+                        for (Coordinate cell : buildingBlock.getCells()) {
+                            Coordinate newPos = new Coordinate(cell.x - offset.x, cell.y - offset.y);
+                            if (!isCellOccupied(new Coordinate(newPos.x - 1, newPos.y), building) && !inqueue[newPos.x - 1][newPos.y]) {
+                                inqueue[newPos.x - 1][newPos.y] = true;
+                                q.add(new Coordinate(newPos.x - 1, newPos.y));
+                            }
+                            maxX = Math.max(maxX, newPos.x);
+                        }
+                        for (Coordinate cell : buildingBlock.getCells()) {
+                            Coordinate newPos = new Coordinate(cell.x - offset.x, cell.y - offset.y);
+                            if (newPos.x != maxX) continue;
+                            if (!isCellOccupied(new Coordinate(newPos.x, newPos.y - 1), building) && !inqueue[newPos.x][newPos.y - 1]) {
+                                inqueue[newPos.x][newPos.y - 1] = true;
+                                q.add(new Coordinate(newPos.x, newPos.y - 1));
+                            }
+                            if (!isCellOccupied(new Coordinate(newPos.x, newPos.y + 1), building) && !inqueue[newPos.x][newPos.y + 1]) {
+                                inqueue[newPos.x][newPos.y + 1] = true;
+                                q.add(new Coordinate(newPos.x, newPos.y + 1));
+                            }
+                        }
+                        break;
+                    }
                 }
             }
         }
+
         return building;
     }
 
