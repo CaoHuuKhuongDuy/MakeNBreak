@@ -25,17 +25,17 @@ public class IntroScreen extends Screen {
     public void display() {
         this.getChildren().clear();
 
-        Image titleImage = new Image("/resource/assets/image/titleSlanted.png");
+        Image titleImage = new Image("/resources/assets/images/titleSlanted.png");
         ImageView titleImageView = new ImageView(titleImage);
 
         // Create the buttons
         Button mainScreenButton = new Button();
-        ImageView imageViewButton1 = new ImageView(new Image("/resource/assets/image/startButton.png"));
+        ImageView imageViewButton1 = new ImageView(new Image("/resources/assets/images/startButton.png"));
         mainScreenButton.setGraphic(imageViewButton1);
         mainScreenButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
 
         Button button2 = new Button();
-        ImageView imageViewButton2 = new ImageView(new Image("/resource/assets/image/quitButton.png"));
+        ImageView imageViewButton2 = new ImageView(new Image("/resources/assets/images/quitButton.png"));
         button2.setGraphic(imageViewButton2);
         button2.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
 
