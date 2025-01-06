@@ -1,10 +1,10 @@
 package com.screens;
 
 import com.controllers.mouse.SwitchScreen;
+import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class IntroScreen extends Screen {
@@ -25,23 +25,45 @@ public class IntroScreen extends Screen {
     public void display() {
         this.getChildren().clear();
 
-        Image image = new Image("file:assets/images/example.png");
-        ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(800);
-        imageView.setPreserveRatio(true);
-        this.getChildren().add(imageView);
+        Image titleImage = new Image("/resource/assets/image/titleSlanted.png");
+        ImageView titleImageView = new ImageView(titleImage);
 
         // Create the buttons
-        Button button1 = new Button("Button 1");
-        Button button2 = new Button("Button 2");
+        Button mainScreenButton = new Button();
+        ImageView imageViewButton1 = new ImageView(new Image("/resource/assets/image/startButton.png"));
+        mainScreenButton.setGraphic(imageViewButton1);
+        mainScreenButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
+
+        Button button2 = new Button();
+        ImageView imageViewButton2 = new ImageView(new Image("/resource/assets/image/quitButton.png"));
+        button2.setGraphic(imageViewButton2);
+        button2.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
 
         // Add event handlers for buttons
-        button1.setOnAction(event -> {
+        mainScreenButton.setOnAction(event -> {
             // Your action for button 1
             System.out.println("Button 1 clicked");
         });
 
-        this.getChildren().add(button1);
+        button2.setOnAction(event -> {
+            // Your action for button 1
+            System.out.println("Button 2 clicked");
+            Platform.exit();
+        });
+
+        mainScreenButton.setOnMouseClicked(this.switchScreen.setScreen(new LoadingScreen(primaryStage)));
+
+        titleImageView.setLayoutX(0);
+        titleImageView.setLayoutY(30);
+
+        mainScreenButton.setLayoutX(413);
+        mainScreenButton.setLayoutY(573);
+
+        button2.setLayoutX(413);
+        button2.setLayoutY(651);
+
+        // Add all the elements to the Pane
+        this.getChildren().addAll(titleImageView, mainScreenButton, button2);
 
 
         this.primaryStage.getScene().setRoot(this);

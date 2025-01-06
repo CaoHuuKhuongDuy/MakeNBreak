@@ -42,8 +42,8 @@ public class GameScreen extends Screen {
             }
         });
 
-        generateCardButton.setLayoutX(750);
-        generateCardButton.setLayoutY(800);
+        generateCardButton.setLayoutX(75);
+        generateCardButton.setLayoutY(0);
 
         this.getChildren().addAll(backButton, generateCardButton);
 
@@ -54,8 +54,8 @@ public class GameScreen extends Screen {
         cardNumber++;
         if (currentCard != null) this.getChildren().remove(currentCard);
 
-        Card newCard1 = new  Card(Globals.listBuildingBlock.generateBuilding(20, 20, 10), new Coordinate(700, 50), 400, 250, cardNumber);
-        Card newCard2 = new  Card(Globals.listBuildingBlock.generateBuilding(20, 20, 10), new Coordinate(1200, 50), 400, 250, cardNumber);
+        Card newCard1 = new  Card(Globals.listBuildingBlock.generateBuilding(20, 20, 10), new Coordinate(70, 50), 400, 250, cardNumber);
+        Card newCard2 = new  Card(Globals.listBuildingBlock.generateBuilding(20, 20, 10), new Coordinate(70, 320), 400, 250, cardNumber);
 
         newCard1.draw();
         newCard2.draw();
