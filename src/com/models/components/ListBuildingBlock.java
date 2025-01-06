@@ -63,62 +63,38 @@ public class ListBuildingBlock {
         Random random = new Random();
         Color[][] building = new Color[row][col];
         PriorityQueue<Coordinate> q = new PriorityQueue<>();
-        q.add(new Coordinate(row - 1, random.nextInt(col)));
+
         int maxX = -1;
         boolean[][] inqueue = new boolean[row][col];
 
+        Vector <BuildingBlock> buildingBlocks;
         if (cardType == CardType.SINGLE) {
-            BuildingBlock singleBlock = null;
-            singleBlock = this.buildingBlocks.get(random.nextInt(this.buildingBlocks.size()));
-
-            while (numberBlock > 0 && !q.isEmpty()) {
-                Coordinate candidateCell = q.poll();
-                if (isCellOccupied(candidateCell, building)) {
-                    continue;
-                }
-
-                Coordinate offset = new Coordinate();
-                if (tryPlaceBlock(candidateCell, singleBlock, building, offset)) {
-                    numberBlock--;
-                    for (Coordinate cell : singleBlock.getCells()) {
-                        Coordinate newPos = new Coordinate(cell.x - offset.x, cell.y - offset.y);
-                        if (!isCellOccupied(new Coordinate(newPos.x - 1, newPos.y), building) && !inqueue[newPos.x - 1][newPos.y]) {
-                            inqueue[newPos.x - 1][newPos.y] = true;
-                            q.add(new Coordinate(newPos.x - 1, newPos.y));
-                        }
-                        maxX = Math.max(maxX, newPos.x);
-                    }
-                    for (Coordinate cell : singleBlock.getCells()) {
-                        Coordinate newPos = new Coordinate(cell.x - offset.x, cell.y - offset.y);
-                        if (newPos.x != maxX) continue;
-                        if (!isCellOccupied(new Coordinate(newPos.x, newPos.y - 1), building) && !inqueue[newPos.x][newPos.y - 1]) {
-                            inqueue[newPos.x][newPos.y - 1] = true;
-                            q.add(new Coordinate(newPos.x, newPos.y - 1));
-                        }
-                        if (!isCellOccupied(new Coordinate(newPos.x, newPos.y + 1), building) && !inqueue[newPos.x][newPos.y + 1]) {
-                            inqueue[newPos.x][newPos.y + 1] = true;
-                            q.add(new Coordinate(newPos.x, newPos.y + 1));
-                        }
-                    }
-
-                }
-
-            }
-
+            buildingBlocks = new Vector<>(Arrays.asList(this.buildingBlocks.get(random.nextInt(this.buildingBlocks.size()))));
+        }
+        else {
+            buildingBlocks = this.buildingBlocks;
         }
 
-        else {
+        Vector <Coordinate> startingPoints = new Vector<>();
+        for (int i = 0; i < col; i++) {
+            startingPoints.add(new Coordinate(row - 1, i));
+        }
+        Collections.shuffle(startingPoints);
+        for (Coordinate startingPoint : startingPoints) {
+            q.add(startingPoint);
+            boolean generated = false;
             while (numberBlock > 0 && !q.isEmpty()) {
                 Coordinate candidateCell = q.poll();
                 if (isCellOccupied(candidateCell, building)) {
                     continue;
                 }
 
-                Collections.shuffle(this.buildingBlocks);
-                for (BuildingBlock buildingBlock : this.buildingBlocks) {
+                Collections.shuffle(buildingBlocks);
+                for (BuildingBlock buildingBlock : buildingBlocks) {
                     Coordinate offset = new Coordinate();
                     if (tryPlaceBlock(candidateCell, buildingBlock, building, offset)) {
                         numberBlock--;
+                        generated = true;
                         for (Coordinate cell : buildingBlock.getCells()) {
                             Coordinate newPos = new Coordinate(cell.x - offset.x, cell.y - offset.y);
                             if (!isCellOccupied(new Coordinate(newPos.x - 1, newPos.y), building) && !inqueue[newPos.x - 1][newPos.y]) {
@@ -142,6 +118,9 @@ public class ListBuildingBlock {
                         break;
                     }
                 }
+            }
+            if (generated) {
+                break;
             }
         }
 
