@@ -7,6 +7,7 @@ import java.util.Vector;
 import java.util.PriorityQueue;
 import java.util.Random;
 
+import com.commons.GameType;
 import com.commons.Globals;
 import javafx.scene.paint.Color;
 import java.util.Arrays;
@@ -38,8 +39,9 @@ public class ListBuildingBlock {
         BuildingBlock wBlock = new BuildingBlock(new Vector<>(Arrays.asList(cell00, cell10, cell11, cell21, cell22)));
         BuildingBlock caretBlock = new BuildingBlock(new Vector<>(Arrays.asList(cell00, cell01, cell02, cell10, cell20)));
         BuildingBlock bigZBlock = new BuildingBlock(new Vector<>(Arrays.asList(cell00, cell10, cell11, cell12, cell22)));
+        BuildingBlock IBlock = new BuildingBlock(new Vector<>(Arrays.asList(cell00, cell01, cell02)));
 
-        this.buildingBlocks = new Vector<>(Arrays.asList(tBlock, smallZBlock, oBlock, bigLBlock, plusBlock, qBlock, smallLBlock, wBlock, bigZBlock, caretBlock));
+        this.buildingBlocks = new Vector<>(Arrays.asList(tBlock, smallZBlock, oBlock, bigLBlock, plusBlock, qBlock, smallLBlock, wBlock, bigZBlock, caretBlock, IBlock));
     }
 
     public ListBuildingBlock(Vector<BuildingBlock> buildingBlocks) {
@@ -55,50 +57,73 @@ public class ListBuildingBlock {
     }
 
 
-    public Color[][] generateBuilding(int row, int col, int numberBlock) {
+    public Color[][] generateBuilding(int row, int col, int numberBlock, GameType cardType) {
         this.limitRow = row;
         this.limitCol = col;
         Random random = new Random();
         Color[][] building = new Color[row][col];
-        PriorityQueue < Coordinate> q = new PriorityQueue<>();
-        q.add(new Coordinate(row - 1, random.nextInt(col)));
+        PriorityQueue<Coordinate> q = new PriorityQueue<>();
+
         int maxX = -1;
         boolean[][] inqueue = new boolean[row][col];
-        while (numberBlock > 0 && !q.isEmpty()) {
-            Coordinate candidateCell = q.poll();
-            if (isCellOccupied(candidateCell, building)) {
-                continue;
-            }
 
-            Collections.shuffle(this.buildingBlocks);
-            for (BuildingBlock buildingBlock : this.buildingBlocks) {
-                Coordinate offset = new Coordinate();
-                if (tryPlaceBlock(candidateCell, buildingBlock, building, offset)) {
-                    numberBlock--;
-                    for (Coordinate cell : buildingBlock.getCells()) {
-                        Coordinate newPos = new Coordinate(cell.x - offset.x, cell.y - offset.y);
-                        if (!isCellOccupied(new Coordinate(newPos.x - 1, newPos.y), building) && !inqueue[newPos.x - 1][newPos.y]) {
-                            inqueue[newPos.x - 1][newPos.y] = true;
-                            q.add(new Coordinate(newPos.x - 1, newPos.y));
+        Vector <BuildingBlock> buildingBlocks;
+        if (cardType == GameType.SINGLE_BLOCK) {
+            buildingBlocks = new Vector<>(Arrays.asList(this.buildingBlocks.get(random.nextInt(this.buildingBlocks.size()))));
+        }
+        else {
+            buildingBlocks = this.buildingBlocks;
+        }
+
+        Vector <Coordinate> startingPoints = new Vector<>();
+        for (int i = 0; i < col; i++) {
+            startingPoints.add(new Coordinate(row - 1, i));
+        }
+        Collections.shuffle(startingPoints);
+        for (Coordinate startingPoint : startingPoints) {
+            q.add(startingPoint);
+            boolean generated = false;
+            while (numberBlock > 0 && !q.isEmpty()) {
+                Coordinate candidateCell = q.poll();
+                if (isCellOccupied(candidateCell, building)) {
+                    continue;
+                }
+
+                Collections.shuffle(buildingBlocks);
+                for (BuildingBlock buildingBlock : buildingBlocks) {
+                    Coordinate offset = new Coordinate();
+                    if (tryPlaceBlock(candidateCell, buildingBlock, building, offset)) {
+                        numberBlock--;
+                        generated = true;
+                        for (Coordinate cell : buildingBlock.getCells()) {
+                            Coordinate newPos = new Coordinate(cell.x - offset.x, cell.y - offset.y);
+                            if (!isCellOccupied(new Coordinate(newPos.x - 1, newPos.y), building) && !inqueue[newPos.x - 1][newPos.y]) {
+                                inqueue[newPos.x - 1][newPos.y] = true;
+                                q.add(new Coordinate(newPos.x - 1, newPos.y));
+                            }
+                            maxX = Math.max(maxX, newPos.x);
                         }
-                        maxX = Math.max(maxX, newPos.x);
+                        for (Coordinate cell : buildingBlock.getCells()) {
+                            Coordinate newPos = new Coordinate(cell.x - offset.x, cell.y - offset.y);
+                            if (newPos.x != maxX) continue;
+                            if (!isCellOccupied(new Coordinate(newPos.x, newPos.y - 1), building) && !inqueue[newPos.x][newPos.y - 1]) {
+                                inqueue[newPos.x][newPos.y - 1] = true;
+                                q.add(new Coordinate(newPos.x, newPos.y - 1));
+                            }
+                            if (!isCellOccupied(new Coordinate(newPos.x, newPos.y + 1), building) && !inqueue[newPos.x][newPos.y + 1]) {
+                                inqueue[newPos.x][newPos.y + 1] = true;
+                                q.add(new Coordinate(newPos.x, newPos.y + 1));
+                            }
+                        }
+                        break;
                     }
-                    for (Coordinate cell : buildingBlock.getCells()) {
-                        Coordinate newPos = new Coordinate(cell.x - offset.x, cell.y - offset.y);
-                        if (newPos.x != maxX) continue;
-                        if (!isCellOccupied(new Coordinate(newPos.x, newPos.y - 1), building) && !inqueue[newPos.x][newPos.y - 1]) {
-                            inqueue[newPos.x][newPos.y - 1] = true;
-                            q.add(new Coordinate(newPos.x, newPos.y - 1));
-                        }
-                        if (!isCellOccupied(new Coordinate(newPos.x, newPos.y + 1), building) && !inqueue[newPos.x][newPos.y + 1]) {
-                            inqueue[newPos.x][newPos.y + 1] = true;
-                            q.add(new Coordinate(newPos.x, newPos.y + 1));
-                        }
-                    }
-                    break;
                 }
             }
+            if (generated) {
+                break;
+            }
         }
+
         return building;
     }
 

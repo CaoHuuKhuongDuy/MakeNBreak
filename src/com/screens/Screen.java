@@ -20,7 +20,7 @@ public abstract class Screen extends Pane {
     public Screen(Stage primaryStage, String title) {
         this.primaryStage = primaryStage;
         this.title = title;
-        setupBackground("/resource/assets/image/background.png");
+        setupBackground("/resources/assets/images/background.png");
         setPrefSize(Globals.DEFAULT_WIDTH, Globals.DEFAULT_HEIGHT);
     }
 

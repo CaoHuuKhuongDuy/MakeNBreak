@@ -15,7 +15,7 @@ public class LoadingBar {
         this.progressBar = new ProgressBar(0);
         this.progressBar.setPrefWidth(width);
         this.progressBar.setPrefHeight(height);
-        this.progressBar.getStylesheets().add("/resource/assets/styles/progressBar.css");
+        this.progressBar.getStylesheets().add("/resources/assets/styles/progressBar.css");
     }
 
     public void configureTimeline(Runnable onFinish) {

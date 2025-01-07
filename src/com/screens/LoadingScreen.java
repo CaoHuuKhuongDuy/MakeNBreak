@@ -26,7 +26,7 @@ public class LoadingScreen extends Screen {
         this.getChildren().clear();
 
         // Add title image
-        Image titleImage = new Image("/resource/assets/image/titleSlanted.png");
+        Image titleImage = new Image("/resources/assets/images/titleSlanted.png");
         ImageView titleImageView = new ImageView(titleImage);
         titleImageView.setLayoutY(30);
 
