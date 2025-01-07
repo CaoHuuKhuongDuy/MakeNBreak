@@ -1,6 +1,7 @@
 package com.models;
 
 import com.commons.Coordinate;
+import com.commons.GameType;
 import com.models.components.Grid;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -11,12 +12,12 @@ import java.util.Random;
 public class Card extends Entity {
     private Color[][] cells;
     private int number;
-    private CardType type;
+    private GameType type;
 
     public void setNumber(int number) {
         this.number = number;
     }
-    public void setType(CardType type) {
+    public void setType(GameType type) {
         this.type = type;
     }
 
@@ -25,11 +26,11 @@ public class Card extends Entity {
         super(position, true, width, height);
         this.cells = cells;
         this.number = 1;
-        this.type = CardType.SINGLE; // Default to SINGLE type
+        this.type = GameType.SINGLE_BLOCK; // Default to SINGLE type
     }
 
     // Card with number and type (CardType enum)
-    public Card(Color[][] cells, Coordinate position, double width, double height, CardType type) {
+    public Card(Color[][] cells, Coordinate position, double width, double height, GameType type) {
         super(position, true, width, height);
         this.cells = cells;
         Random random = new Random();
@@ -55,7 +56,7 @@ public class Card extends Entity {
         playground.setArcHeight(cornerRadius);
 
         // Set border color on card type
-        if (this.type == CardType.MULTI) {
+        if (this.type == GameType.MULTIPLE_BLOCK) {
             playground.setStroke(multiBorder);
         } else {
             playground.setStroke(singleBorder);
@@ -75,7 +76,7 @@ public class Card extends Entity {
         grid.draw();
         this.getChildren().add(grid);
 
-        gc.setFill(this.type == CardType.MULTI ? multiScore : singleScore);  // Color based on type
+        gc.setFill(this.type == GameType.MULTIPLE_BLOCK ? multiScore : singleScore);  // Color based on type
         gc.setFont(new Font("Arial", tmp * 0.15));
         gc.fillText(Integer.toString(this.number), this.width * 0.03, this.height * 0.15); // Draw the number
         gc.fillText(Integer.toString(this.number), this.width * 0.92, this.height * 0.15); // Draw the number

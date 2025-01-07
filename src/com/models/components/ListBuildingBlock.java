@@ -7,8 +7,8 @@ import java.util.Vector;
 import java.util.PriorityQueue;
 import java.util.Random;
 
+import com.commons.GameType;
 import com.commons.Globals;
-import com.models.CardType;
 import javafx.scene.paint.Color;
 import java.util.Arrays;
 
@@ -57,7 +57,7 @@ public class ListBuildingBlock {
     }
 
 
-    public Color[][] generateBuilding(int row, int col, int numberBlock, CardType cardType) {
+    public Color[][] generateBuilding(int row, int col, int numberBlock, GameType cardType) {
         this.limitRow = row;
         this.limitCol = col;
         Random random = new Random();
@@ -68,7 +68,7 @@ public class ListBuildingBlock {
         boolean[][] inqueue = new boolean[row][col];
 
         Vector <BuildingBlock> buildingBlocks;
-        if (cardType == CardType.SINGLE) {
+        if (cardType == GameType.SINGLE_BLOCK) {
             buildingBlocks = new Vector<>(Arrays.asList(this.buildingBlocks.get(random.nextInt(this.buildingBlocks.size()))));
         }
         else {
