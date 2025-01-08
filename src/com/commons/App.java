@@ -5,7 +5,7 @@ import java.util.Vector;
 import com.models.User;
 
 public class App {
-    private Vector <User> users;
+    private Vector<User> users = new Vector<>();
     private int numberOfRound;
     private GameType gameType;
 
