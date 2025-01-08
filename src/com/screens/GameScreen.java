@@ -123,7 +123,10 @@ public class GameScreen extends Screen {
 //        });
 //        pauseScreen.display();
 
-        //iconSettingButton.setOnMouseClicked(this.switchScreen.setScreen(new PauseScreen(primaryStage)));
+        iconSettingButton.setOnMouseClicked(event -> {
+            System.out.println("Setting button press");
+            new SwitchScreen(primaryStage, new PauseScreen(primaryStage)).run(); // Switch to the PauseScreen when clicked
+        });
 
         generateCardButton.setLayoutX(75);
         generateCardButton.setLayoutY(0);
