@@ -1,8 +1,8 @@
 package com.screens;
 
 import com.controllers.mouse.SwitchScreen;
+import com.models.components.CustomButton;
 import javafx.application.Platform;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
@@ -29,41 +29,35 @@ public class IntroScreen extends Screen {
         ImageView titleImageView = new ImageView(titleImage);
 
         // Create the buttons
-        Button mainScreenButton = new Button();
-        ImageView imageViewButton1 = new ImageView(new Image("/resources/assets/images/startButton.png"));
-        mainScreenButton.setGraphic(imageViewButton1);
-        mainScreenButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
+        CustomButton startButton = new CustomButton("START", "resources/assets/images/Button/yellowButton.png");
 
-        Button button2 = new Button();
-        ImageView imageViewButton2 = new ImageView(new Image("/resources/assets/images/quitButton.png"));
-        button2.setGraphic(imageViewButton2);
-        button2.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
+        CustomButton quitButton = new CustomButton("QUIT", "resources/assets/images/Button/redButton.png");
 
         // Add event handlers for buttons
-        mainScreenButton.setOnAction(event -> {
+        startButton.setOnAction(event -> {
             // Your action for button 1
             System.out.println("Button 1 clicked");
         });
 
-        button2.setOnAction(event -> {
+        quitButton.setOnAction(event -> {
             // Your action for button 1
             System.out.println("Button 2 clicked");
             Platform.exit();
         });
 
-        mainScreenButton.setOnMouseClicked(this.switchScreen.setScreen(new GameScreen(primaryStage)));
+        startButton.setOnMouseClicked(this.switchScreen.setScreen(new MainScreen(primaryStage)));
 
         titleImageView.setLayoutX(0);
         titleImageView.setLayoutY(30);
 
-        mainScreenButton.setLayoutX(413);
-        mainScreenButton.setLayoutY(573);
+        startButton.setLayoutX(408);
+        startButton.setLayoutY(573);
 
-        button2.setLayoutX(413);
-        button2.setLayoutY(651);
+        quitButton.setLayoutX(408);
+        quitButton.setLayoutY(651);
 
         // Add all the elements to the Pane
-        this.getChildren().addAll(titleImageView, mainScreenButton, button2);
+        this.getChildren().addAll(titleImageView, startButton, quitButton);
 
 
         this.primaryStage.getScene().setRoot(this);

@@ -9,7 +9,7 @@ public class User {
         this.point = point;
     }
 
-    User(String name) {
+    public User(String name) {
         this.name = name;
     }
 
