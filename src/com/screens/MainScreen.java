@@ -5,7 +5,9 @@ import com.commons.Globals;
 import com.controllers.mouse.SwitchScreen;
 import com.models.User;
 import com.models.components.CustomButton;
+import com.models.components.CustomToggleButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -16,6 +18,9 @@ public class MainScreen extends Screen {
 
     private SwitchScreen switchScreen;
     private int numberOfPlayers = 0;
+
+    private ToggleGroup playerGroup;
+    private ToggleGroup gameTypeGroup;
 
     public MainScreen(Stage primaryStage) {
         super(primaryStage);
@@ -32,6 +37,8 @@ public class MainScreen extends Screen {
     public void display() {
         clearScreen();
         addTitleImage();
+        gameTypeGroup = new ToggleGroup();
+        playerGroup = new ToggleGroup();
         configureComponents();
         this.primaryStage.getScene().setRoot(this);
     }
@@ -39,6 +46,8 @@ public class MainScreen extends Screen {
     private void clearScreen() {
         this.getChildren().clear();
     }
+
+
 
     private void addTitleImage() {
         ImageView titleImageView = new ImageView(new Image("/resources/assets/images/title.png"));
@@ -88,9 +97,10 @@ public class MainScreen extends Screen {
     }
 
     private void createPlayerButton(String label, int players, Text numOfPlayersText, TextField playerField, int x, int y) {
-        CustomButton button = new CustomButton(label, "resources/assets/images/Button/yellowButton.png");
+        CustomToggleButton button = new CustomToggleButton(label, "resources/assets/images/Button/yellowButton.png");
         button.setLayoutX(x);
         button.setLayoutY(y);
+        button.setToggleGroup(playerGroup);
         button.setOnMouseClicked(event -> {
             numberOfPlayers = players;
             numOfPlayersText.setVisible(false);
@@ -100,9 +110,10 @@ public class MainScreen extends Screen {
     }
 
     private void createCustomButton(Text numOfPlayersText, TextField playerField, int x, int y) {
-        CustomButton customButton = new CustomButton("CUSTOMIZE", "resources/assets/images/Button/redButton.png");
+        CustomToggleButton customButton = new CustomToggleButton("CUSTOMIZE", "resources/assets/images/Button/redButton.png");
         customButton.setLayoutX(x);
         customButton.setLayoutY(y);
+        customButton.setToggleGroup(playerGroup);
         customButton.setOnMouseClicked(event -> {
             numOfPlayersText.setVisible(true);
             playerField.setVisible(true);
@@ -116,9 +127,10 @@ public class MainScreen extends Screen {
     }
 
     private void createGameTypeButton(String label, GameType type, String imagePath, int x, int y) {
-        CustomButton button = new CustomButton(label, imagePath);
+        CustomToggleButton button = new CustomToggleButton(label, imagePath);
         button.setLayoutX(x);
         button.setLayoutY(y);
+        button.setToggleGroup(gameTypeGroup);
         button.setOnMouseClicked(event -> Globals.app.setGameType(type));
         this.getChildren().add(button);
     }
