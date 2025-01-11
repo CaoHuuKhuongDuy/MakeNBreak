@@ -4,7 +4,7 @@
 }
 
 
-.button {
+.toggle-button, .button {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
     -fx-padding: 0;
@@ -17,7 +17,26 @@
     -fx-translate-y: -2px; /* Subtle upward shift */
 }
 
+.toggle-button:hover {
+    -fx-opacity: 0.8; /* Slight fade effect on hover */
+    -fx-translate-y: -2px; /* Subtle upward shift */
+}
+
+.toggle-button:selected {
+    -fx-opacity: 0.3; /* Slight fade effect on hover */
+    -fx-translate-y: -2px;
+}
+
 .button .text {
+    -fx-translate-y: -2px; /* Moves the text 5px down (adjust this value as needed) */
+    -fx-fill: white; /* Text color */
+    -fx-font-size: 25px; /* Font size */
+    -fx-alignment: center;
+    -fx-font-family: "Poppins";
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 7, 0.0, 2, 2);
+}
+
+.toggle-button .text {
     -fx-translate-y: -2px; /* Moves the text 5px down (adjust this value as needed) */
     -fx-fill: white; /* Text color */
     -fx-font-size: 25px; /* Font size */
