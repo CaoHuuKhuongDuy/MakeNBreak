@@ -44,6 +44,10 @@ public class PauseScreen extends Screen {
         quitButton.setGraphic(imageViewQuitButton);
         quitButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
 
+        quitButton.setOnMouseClicked(event -> {
+            new SwitchScreen(primaryStage, new IntroScreen(primaryStage)).run();
+        });
+
         // Create resume button
         Button resumeButton = new Button();
         ImageView imageViewResumeButton = new ImageView(new Image("/resources/assets/images/ResumeButtonSetting.png"));
