@@ -1,5 +1,6 @@
 package com.screens;
 
+import com.controllers.mouse.ShowScreen;
 import com.controllers.mouse.SwitchScreen;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -10,15 +11,18 @@ import javafx.scene.shape.Rectangle;
 
 public class PauseScreen extends Screen {
 
+    private ShowScreen showScreen;
     private SwitchScreen switchScreen;
 
     public PauseScreen(Stage primaryStage) {
         super(primaryStage);
         this.initHandlers();
+        this.display();
     }
 
     @Override
     public void initHandlers() {
+        this.showScreen = new ShowScreen(primaryStage);
         this.switchScreen = new SwitchScreen(primaryStage);
     }
 
@@ -43,6 +47,7 @@ public class PauseScreen extends Screen {
         imageViewQuitButton.setFitHeight(55);
         quitButton.setGraphic(imageViewQuitButton);
         quitButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
+        quitButton.setOnMouseClicked(this.switchScreen.setScreen(new IntroScreen(primaryStage)));
 
         // Create resume button
         Button resumeButton = new Button();
@@ -51,6 +56,8 @@ public class PauseScreen extends Screen {
         imageViewResumeButton.setFitHeight(55);
         resumeButton.setGraphic(imageViewResumeButton);
         resumeButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
+        resumeButton.setOnMouseClicked(this.showScreen.setScreen(this).setVisible(false));
+
 
         // Create cross button
         Button crossButton = new Button();
@@ -59,6 +66,7 @@ public class PauseScreen extends Screen {
         imageViewCrossButton.setFitHeight(26);
         crossButton.setGraphic(imageViewCrossButton);
         crossButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
+        crossButton.setOnMouseClicked(this.showScreen.setScreen(this).setVisible(false));
 
         imageViewSettingPanel.setLayoutX(314);
         imageViewSettingPanel.setLayoutY(193);

@@ -1,6 +1,7 @@
 package com;
 
 import com.commons.Globals;
+import com.screens.GameScreen;
 import com.screens.IntroScreen;
 import com.screens.MainScreen;
 import com.screens.Screen;
@@ -20,7 +21,7 @@ public class Main extends Application {
         primaryStage.setScene(dummyScene);
         Globals.setDefaultResolution(1024, 768);
 
-        Screen mainScreen = new IntroScreen(primaryStage);
+        Screen mainScreen = new GameScreen(primaryStage);
         mainScreen.display();
         primaryStage.setResizable(false);
         primaryStage.setFullScreenExitHint("");

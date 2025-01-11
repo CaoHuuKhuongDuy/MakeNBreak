@@ -14,7 +14,7 @@ public class Grid extends Entity {
     }
 
     public void draw() {
-//        this.setStyle("-fx-background-color: lightgray;");
+        this.getChildren().clear();
 
         double cellSize = (double) this.width / this.matrix[0].length;
         for (int row = 0; row < this.matrix.length; row++) {

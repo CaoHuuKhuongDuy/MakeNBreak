@@ -3,16 +3,15 @@ package com.screens;
 import com.commons.Coordinate;
 import com.commons.GameType;
 import com.commons.Globals;
+import com.controllers.mouse.ShowScreen;
 import com.controllers.mouse.SwitchScreen;
 import com.models.Card;
+import com.models.Dice;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.util.Random;
@@ -20,16 +19,22 @@ import java.util.Random;
 
 public class GameScreen extends Screen {
     private SwitchScreen switchScreen;
+    private ShowScreen showScreen;
     private Card currentCard;
+
+    private PauseScreen pausingPopup;
 
     public GameScreen(Stage primaryStage) {
         super(primaryStage);
         this.initHandlers();
+        pausingPopup = new PauseScreen(primaryStage);
+        pausingPopup.setVisible(false);
     }
 
     @Override
     public void initHandlers() {
         this.switchScreen = new SwitchScreen(primaryStage);
+        this.showScreen = new ShowScreen(primaryStage);
     }
 
     @Override
@@ -40,12 +45,20 @@ public class GameScreen extends Screen {
         backButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10px 20px; -fx-border-radius: 10px;");
         backButton.setOnMouseClicked(this.switchScreen.setScreen(new MainScreen(primaryStage)));
 
+
+        Card card1 = new  Card(Globals.listBuildingBlock.generateBuilding(10, 15, 10, GameType.MULTIPLE_BLOCK), new Coordinate(420, 155), 261, 174, GameType.MULTIPLE_BLOCK);
+        Card card2 = new  Card(Globals.listBuildingBlock.generateBuilding(10, 15, 10, GameType.SINGLE_BLOCK), new Coordinate(700, 155), 261, 174, GameType.SINGLE_BLOCK);
+        card1.draw();
+        card2.draw();
+
         Button generateCardButton = new Button("Generate Card");
         generateCardButton.setStyle("-fx-background-color: #FF5733; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10px 20px; -fx-border-radius: 10px;");
         generateCardButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                regenerateCard();
+                if (event.getEventType().equals(MouseEvent.MOUSE_CLICKED)) {
+                    regenerateCard(card1, card2);
+                }
             }
         });
 
@@ -55,25 +68,9 @@ public class GameScreen extends Screen {
         timerButton.setGraphic(imageViewTimerButton1);
         timerButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
 
-
-        // Set initial image sizes
-        double imageSize = 66;
-
-        // Create Dice Button
-        Button diceButton = new Button();
-        ImageView imageViewDiceButton = new ImageView(new Image("/resources/assets/images/diceButton.png"));
-        imageViewDiceButton.setFitHeight(imageSize);
-        imageViewDiceButton.setFitWidth(imageSize);
-        diceButton.setGraphic(imageViewDiceButton);
-        diceButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
-        diceButton.setPrefSize(imageSize, imageSize);
-
-        diceButton.setOnMouseClicked(event -> {
-            Random random = new Random();
-            int diceValue = random.nextInt(3) + 1; // Generate a random number between 1 and 3
-            String imagePath = String.format("/resources/assets/images/Dice%ds.png", diceValue);
-            imageViewDiceButton.setImage(new Image(imagePath)); // Update the image
-        });
+        // Create Dice
+        Dice dice = new Dice(new Coordinate(41, 99), 66, 66);
+        dice.draw();
 
         // Create Kick Button
         Button kickButton = new Button();
@@ -114,28 +111,13 @@ public class GameScreen extends Screen {
         iconSettingButton.setGraphic(imageIconSettingButton);
         iconSettingButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
 
-        // Create pause screen
-//        PauseScreen pauseScreen = new PauseScreen(primaryStage);
-//        this.getChildren().add(pauseScreen);
-//        iconSettingButton.setOnMouseClicked(even -> {
-//            pauseScreen.display();
-//            pauseScreen.setVisible(true);
-//        });
-//        pauseScreen.display();
-
-        iconSettingButton.setOnMouseClicked(event -> {
-            System.out.println("Setting button press");
-            new SwitchScreen(primaryStage, new PauseScreen(primaryStage)).run(); // Switch to the PauseScreen when clicked
-        });
+        iconSettingButton.setOnMouseClicked(showScreen.setScreen(pausingPopup).setVisible(true));
 
         generateCardButton.setLayoutX(75);
         generateCardButton.setLayoutY(0);
 
         timerButton.setLayoutX(133);
         timerButton.setLayoutY(92);
-
-        diceButton.setLayoutX(41);
-        diceButton.setLayoutY(99);
 
         kickButton.setLayoutX(300);
         kickButton.setLayoutY(101);
@@ -158,25 +140,21 @@ public class GameScreen extends Screen {
         iconSettingButton.setLayoutX(975);
         iconSettingButton.setLayoutY(18);
 
-        this.getChildren().addAll(backButton, generateCardButton, timerButton, diceButton, kickButton, playBoard,
+        this.getChildren().addAll(card1, card2, backButton, generateCardButton, timerButton, dice, kickButton, playBoard,
                 scoreRectangle, iconCoin, iconPlayer, blockRectangle, iconSettingButton);
+
+        // Add all the popups
+        this.getChildren().addAll(pausingPopup);
 
 
         this.primaryStage.getScene().setRoot(this);
     }
 
-    private void regenerateCard() {
-        if (currentCard != null) this.getChildren().remove(currentCard);
+    private void regenerateCard(Card... cards) {
+        for (Card card : cards) {
+            card.regenerate();
+            System.out.println("Card regenerated");
+        }
 
-        Card newCard1 = new  Card(Globals.listBuildingBlock.generateBuilding(10, 15, 10, GameType.MULTIPLE_BLOCK), new Coordinate(70, 50), 261, 174, GameType.MULTIPLE_BLOCK);
-        Card newCard2 = new  Card(Globals.listBuildingBlock.generateBuilding(10, 15, 10, GameType.SINGLE_BLOCK), new Coordinate(70, 320), 261, 174, GameType.SINGLE_BLOCK);
-
-        newCard1.draw();
-        newCard2.draw();
-
-        currentCard = newCard1;
-        this.getChildren().add(currentCard);
-        this.getChildren().add(newCard2);
     }
-
 }

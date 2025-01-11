@@ -2,6 +2,7 @@ package com.models;
 
 import com.commons.Coordinate;
 import com.commons.GameType;
+import com.commons.Globals;
 import com.models.components.Grid;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -38,7 +39,13 @@ public class Card extends Entity {
         this.type = type;
     }
 
+    public void regenerate() {
+        this.cells = Globals.listBuildingBlock.generateBuilding(10, 15, 10, this.type);
+        this.draw();
+    }
+
     public void draw() {
+        this.getChildren().clear();
         GraphicsContext gc = this.canvas.getGraphicsContext2D();
 
         // Define colors for multi and single types
