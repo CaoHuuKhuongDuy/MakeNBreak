@@ -33,7 +33,7 @@ public class LoadingScreen extends Screen {
         // Add loading bar
         LoadingBar loadingBar = new LoadingBar(512, 48);
         loadingBar.configureTimeline(() -> {
-            switchScreen.setScreen(new MainScreen(primaryStage)).run();
+            switchScreen.setScreen(new GameScreen(primaryStage)).run();
         });
 
         // Position progress bar
