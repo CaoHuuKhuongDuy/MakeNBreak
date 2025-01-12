@@ -25,6 +25,8 @@ public class Entity extends Pane {
         this();
         this.position = position;
         this.interactable = interactable;
+        this.setLayoutX(position.x);
+        this.setLayoutY(position.y);
     }
 
     public Entity(Coordinate position, boolean interactable, double width, double height) {
@@ -45,7 +47,12 @@ public class Entity extends Pane {
 
     public void setPosition(Coordinate position) {
         this.position = position;
+        this.setLayoutX(position.x);
+        this.setLayoutY(position.y);
+        this.draw();
     }
+
+    public void draw(){}
 
     public boolean isInteractable() {
         return this.interactable;

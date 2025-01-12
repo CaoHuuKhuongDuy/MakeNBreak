@@ -21,6 +21,16 @@ public class Coordinate implements Comparable<Coordinate> {
         this.priority = priority;
     }
 
+    // operator to plus two coordinates
+    public Coordinate plus(Coordinate other) {
+        return new Coordinate(this.x + other.x, this.y + other.y);
+    }
+
+    // operator to minus two coordinates
+    public Coordinate minus(Coordinate other) {
+        return new Coordinate(this.x - other.x, this.y - other.y);
+    }
+
     @Override
     public int compareTo(Coordinate other) {
         return Integer.compare(this.priority, other.priority);
