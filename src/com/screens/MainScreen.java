@@ -5,17 +5,23 @@ import com.commons.Globals;
 import com.controllers.mouse.SwitchScreen;
 import com.models.User;
 import com.models.components.CustomButton;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainScreen extends Screen {
 
     private SwitchScreen switchScreen;
     private int numberOfPlayers = 0;
+
+    private final List<Button> playerButtons = new ArrayList<>();
+    private final List<Button> gameTypeButtons = new ArrayList<>();
 
     public MainScreen(Stage primaryStage) {
         super(primaryStage);
@@ -91,10 +97,13 @@ public class MainScreen extends Screen {
         CustomButton button = new CustomButton(label, "resources/assets/images/Button/yellowButton.png");
         button.setLayoutX(x);
         button.setLayoutY(y);
+        playerButtons.add(button);
         button.setOnMouseClicked(event -> {
             numberOfPlayers = players;
             numOfPlayersText.setVisible(false);
             playerField.setVisible(false);
+
+            updateButtonGroupState(playerButtons, button);
         });
         this.getChildren().add(button);
     }
@@ -103,9 +112,11 @@ public class MainScreen extends Screen {
         CustomButton customButton = new CustomButton("CUSTOMIZE", "resources/assets/images/Button/redButton.png");
         customButton.setLayoutX(x);
         customButton.setLayoutY(y);
+        playerButtons.add(customButton);
         customButton.setOnMouseClicked(event -> {
             numOfPlayersText.setVisible(true);
             playerField.setVisible(true);
+            updateButtonGroupState(playerButtons, customButton);
         });
         this.getChildren().add(customButton);
     }
@@ -119,7 +130,11 @@ public class MainScreen extends Screen {
         CustomButton button = new CustomButton(label, imagePath);
         button.setLayoutX(x);
         button.setLayoutY(y);
-        button.setOnMouseClicked(event -> Globals.app.setGameType(type));
+        gameTypeButtons.add(button);
+        button.setOnMouseClicked(event -> {
+            Globals.app.setGameType(type);
+        updateButtonGroupState(gameTypeButtons, button);
+    });
         this.getChildren().add(button);
     }
 
@@ -142,10 +157,9 @@ public class MainScreen extends Screen {
         if (players > 0 && rounds > 0 && Globals.app.getGameType() != null) {
             updateUsers(players);
             switchScreen.setScreen(new LoadingScreen(primaryStage));
-            switchScreen.handle(event);  // Now it will correctly receive the MouseEvent
+            switchScreen.handle(event);
         }
     }
-
 
     private int parseInput(String input) {
         try {
@@ -161,5 +175,10 @@ public class MainScreen extends Screen {
         for (int i = 0; i < numberOfPlayers; i++) {
             Globals.app.addUser(new User("Player " + (i + 1)));
         }
+    }
+
+    private void updateButtonGroupState(List<Button> buttons, Button selectedButton) {
+        buttons.forEach(button -> button.setStyle("-fx-opacity: 1;")); // Reset style for all buttons
+        selectedButton.setStyle("-fx-opacity: 0.3;"); // Apply style for selected button
     }
 }
