@@ -3,7 +3,6 @@
     src: url("../font/Poppins-Black.ttf"); /* Make sure to adjust the path */
 }
 
-
 .button {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
@@ -11,7 +10,6 @@
     -fx-cursor: hand; /* Pointer cursor */
 }
 
-/* Optional Hover Effect */
 .button:hover {
     -fx-opacity: 0.8; /* Slight fade effect on hover */
     -fx-translate-y: -2px; /* Subtle upward shift */

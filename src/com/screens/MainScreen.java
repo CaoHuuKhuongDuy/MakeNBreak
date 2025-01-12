@@ -157,10 +157,9 @@ public class MainScreen extends Screen {
         if (players > 0 && rounds > 0 && Globals.app.getGameType() != null) {
             updateUsers(players);
             switchScreen.setScreen(new LoadingScreen(primaryStage));
-            switchScreen.handle(event);  // Now it will correctly receive the MouseEvent
+            switchScreen.handle(event);
         }
     }
-
 
     private int parseInput(String input) {
         try {
