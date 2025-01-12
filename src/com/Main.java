@@ -21,7 +21,7 @@ public class Main extends Application {
         primaryStage.setScene(dummyScene);
         Globals.setDefaultResolution(1024, 768);
 
-        Screen mainScreen = new GameScreen(primaryStage);
+        Screen mainScreen = new IntroScreen(primaryStage);
         mainScreen.display();
         primaryStage.setResizable(false);
         primaryStage.setFullScreenExitHint("");
