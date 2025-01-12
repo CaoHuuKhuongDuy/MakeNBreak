@@ -5,6 +5,8 @@ import com.commons.GameType;
 import com.commons.Globals;
 import com.models.components.Grid;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -14,6 +16,7 @@ public class Card extends Entity {
     private Color[][] cells;
     private int number;
     private GameType type;
+    private boolean open;
 
     public void setNumber(int number) {
         this.number = number;
@@ -28,6 +31,7 @@ public class Card extends Entity {
         this.cells = cells;
         this.number = 1;
         this.type = GameType.SINGLE_BLOCK; // Default to SINGLE type
+        this.open = true;
     }
 
     // Card with number and type (CardType enum)
@@ -37,6 +41,25 @@ public class Card extends Entity {
         Random random = new Random();
         this.number = random.nextInt(3) + 1;
         this.type = type;
+        this.open = true;
+    }
+
+    public Card(Color[][] cells, Coordinate position, double width, double height, GameType type, boolean open) {
+        super(position, true, width, height);
+        this.cells = cells;
+        Random random = new Random();
+        this.number = random.nextInt(3) + 1;
+        this.type = type;
+        this.open = open;
+    }
+
+    public void setOpen(boolean open) {
+        this.open = open;
+        this.draw();
+    }
+
+    public boolean getOpen() {
+        return this.open;
     }
 
     public void regenerate() {
@@ -46,6 +69,12 @@ public class Card extends Entity {
 
     public void draw() {
         this.getChildren().clear();
+        if (!open) {
+            ImageView imageViewCard = new ImageView(new Image("/resources/assets/images/back_of_card.png"));
+            imageViewCard.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
+            this.getChildren().add(imageViewCard);
+            return;
+        }
         GraphicsContext gc = this.canvas.getGraphicsContext2D();
 
         // Define colors for multi and single types
