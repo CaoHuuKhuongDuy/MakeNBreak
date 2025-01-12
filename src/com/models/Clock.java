@@ -5,23 +5,27 @@ import com.models.components.Arrow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Clock extends Entity {
     private int time; // seconds
     private Arrow arrow;
     private AtomicInteger running;
+    private AtomicBoolean pausing;
 
     public Clock() {
         super();
         this.time = 0;
         this.running = new AtomicInteger(0);
+        this.pausing = new AtomicBoolean(false);
     }
 
     public Clock(Coordinate position) {
         super(position, true);
         this.time = 0;
         this.running = new AtomicInteger(0);
+        this.pausing = new AtomicBoolean(false);
     }
 
     public Clock(Coordinate position, double width, double height, int time) {
@@ -55,6 +59,10 @@ public class Clock extends Entity {
         this.time = time;
     }
 
+    public void setPausing(boolean pausing) {
+        this.pausing.set(pausing);
+    }
+
     public void startCounting() {
         this.running.incrementAndGet();
         double currentAngle = Math.min(this.time, 60) * 0.25 + Math.max(0, this.time - 60) * 1.25;
@@ -62,6 +70,7 @@ public class Clock extends Entity {
         Thread thread = new Thread(() -> {
             while (this.time > 0 && this.running.get() == 1) {
                 try {
+                    while (this.pausing.get()) {}
                     Thread.sleep(1000);
                     this.time--;
                     if (this.arrow.getAngle() < 165) {

@@ -18,8 +18,4 @@ public class Globals {
     public static Color getRandomColor() {
         return listColors[(int) (Math.random() * listColors.length)];
     }
-
-    public static Color getDarkColor(Color color) {
-        return color.darker();
-    }
 }

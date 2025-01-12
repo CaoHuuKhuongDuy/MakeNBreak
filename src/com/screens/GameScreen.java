@@ -11,11 +11,12 @@ import com.models.Card;
 import com.models.Clock;
 import com.models.Dice;
 import com.models.User;
-import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.Vector;
@@ -30,17 +31,29 @@ public class GameScreen extends Screen {
     private PauseScreen pausingPopup;
 
     private int userID;
+    private Text userPointText, userIDText;
 
     private Vector<Card> openingCards, closingCards;
     private int numCard = 10;
 
+    private Clock clock;
+    private Dice dice;
+
+
     public GameScreen(Stage primaryStage) {
         super(primaryStage);
-        this.pausingPopup = new PauseScreen(primaryStage);
+        this.pausingPopup = new PauseScreen(primaryStage, this);
         this.pausingPopup.setVisible(false);
         this.initCards();
         this.initHandlers();
         this.userID = 0;
+        Font jerseyFont = Font.loadFont(getClass().getResourceAsStream("/resources/assets/fonts/Jersey25.ttf"), 60);
+        this.userPointText = new Text();
+        this.userIDText = new Text();
+        this.userPointText.setFont(jerseyFont);
+        this.userIDText.setFont(jerseyFont);
+        this.clock = new Clock(new Coordinate(133, 92));
+        this.dice = new Dice(new Coordinate(41, 99), 66, 66);
     }
 
     private void initCards() {
@@ -53,7 +66,7 @@ public class GameScreen extends Screen {
     @Override
     public void initHandlers() {
         this.switchScreen = new SwitchScreen(primaryStage);
-        this.showScreen = new ShowScreen(primaryStage);
+        this.showScreen = new ShowScreen(primaryStage).setCurrentScreen(this);
         this.rollingDice = new RollingDice();
         this.generateCard = new GenerateCard(openingCards, closingCards);
     }
@@ -66,11 +79,6 @@ public class GameScreen extends Screen {
         backButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10px 20px; -fx-border-radius: 10px;");
         backButton.setOnMouseClicked(this.switchScreen.setScreen(new MainScreen(primaryStage)));
 
-
-//        Card card1 = new  Card(Globals.listBuildingBlock.generateBuilding(10, 15, 10, GameType.MULTIPLE_BLOCK), new Coordinate(420, 155), 261, 174, GameType.MULTIPLE_BLOCK);
-//        Card card2 = new  Card(Globals.listBuildingBlock.generateBuilding(10, 15, 10, GameType.SINGLE_BLOCK), new Coordinate(700, 155), 261, 174, GameType.SINGLE_BLOCK, false);
-//        card1.draw();
-//        card2.draw();
         for (int i = 0; i < numCard; i++) {
             closingCards.get(i).draw();
         }
@@ -80,11 +88,9 @@ public class GameScreen extends Screen {
         generateCardButton.setOnMouseClicked(this.generateCard);
 
         // Create Clock
-        Clock clock = new Clock(new Coordinate(133, 92));
         clock.draw();
 
         // Create Dice
-        Dice dice = new Dice(new Coordinate(41, 99), 66, 66);
         dice.draw();
         dice.setOnMouseClicked(rollingDice.setDependencies(dice, clock));
 
@@ -114,7 +120,7 @@ public class GameScreen extends Screen {
         iconPlayer.setFitWidth(66);
         iconPlayer.setFitHeight(53.8);
 
-
+        this.updateUserInforText();
 
         // Add frame containing blocks
         ImageView blockRectangle = new ImageView(new Image("/resources/assets/images/blockRectangle.png"));
@@ -129,7 +135,7 @@ public class GameScreen extends Screen {
         iconSettingButton.setGraphic(imageIconSettingButton);
         iconSettingButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
 
-        iconSettingButton.setOnMouseClicked(showScreen.setScreen(pausingPopup).setVisible(true));
+        iconSettingButton.setOnMouseClicked(showScreen.setPopUpScreen(pausingPopup).setVisible(true));
 
         generateCardButton.setLayoutX(75);
         generateCardButton.setLayoutY(0);
@@ -159,8 +165,8 @@ public class GameScreen extends Screen {
             this.getChildren().add(this.closingCards.get(i));
 
 
-        this.getChildren().addAll(backButton, generateCardButton, clock, dice, kickButton, playBoard,
-                scoreRectangle, iconCoin, iconPlayer, blockRectangle, iconSettingButton);
+        this.getChildren().addAll(scoreRectangle, userPointText, userIDText, backButton, generateCardButton, clock, dice, kickButton, playBoard,
+                iconCoin, iconPlayer, blockRectangle, iconSettingButton);
 
         // Add all the popups
         this.getChildren().addAll(pausingPopup);
@@ -169,11 +175,21 @@ public class GameScreen extends Screen {
         this.primaryStage.getScene().setRoot(this);
     }
 
-    private void regenerateCard(Card... cards) {
-        for (Card card : cards) {
-            card.regenerate();
-            System.out.println("Card regenerated");
-        }
+    public void pausing(boolean pausing) {
+        this.clock.setPausing(pausing);
+    }
 
+    private void updateUserInforText() {
+        User currentUser = Globals.app.getUsers().get(this.userID);
+        String userPointT = String.valueOf(currentUser.getPoint());
+        this.userPointText.setText(userPointT);
+        this.userPointText.setFill(Color.YELLOW);
+        this.userPointText.setLayoutX(910 - userPointText.getBoundsInLocal().getWidth());
+        this.userPointText.setLayoutY(120);
+
+        this.userIDText.setText(currentUser.getName());
+        this.userIDText.setFill(Color.RED);
+        this.userIDText.setLayoutX(490);
+        this.userIDText.setLayoutY(120);
     }
 }

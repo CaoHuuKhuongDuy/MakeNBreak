@@ -7,22 +7,35 @@ import javafx.stage.Stage;
 
 public class ShowScreen implements EventHandler<MouseEvent>, Runnable{
     Stage primaryStage;
-    Screen screen;
-    boolean visible;
+
+    Screen popUpScreen, currentScreen;
+    boolean visible, pausing;
 
     public ShowScreen(Stage primaryStage, Screen nextScreen) {
         this.primaryStage = primaryStage;
-        this.screen = nextScreen;
-        visible = true;
+        this.popUpScreen = nextScreen;
+        this.visible = true;
+        this.pausing = true;
     }
 
     public ShowScreen(Stage primaryStage) {
-        visible = true;
         this.primaryStage = primaryStage;
+        this.visible = true;
+        this.pausing = true;
     }
 
-    public ShowScreen setScreen(Screen nextScreen) {
-        this.screen = nextScreen;
+    public ShowScreen setPausing(boolean pausing) {
+        this.pausing = pausing;
+        return this;
+    }
+
+    public ShowScreen setPopUpScreen(Screen popUpScreen) {
+        this.popUpScreen = popUpScreen;
+        return this;
+    }
+
+    public ShowScreen setCurrentScreen(Screen currentScreen) {
+        this.currentScreen = currentScreen;
         return this;
     }
 
@@ -34,13 +47,14 @@ public class ShowScreen implements EventHandler<MouseEvent>, Runnable{
     @Override
     public void handle(MouseEvent event) {
         if (event.getEventType().equals(MouseEvent.MOUSE_CLICKED)) {
-            screen.setVisible(visible);
+            popUpScreen.setVisible(visible);
+            if (pausing) currentScreen.pausing(visible);
         }
     }
 
     // Triggered directly (Runnable)
     @Override
     public void run() {
-        screen.setVisible(visible);
+        popUpScreen.setVisible(visible);
     }
 }

@@ -13,16 +13,18 @@ public class PauseScreen extends Screen {
 
     private ShowScreen showScreen;
     private SwitchScreen switchScreen;
+    private Screen previousScreen;
 
-    public PauseScreen(Stage primaryStage) {
+    public PauseScreen(Stage primaryStage, Screen previousScreen) {
         super(primaryStage);
+        this.previousScreen = previousScreen;
         this.initHandlers();
         this.display();
     }
 
     @Override
     public void initHandlers() {
-        this.showScreen = new ShowScreen(primaryStage);
+        this.showScreen = new ShowScreen(primaryStage).setCurrentScreen(previousScreen);
         this.switchScreen = new SwitchScreen(primaryStage);
     }
 
@@ -60,7 +62,7 @@ public class PauseScreen extends Screen {
         imageViewResumeButton.setFitHeight(55);
         resumeButton.setGraphic(imageViewResumeButton);
         resumeButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
-        resumeButton.setOnMouseClicked(this.showScreen.setScreen(this).setVisible(false));
+        resumeButton.setOnMouseClicked(this.showScreen.setPopUpScreen(this).setVisible(false));
 
 
         // Create cross button
@@ -70,7 +72,7 @@ public class PauseScreen extends Screen {
         imageViewCrossButton.setFitHeight(26);
         crossButton.setGraphic(imageViewCrossButton);
         crossButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
-        crossButton.setOnMouseClicked(this.showScreen.setScreen(this).setVisible(false));
+        crossButton.setOnMouseClicked(this.showScreen.setPopUpScreen(this).setVisible(false));
 
         imageViewSettingPanel.setLayoutX(314);
         imageViewSettingPanel.setLayoutY(193);
