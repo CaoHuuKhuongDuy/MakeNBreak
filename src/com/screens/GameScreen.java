@@ -10,6 +10,7 @@ import com.controllers.mouse.SwitchScreen;
 import com.models.Card;
 import com.models.Clock;
 import com.models.Dice;
+import com.models.User;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -28,15 +29,18 @@ public class GameScreen extends Screen {
 
     private PauseScreen pausingPopup;
 
+    private int userID;
+
     private Vector<Card> openingCards, closingCards;
     private int numCard = 10;
 
     public GameScreen(Stage primaryStage) {
         super(primaryStage);
-        pausingPopup = new PauseScreen(primaryStage);
-        pausingPopup.setVisible(false);
+        this.pausingPopup = new PauseScreen(primaryStage);
+        this.pausingPopup.setVisible(false);
         this.initCards();
         this.initHandlers();
+        this.userID = 0;
     }
 
     private void initCards() {
@@ -109,6 +113,8 @@ public class GameScreen extends Screen {
         ImageView iconPlayer = new ImageView(new Image("/resources/assets/images/icon_downasaur.png"));
         iconPlayer.setFitWidth(66);
         iconPlayer.setFitHeight(53.8);
+
+
 
         // Add frame containing blocks
         ImageView blockRectangle = new ImageView(new Image("/resources/assets/images/blockRectangle.png"));

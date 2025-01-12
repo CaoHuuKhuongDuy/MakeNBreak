@@ -113,7 +113,8 @@ public class Card extends Entity {
         this.getChildren().add(grid);
 
         gc.setFill(this.type == GameType.MULTIPLE_BLOCK ? multiScore : singleScore);  // Color based on type
-        gc.setFont(new Font("Arial", tmp * 0.15));
+        Font jerseyFont = Font.loadFont(getClass().getResourceAsStream("/resources/assets/fonts/Jersey25.ttf"), tmp * 0.18);
+        gc.setFont(jerseyFont);
         gc.fillText(Integer.toString(this.number), this.width * 0.03, this.height * 0.15); // Draw the number
         gc.fillText(Integer.toString(this.number), this.width * 0.92, this.height * 0.15); // Draw the number
 

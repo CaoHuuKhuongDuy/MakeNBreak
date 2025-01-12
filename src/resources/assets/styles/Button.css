@@ -1,6 +1,6 @@
 @font-face {
     font-family: "Poppins";
-    src: url("../font/Poppins-Black.ttf"); /* Make sure to adjust the path */
+    src: url("../fonts/Poppins-Black.ttf"); /* Make sure to adjust the path */
 }
 
 .button {

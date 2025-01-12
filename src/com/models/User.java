@@ -4,7 +4,9 @@ public class User {
     private String name;
     private int point;
 
-    User(String name, int point) {
+
+
+    public User(String name, int point) {
         this.name = name;
         this.point = point;
     }
