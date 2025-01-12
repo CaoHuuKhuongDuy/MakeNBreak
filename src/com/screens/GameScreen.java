@@ -5,7 +5,7 @@ import com.commons.GameType;
 import com.commons.Globals;
 import com.controllers.mouse.GenerateCard;
 import com.controllers.mouse.RollingDice;
-import com.controllers.mouse.ShowScreen;
+import com.controllers.mouse.ShowPopup;
 import com.controllers.mouse.SwitchScreen;
 import com.models.Card;
 import com.models.Clock;
@@ -24,7 +24,7 @@ import java.util.Vector;
 
 public class GameScreen extends Screen {
     private SwitchScreen switchScreen;
-    private ShowScreen showScreen;
+    private ShowPopup showPopup;
     private RollingDice rollingDice;
     private GenerateCard generateCard;
 
@@ -66,7 +66,7 @@ public class GameScreen extends Screen {
     @Override
     public void initHandlers() {
         this.switchScreen = new SwitchScreen(primaryStage);
-        this.showScreen = new ShowScreen(primaryStage).setCurrentScreen(this);
+        this.showPopup = new ShowPopup(primaryStage).setCurrentScreen(this);
         this.rollingDice = new RollingDice();
         this.generateCard = new GenerateCard(openingCards, closingCards);
     }
@@ -135,7 +135,7 @@ public class GameScreen extends Screen {
         iconSettingButton.setGraphic(imageIconSettingButton);
         iconSettingButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
 
-        iconSettingButton.setOnMouseClicked(showScreen.setPopUpScreen(pausingPopup).setVisible(true));
+        iconSettingButton.setOnMouseClicked(showPopup.setPopUpScreen(pausingPopup).setVisible(true));
 
         generateCardButton.setLayoutX(75);
         generateCardButton.setLayoutY(0);

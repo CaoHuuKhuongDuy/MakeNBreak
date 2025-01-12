@@ -1,6 +1,6 @@
 package com.screens;
 
-import com.controllers.mouse.ShowScreen;
+import com.controllers.mouse.ShowPopup;
 import com.controllers.mouse.SwitchScreen;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -11,7 +11,7 @@ import javafx.scene.shape.Rectangle;
 
 public class PauseScreen extends Screen {
 
-    private ShowScreen showScreen;
+    private ShowPopup showPopup;
     private SwitchScreen switchScreen;
     private Screen previousScreen;
 
@@ -24,7 +24,7 @@ public class PauseScreen extends Screen {
 
     @Override
     public void initHandlers() {
-        this.showScreen = new ShowScreen(primaryStage).setCurrentScreen(previousScreen);
+        this.showPopup = new ShowPopup(primaryStage).setCurrentScreen(previousScreen);
         this.switchScreen = new SwitchScreen(primaryStage);
     }
 
@@ -62,7 +62,7 @@ public class PauseScreen extends Screen {
         imageViewResumeButton.setFitHeight(55);
         resumeButton.setGraphic(imageViewResumeButton);
         resumeButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
-        resumeButton.setOnMouseClicked(this.showScreen.setPopUpScreen(this).setVisible(false));
+        resumeButton.setOnMouseClicked(this.showPopup.setPopUpScreen(this).setVisible(false));
 
 
         // Create cross button
@@ -72,7 +72,7 @@ public class PauseScreen extends Screen {
         imageViewCrossButton.setFitHeight(26);
         crossButton.setGraphic(imageViewCrossButton);
         crossButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
-        crossButton.setOnMouseClicked(this.showScreen.setPopUpScreen(this).setVisible(false));
+        crossButton.setOnMouseClicked(this.showPopup.setPopUpScreen(this).setVisible(false));
 
         imageViewSettingPanel.setLayoutX(314);
         imageViewSettingPanel.setLayoutY(193);
