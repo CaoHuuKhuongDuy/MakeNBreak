@@ -11,6 +11,8 @@ import com.models.Card;
 import com.models.Clock;
 import com.models.Dice;
 import com.models.User;
+import com.models.components.BlockContainer;
+import com.models.components.ListBuildingBlock;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -54,6 +56,10 @@ public class GameScreen extends Screen {
         this.userIDText.setFont(jerseyFont);
         this.clock = new Clock(new Coordinate(133, 92));
         this.dice = new Dice(new Coordinate(41, 99), 66, 66);
+
+        ListBuildingBlock blockGenerator = new ListBuildingBlock();
+        blockGenerator.generateRandomBuildingBlocks(80); // Adjust the number of blocks as needed
+
     }
 
     private void initCards() {
@@ -122,11 +128,6 @@ public class GameScreen extends Screen {
 
         this.updateUserInforText();
 
-        // Add frame containing blocks
-        ImageView blockRectangle = new ImageView(new Image("/resources/assets/images/blockRectangle.png"));
-        blockRectangle.setFitWidth(346);
-        blockRectangle.setFitHeight(559);
-
         // Create icon setting button
         Button iconSettingButton = new Button();
         ImageView imageIconSettingButton = new ImageView(new Image("/resources/assets/images/Icon_Settings.png"));
@@ -155,18 +156,20 @@ public class GameScreen extends Screen {
         iconPlayer.setLayoutX(413);
         iconPlayer.setLayoutY(77);
 
-        blockRectangle.setLayoutX(31);
-        blockRectangle.setLayoutY(181);
-
         iconSettingButton.setLayoutX(975);
         iconSettingButton.setLayoutY(18);
 
         for (int i = this.closingCards.size() - 1; i >= 0; i--)
             this.getChildren().add(this.closingCards.get(i));
 
+        BlockContainer blockContainer = new BlockContainer(Globals.buildingBlocks);
+
+        blockContainer.setLayoutX(31); // Example X-coordinate
+        blockContainer.setLayoutY(181); // Example Y-coordinate
+
 
         this.getChildren().addAll(scoreRectangle, userPointText, userIDText, backButton, generateCardButton, clock, dice, kickButton, playBoard,
-                iconCoin, iconPlayer, blockRectangle, iconSettingButton);
+                iconCoin, iconPlayer, iconSettingButton, blockContainer);
 
         // Add all the popups
         this.getChildren().addAll(pausingPopup);
