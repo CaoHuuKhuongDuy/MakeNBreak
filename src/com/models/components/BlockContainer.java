@@ -1,7 +1,7 @@
 package com.models.components;
 
 import com.commons.Coordinate;
-import javafx.animation.TranslateTransition;
+import com.screens.GameScreen;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
@@ -9,7 +9,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.util.Duration;
 
 import java.util.Vector;
 
@@ -20,7 +19,7 @@ public class BlockContainer extends Pane {
     private final int containerHeight = 559; // Fixed height
     private final int blockWidth = 60; // Block width
     private final int blockHeight = 60; // Block height
-    private final int blockSpacing  = 20; // Spacing between blocks
+    private final int blockSpacing = 20; // Spacing between blocks
     private final int cellSpacing = 0; // Spacing between cells within a block
     private final int blocksPerRow = 3;
 
@@ -40,7 +39,6 @@ public class BlockContainer extends Pane {
         gridPane.setAlignment(Pos.CENTER); // Center the blocks in the container
 
         gridPane.setPadding(new Insets(topGap, 0, bottomGap, 0)); // Insets(top, right, bottom, left)
-
 
 
         // Populate the GridPane with building blocks
@@ -73,8 +71,8 @@ public class BlockContainer extends Pane {
         for (Coordinate cell : block.getCells()) {
             Rectangle cellRect = new Rectangle(blockWidth / 2.0, blockHeight / 2.0);
             cellRect.setFill(block.getColor());
-            cellRect.setStroke(Color.BLACK);   // Set the border color
-            cellRect.setStrokeWidth(1);    // Set the block's color
+            cellRect.setStroke(Color.BLACK);
+            cellRect.setStrokeWidth(1);
 
             // Position the cell with the defined cell spacing
             cellRect.setX(cell.y * (blockWidth / 2.0 + cellSpacing));
@@ -82,38 +80,33 @@ public class BlockContainer extends Pane {
             blockPane.getChildren().add(cellRect);
         }
 
-
-
-        // Add interactivity to the block
+        // Enable dragging for the block
         blockPane.setOnMousePressed(event -> {
-            // Record the initial position of the block for potential return
-            blockPane.setUserData(new double[]{blockPane.getLayoutX(), blockPane.getLayoutY()});
+            blockPane.setMouseTransparent(true); // Avoid triggering other events
+            blockPane.toFront(); // Bring the block to the front
         });
 
         blockPane.setOnMouseDragged(event -> {
             double newX = event.getSceneX() - blockPane.getBoundsInParent().getWidth() / 2;
             double newY = event.getSceneY() - blockPane.getBoundsInParent().getHeight() / 2;
 
-            // Prevent block from going outside container bounds
-            newX = Math.max(0, Math.min(containerWidth - blockWidth, newX));
-            newY = Math.max(0, Math.min(containerHeight - blockHeight, newY));
-
             blockPane.setLayoutX(newX);
             blockPane.setLayoutY(newY);
         });
 
-
         blockPane.setOnMouseReleased(event -> {
-            double[] initialPos = (double[]) blockPane.getUserData();
-            if (blockPane.getLayoutX() >= 0 && blockPane.getLayoutX() <= containerWidth - blockWidth
-                    && blockPane.getLayoutY() >= 0 && blockPane.getLayoutY() <= containerHeight - blockHeight) {
-                TranslateTransition transition = new TranslateTransition(Duration.millis(300), blockPane);
-                transition.setToX(initialPos[0] - blockPane.getLayoutX());
-                transition.setToY(initialPos[1] - blockPane.getLayoutY());
-                transition.play();
+            blockPane.setMouseTransparent(false); // Re-enable interactions
+            blockPane.setLayoutX(event.getSceneX() - blockPane.getBoundsInParent().getWidth() / 2);
+            blockPane.setLayoutY(event.getSceneY() - blockPane.getBoundsInParent().getHeight() / 2);
+
+            Pane parentPane = (Pane) this.getParent();
+            if (parentPane instanceof GameScreen) {
+                GameScreen gameScreen = (GameScreen) parentPane;
+                ((Pane) blockPane.getParent()).getChildren().remove(blockPane);
+                gameScreen.getChildren().add(blockPane);
             }
         });
-
         return blockPane;
     }
+
 }
