@@ -14,23 +14,31 @@ public class BlockPane extends Pane {
 
     public BlockPane(BuildingBlock block) {
         this.block = block;
+        this.draw();
+    }
 
-        // Render the block cells
+    public void draw() {
+
+        this.getChildren().clear();// clear to prevent duplication
+
         for (Coordinate cell : block.getCells()) {
             Rectangle cellRect = new Rectangle(blockWidth / 2.0, blockHeight / 2.0);
             cellRect.setFill(block.getColor());
             cellRect.setStroke(Color.BLACK);
             cellRect.setStrokeWidth(1);
 
-            // Position the cell with the defined cell spacing
             cellRect.setX(cell.y * (blockWidth / 2.0 + cellSpacing));
             cellRect.setY(cell.x * (blockHeight / 2.0 + cellSpacing));
             this.getChildren().add(cellRect);
         }
-
     }
 
     public BuildingBlock getBlock() {
         return block;
+    }
+
+    public void setBlock(BuildingBlock block) {
+        this.block = block;
+        this.draw();
     }
 }

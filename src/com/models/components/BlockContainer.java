@@ -25,23 +25,26 @@ public class BlockContainer extends Pane {
 
         this.setPrefSize(containerWidth, containerHeight);
 
-        // Create a GridPane for layout
-        gridPane = new GridPane(); // Initialize gridPane here
-        gridPane.setHgap(blockSpacing); // Horizontal gap between blocks
-        gridPane.setVgap(blockSpacing); // Vertical gap between blocks
-        gridPane.setAlignment(Pos.CENTER); // Center the blocks in the container
+        this.draw();
+    }
 
-        gridPane.setPadding(new Insets(topGap, 0, bottomGap, 0)); // Insets(top, right, bottom, left)
+    public void draw() {
 
-        // Populate the GridPane with block panes
+        this.getChildren().clear(); // clear to avoid duplicate
+
+        gridPane = new GridPane();
+        gridPane.setHgap(blockSpacing);
+        gridPane.setVgap(blockSpacing);
+        gridPane.setAlignment(Pos.CENTER);
+        gridPane.setPadding(new Insets(topGap, 0, bottomGap, 0));
+
         for (int i = 0; i < blockPanes.size(); i++) {
-            int row = i / blocksPerRow; // Calculate row
-            int col = i % blocksPerRow; // Calculate column
+            int row = i / blocksPerRow;
+            int col = i % blocksPerRow;
 
             gridPane.add(blockPanes.get(i), col, row);
         }
 
-        // Wrap the GridPane in a ScrollPane
         ScrollPane scrollPane = new ScrollPane(gridPane);
         scrollPane.setPrefSize(containerWidth, containerHeight);
         scrollPane.setFitToWidth(true);
@@ -52,13 +55,7 @@ public class BlockContainer extends Pane {
     }
 
     public void addBlockPane(BlockPane newBlockPane) {
-        // Add the new block to the blockPanes list
         blockPanes.add(newBlockPane);
-
-        // Calculate row and column for the new block based on the current number of blocks
-        int row = (blockPanes.size() - 1) / blocksPerRow; // Calculate row based on the new size
-        int col = (blockPanes.size() - 1) % blocksPerRow; // Calculate column based on the new size
-
-        gridPane.add(newBlockPane, col, row);
+        draw();
     }
 }
