@@ -12,6 +12,8 @@ import com.models.Clock;
 import com.models.Dice;
 import com.models.User;
 import com.models.components.BlockContainer;
+import com.models.components.BlockPane;
+import com.models.components.BuildingBlock;
 import com.models.components.ListBuildingBlock;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -41,6 +43,11 @@ public class GameScreen extends Screen {
     private Clock clock;
     private Dice dice;
 
+    private double offsetX, offsetY;
+
+    private BlockContainer blockContainer;
+    private BlockPane currentBlockPane;
+
 
     public GameScreen(Stage primaryStage) {
         super(primaryStage);
@@ -58,7 +65,7 @@ public class GameScreen extends Screen {
         this.dice = new Dice(new Coordinate(41, 99), 66, 66);
 
         ListBuildingBlock blockGenerator = new ListBuildingBlock();
-        blockGenerator.generateRandomBuildingBlocks(80); // Adjust the number of blocks as needed
+        blockGenerator.generateRandomBuildingBlocks(30);
 
     }
 
@@ -80,6 +87,41 @@ public class GameScreen extends Screen {
     @Override
     public void display() {
         this.getChildren().clear();
+
+        Vector<BlockPane> blockPanes = new Vector<>();
+        for (BuildingBlock block : Globals.buildingBlocks) {
+            BlockPane blockPane = new BlockPane(block);
+            blockPanes.add(blockPane); // Convert BuildingBlocks to BlockPanes
+
+            blockPane.setOnMousePressed(event -> {
+                // When pressed, move the BlockPane to the GameScreen
+                this.getChildren().remove(blockPane);  // Remove from BlockContainer
+                this.getChildren().add(blockPane);  // Add to GameScreen for dragging
+                currentBlockPane = blockPane;  // Keep track of the current block being dragged
+
+                // Calculate offsets using local coordinates relative to the block's parent
+                offsetX = event.getX();
+                offsetY = event.getY();
+
+            });
+
+            blockPane.setOnMouseDragged(event -> {
+                if (currentBlockPane != null) {
+                    // Update the block's position based on mouse drag
+                    currentBlockPane.setLayoutX(event.getSceneX() - offsetX);
+                    currentBlockPane.setLayoutY(event.getSceneY() - offsetY);
+                }
+            });
+
+            blockPane.setOnMouseReleased(event -> {
+            });
+        }
+
+
+        blockContainer = new BlockContainer(blockPanes);
+
+        blockContainer.setLayoutX(31);
+        blockContainer.setLayoutY(181);
 
         Button backButton = new Button("Back");
         backButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10px 20px; -fx-border-radius: 10px;");
@@ -162,11 +204,6 @@ public class GameScreen extends Screen {
         for (int i = this.closingCards.size() - 1; i >= 0; i--)
             this.getChildren().add(this.closingCards.get(i));
 
-        BlockContainer blockContainer = new BlockContainer(Globals.buildingBlocks);
-
-        blockContainer.setLayoutX(31); // Example X-coordinate
-        blockContainer.setLayoutY(181); // Example Y-coordinate
-
 
         this.getChildren().addAll(scoreRectangle, userPointText, userIDText, backButton, generateCardButton, clock, dice, kickButton, playBoard,
                 iconCoin, iconPlayer, iconSettingButton, blockContainer);
@@ -194,5 +231,15 @@ public class GameScreen extends Screen {
         this.userIDText.setFill(Color.RED);
         this.userIDText.setLayoutX(490);
         this.userIDText.setLayoutY(120);
+    }
+
+    private void snapToGrid(BlockPane blockPane) {
+        // Snap to nearest grid point (for example, 100x100 grid)
+        double gridSize = 100;
+        double snappedX = Math.round(blockPane.getLayoutX() / gridSize) * gridSize;
+        double snappedY = Math.round(blockPane.getLayoutY() / gridSize) * gridSize;
+
+        blockPane.setLayoutX(snappedX);
+        blockPane.setLayoutY(snappedY);
     }
 }
