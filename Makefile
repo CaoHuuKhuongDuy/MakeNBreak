@@ -16,6 +16,7 @@ compile:
 	mkdir -p $(BIN_DIR)/resources/assets/styles/
 	cp -r $(SRC_DIR)/resources/assets/images/ $(BIN_DIR)/resources/assets/images/
 	cp -r $(SRC_DIR)/resources/assets/styles/ $(BIN_DIR)/resources/assets/styles/
+	cp -r $(SRC_DIR)/resources/assets/fonts/ $(BIN_DIR)/resources/assets/fonts/
 
 
 
