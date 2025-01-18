@@ -18,30 +18,7 @@ public class ListBuildingBlock {
     private int limitRow, limitCol;
 
     public ListBuildingBlock() {
-        Coordinate defaultPosition = new Coordinate(0, 0);
-        Coordinate cell00 = new Coordinate(0, 0);
-        Coordinate cell01 = new Coordinate(0, 1);
-        Coordinate cell02 = new Coordinate(0, 2);
-        Coordinate cell10 = new Coordinate(1, 0);
-        Coordinate cell11 = new Coordinate(1, 1);
-        Coordinate cell12 = new Coordinate(1, 2);
-        Coordinate cell20 = new Coordinate(2, 0);
-        Coordinate cell21 = new Coordinate(2, 1);
-        Coordinate cell22 = new Coordinate(2, 2);
-
-        BuildingBlock tBlock = new BuildingBlock(new Vector<>(Arrays.asList(cell01, cell10, cell11, cell12)));
-        BuildingBlock smallZBlock = new BuildingBlock(new Vector<>(Arrays.asList(cell00, cell10, cell11, cell21)));
-        BuildingBlock oBlock = new BuildingBlock(new Vector<>(Arrays.asList(cell00, cell01, cell10, cell11)));
-        BuildingBlock bigLBlock = new BuildingBlock(new Vector<>(Arrays.asList(cell01, cell10, cell11)));
-        BuildingBlock plusBlock = new BuildingBlock(new Vector<>(Arrays.asList(cell01, cell10, cell11, cell12, cell21)));
-        BuildingBlock qBlock = new BuildingBlock(new Vector<>(Arrays.asList(cell00, cell10, cell11, cell20, cell21)));
-        BuildingBlock smallLBlock = new BuildingBlock(new Vector<>(Arrays.asList(cell01, cell10, cell11)));
-        BuildingBlock wBlock = new BuildingBlock(new Vector<>(Arrays.asList(cell00, cell10, cell11, cell21, cell22)));
-        BuildingBlock caretBlock = new BuildingBlock(new Vector<>(Arrays.asList(cell00, cell01, cell02, cell10, cell20)));
-        BuildingBlock bigZBlock = new BuildingBlock(new Vector<>(Arrays.asList(cell00, cell10, cell11, cell12, cell22)));
-        BuildingBlock IBlock = new BuildingBlock(new Vector<>(Arrays.asList(cell00, cell01, cell02)));
-
-        this.buildingBlocks = new Vector<>(Arrays.asList(tBlock, smallZBlock, oBlock, bigLBlock, plusBlock, qBlock, smallLBlock, wBlock, bigZBlock, caretBlock, IBlock));
+        this.buildingBlocks = new Vector<>();
     }
 
     public ListBuildingBlock(Vector<BuildingBlock> buildingBlocks) {
@@ -56,6 +33,23 @@ public class ListBuildingBlock {
         return this.buildingBlocks;
     }
 
+    public void setBuildingBlocks(Vector <BuildingBlock> buildingBlocks) {
+        this.buildingBlocks = buildingBlocks;
+    }
+
+    public Vector <BuildingBlock> generateRandomBuildingBlocks(int numberOfBuildingBlocks) {
+        Random random = new Random();
+
+        Vector <BuildingBlock> buildingBlocks = new Vector<>();
+        for (int i = 0; i < numberOfBuildingBlocks; i++) {
+            BuildingBlock randomBlock = Globals.buildingBlocks.get(random.nextInt(Globals.buildingBlocks.size())).clone();
+            buildingBlocks.add(randomBlock);
+            buildingBlocks.getLast().setColor(Globals.getRandomColor());
+        }
+        this.setBuildingBlocks(buildingBlocks);
+        return buildingBlocks;
+    }
+
 
     public Color[][] generateBuilding(int row, int col, int numberBlock, GameType cardType) {
         this.limitRow = row;
@@ -67,6 +61,9 @@ public class ListBuildingBlock {
         int maxX = -1;
         boolean[][] inqueue = new boolean[row][col];
 
+        if (this.buildingBlocks.isEmpty()) {
+            return building;
+        }
         Vector <BuildingBlock> buildingBlocks;
         if (cardType == GameType.SINGLE_BLOCK) {
             buildingBlocks = new Vector<>(Arrays.asList(this.buildingBlocks.get(random.nextInt(this.buildingBlocks.size()))));
@@ -92,6 +89,10 @@ public class ListBuildingBlock {
                 Collections.shuffle(buildingBlocks);
                 for (BuildingBlock buildingBlock : buildingBlocks) {
                     Coordinate offset = new Coordinate();
+                    int randomRotate = random.nextInt(4);
+                    for (int i = 0; i < randomRotate; i++) {
+                        buildingBlock.rotate();
+                    }
                     if (tryPlaceBlock(candidateCell, buildingBlock, building, offset)) {
                         numberBlock--;
                         generated = true;
@@ -148,12 +149,11 @@ public class ListBuildingBlock {
                 }
             }
             if (check) {
-                Color color = Globals.getRandomColor();
                 for (Coordinate cell: cells) {
                     resultOffset.x = offset.x;
                     resultOffset.y = offset.y;
                     Coordinate newPos = new Coordinate(cell.x - resultOffset.x, cell.y - resultOffset.y);
-                    building[newPos.x][newPos.y] = color;
+                    building[newPos.x][newPos.y] = buildingBlock.getColor();
                 }
                 return true;
             }

@@ -12,14 +12,23 @@ import com.models.Card;
 import com.models.Clock;
 import com.models.Dice;
 import com.models.User;
+import com.models.components.BlockContainer;
+import com.models.components.BuildingBlock;
+import com.models.components.ListBuildingBlock;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Vector;
 
 
@@ -36,20 +45,21 @@ public class GameScreen extends Screen {
     private Text userPointText, userIDText;
 
     private Vector<Card> openingCards, closingCards;
-    private int numCard = 10;
+    private int numCard = 30;
 
     private Clock clock;
     private Dice dice;
 
     private boolean playing;
 
+    private BlockContainer blockContainer;
+    private int numBlock = 30;
+    private ListBuildingBlock blockGenerator;
 
     public GameScreen(Stage primaryStage) {
         super(primaryStage);
         this.pausingPopup = new PauseScreen(primaryStage, this);
         this.pausingPopup.setVisible(false);
-        this.initCards();
-        this.initHandlers();
         this.userID = 0;
         Font jerseyFont = Font.loadFont(getClass().getResourceAsStream("/resources/assets/fonts/Jersey25.ttf"), 60);
         this.userPointText = new Text();
@@ -59,13 +69,16 @@ public class GameScreen extends Screen {
         this.clock = new Clock(new Coordinate(133, 92));
         this.dice = new Dice(new Coordinate(41, 99), 66, 66, false);
         this.playing = false;
+        this.blockGenerator = new ListBuildingBlock();
+        this.initHandlers();
+        this.initCards();
     }
 
     private void initCards() {
         openingCards = new Vector<>();
         closingCards = new Vector<>();
         for (int i = 0; i < numCard; i++)
-            closingCards.add(new Card(Globals.listBuildingBlock.generateBuilding(10, 15, 10, GameType.MULTIPLE_BLOCK), new Coordinate(700, 155), 261, 174, GameType.SINGLE_BLOCK, false));
+            closingCards.add(new Card(this.blockGenerator.generateBuilding(10, 15, 10, Globals.app.getGameType()), new Coordinate(700, 155), 261, 174, Globals.app.getGameType(), false));
     }
 
     @Override
@@ -80,7 +93,8 @@ public class GameScreen extends Screen {
     @Override
     public void display() {
         this.getChildren().clear();
-        this.playRound();
+
+        blockContainer = new BlockContainer(new Coordinate(31, 181), 346, 559);
 
         Button backButton = new Button("Back");
         backButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10px 20px; -fx-border-radius: 10px;");
@@ -129,11 +143,6 @@ public class GameScreen extends Screen {
 
         this.updateUserInforText();
 
-        // Add frame containing blocks
-        ImageView blockRectangle = new ImageView(new Image("/resources/assets/images/blockRectangle.png"));
-        blockRectangle.setFitWidth(346);
-        blockRectangle.setFitHeight(559);
-
         // Create icon setting button
         Button iconSettingButton = new Button();
         ImageView imageIconSettingButton = new ImageView(new Image("/resources/assets/images/Icon_Settings.png"));
@@ -162,22 +171,47 @@ public class GameScreen extends Screen {
         iconPlayer.setLayoutX(413);
         iconPlayer.setLayoutY(77);
 
-        blockRectangle.setLayoutX(31);
-        blockRectangle.setLayoutY(181);
-
         iconSettingButton.setLayoutX(975);
         iconSettingButton.setLayoutY(18);
 
         for (int i = this.closingCards.size() - 1; i >= 0; i--)
             this.getChildren().add(this.closingCards.get(i));
 
-
+        this.playRound();
         this.getChildren().addAll(scoreRectangle, userPointText, userIDText, backButton, generateCardButton, clock, dice, kickButton, playBoard,
-                iconCoin, iconPlayer, blockRectangle, iconSettingButton);
-
-        // Add all the popups
+                iconCoin, iconPlayer, iconSettingButton, blockContainer);
         this.getChildren().addAll(pausingPopup);
 
+//        int blockSpacing = 20; // Spacing between blocks
+//        int blocksPerRow = 3;
+//        int topGap = 10; // Gap above the first line of blocks
+//        int bottomGap = 10;
+//        int width = 346;
+//        int height = 559;
+//        GridPane gridPane = new GridPane();
+//        gridPane.setHgap(blockSpacing);
+//        gridPane.setVgap(blockSpacing);
+//        gridPane.setAlignment(Pos.CENTER);
+//        gridPane.setPadding(new Insets(topGap, 0, bottomGap, 0));
+////        Vector <BuildingBlock> blocks = this.blockGenerator.generateRandomBuildingBlocks(numBlock);
+//        Vector <BuildingBlock> blocks = new Vector<>(new Vector<>(Arrays.asList(Globals.buildingBlocks.getLast())));;
+//        for (int i = 0; i < blocks.size(); i++) {
+//            int row = i / blocksPerRow;
+//            int col = i % blocksPerRow;
+//            blocks.get(i).setSize(200);
+//            blocks.get(i).setPosition(new Coordinate(20, 20));
+//            blocks.get(i).setColor(Color.RED);
+//            blocks.get(i).draw();
+//            gridPane.add(blocks.get(i), col, row);
+////            this.getChildren().add(blocks.get(i));
+//        }
+//
+//        ScrollPane scrollPane = new ScrollPane(gridPane);
+//        scrollPane.setPrefSize(width, height);
+//        scrollPane.setFitToWidth(true);
+//        scrollPane.setPannable(true);
+//        scrollPane.setStyle("-fx-background: transparent;" + "-fx-background-color: rgba(217, 217, 217, 0.5);");
+//        this.getChildren().add(scrollPane);
 
         this.primaryStage.getScene().setRoot(this);
     }
@@ -189,6 +223,11 @@ public class GameScreen extends Screen {
     public void playRound() {
         this.playing = true;
         this.dice.setInteractable(true);
+
+        Vector <BuildingBlock> block = this.blockGenerator.generateRandomBuildingBlocks(numBlock);
+        this.blockContainer.setBlocks(block);
+
+        this.initCards();
     }
 
     public void EndRound() {

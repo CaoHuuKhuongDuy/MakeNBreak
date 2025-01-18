@@ -5,31 +5,52 @@ import com.models.Entity;
 
 import java.util.Vector;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+
 
 
 public class BuildingBlock extends Entity {
     private Vector<Coordinate > cells;
     private Color color;
-    private boolean[][] occupied;
-    private static final int MAX_SIZE = 20;
+    private static final int MAX_SIZE = 3;
+    private int cellSpacing = 0;
 
     public BuildingBlock(Vector<Coordinate> cells, Coordinate position, Color color, boolean interactable) {
         super(position, interactable);
         this.cells = cells;
         this.color = color;
-        this.occupied = new boolean[MAX_SIZE][MAX_SIZE];
-        for (Coordinate cell : cells) {
-            this.occupied[cell.x][cell.y] = true;
-        }
     }
 
     public BuildingBlock(Vector<Coordinate> cells) {
         super(new Coordinate(0, 0), true);
         this.color = Color.TRANSPARENT;
         this.cells = cells;
-        this.occupied = new boolean[MAX_SIZE][MAX_SIZE];
-        for (Coordinate cell : cells) {
-            this.occupied[cell.x][cell.y] = true;
+    }
+
+    public void setSize(double size) {
+        super.setSize(size, size);
+    }
+
+    public void setPosition(Coordinate position) {
+        super.setPosition(position);
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+        this.draw();
+    }
+
+    public void draw() {
+        this.getChildren().clear();
+        for (Coordinate cell : this.getCells()) {
+            Rectangle cellRect = new Rectangle(this.width / 2.0, this.height / 2.0);
+            cellRect.setFill(this.getColor());
+            cellRect.setStroke(Color.BLACK);
+            cellRect.setStrokeWidth(1);
+
+            cellRect.setX(cell.y * (this.width / 2.0 + cellSpacing));
+            cellRect.setY(cell.x * (this.height / 2.0 + cellSpacing));
+            this.getChildren().add(cellRect);
         }
     }
 
@@ -41,11 +62,17 @@ public class BuildingBlock extends Entity {
         return this.color;
     }
 
-    private boolean isCellOccupied(Coordinate cell) {
-        if (cell.x < 0 || cell.x >= MAX_SIZE || cell.y < 0 || cell.y >= MAX_SIZE) {
-            return false;
+    public BuildingBlock clone() {
+        Vector<Coordinate> newCells = new Vector<>();
+        for (Coordinate cell : this.cells) {
+            newCells.add(new Coordinate(cell.x, cell.y));
         }
-        return this.occupied[cell.x][cell.y];
+        return new BuildingBlock(newCells, new Coordinate(this.position.x, this.position.y), this.color, this.interactable);
+    }
+
+    public void rotate() {
+        this.cells.replaceAll(coordinate -> new Coordinate(coordinate.y, MAX_SIZE - 1 - coordinate.x));
+        this.draw();
     }
 }
 

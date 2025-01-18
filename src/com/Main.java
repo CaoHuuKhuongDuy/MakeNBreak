@@ -19,6 +19,7 @@ public class Main extends Application {
         VBox dummyLayout = new VBox(10, dummyLabel);
         Scene dummyScene = new Scene(dummyLayout);
         primaryStage.setScene(dummyScene);
+        Globals.init();
         Globals.setDefaultResolution(1024, 768);
 
         Screen mainScreen = new IntroScreen(primaryStage);
