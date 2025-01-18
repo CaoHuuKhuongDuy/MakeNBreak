@@ -9,6 +9,7 @@ import java.util.Vector;
 
 public class GenerateCard implements EventHandler<MouseEvent>  {
     private Vector <Card> openingCard, closingCard;
+    private Runnable callBack;
 
     public GenerateCard(Vector <Card> openingCard, Vector <Card> closingCard) {
         this.openingCard = openingCard;
@@ -21,10 +22,16 @@ public class GenerateCard implements EventHandler<MouseEvent>  {
         return this;
     }
 
+    public GenerateCard setCallBack(Runnable callBack) {
+        this.callBack = callBack;
+        return this;
+    }
+
     @Override
     public void handle(MouseEvent event) {
         if (event.getEventType().equals(MouseEvent.MOUSE_CLICKED)) {
             if (closingCard.isEmpty()) {
+                callBack.run();
                 return;
             }
             closingCard.getLast().setPosition(new Coordinate(420, 155));

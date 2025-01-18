@@ -3,6 +3,7 @@ package com.screens;
 import com.commons.Coordinate;
 import com.commons.GameType;
 import com.commons.Globals;
+import com.controllers.callbacks.EndRound;
 import com.controllers.mouse.GenerateCard;
 import com.controllers.mouse.RollingDice;
 import com.controllers.mouse.ShowPopup;
@@ -27,6 +28,7 @@ public class GameScreen extends Screen {
     private ShowPopup showPopup;
     private RollingDice rollingDice;
     private GenerateCard generateCard;
+    private EndRound endRound;
 
     private PauseScreen pausingPopup;
 
@@ -38,6 +40,8 @@ public class GameScreen extends Screen {
 
     private Clock clock;
     private Dice dice;
+
+    private boolean playing;
 
 
     public GameScreen(Stage primaryStage) {
@@ -53,7 +57,8 @@ public class GameScreen extends Screen {
         this.userPointText.setFont(jerseyFont);
         this.userIDText.setFont(jerseyFont);
         this.clock = new Clock(new Coordinate(133, 92));
-        this.dice = new Dice(new Coordinate(41, 99), 66, 66);
+        this.dice = new Dice(new Coordinate(41, 99), 66, 66, false);
+        this.playing = false;
     }
 
     private void initCards() {
@@ -67,13 +72,15 @@ public class GameScreen extends Screen {
     public void initHandlers() {
         this.switchScreen = new SwitchScreen(primaryStage);
         this.showPopup = new ShowPopup(primaryStage).setCurrentScreen(this);
-        this.rollingDice = new RollingDice();
-        this.generateCard = new GenerateCard(openingCards, closingCards);
+        this.endRound = new EndRound(this);
+        this.generateCard = new GenerateCard(openingCards, closingCards).setCallBack(this.endRound);
+        this.rollingDice = new RollingDice().setClockCallBack(this.endRound);
     }
 
     @Override
     public void display() {
         this.getChildren().clear();
+        this.playRound();
 
         Button backButton = new Button("Back");
         backButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10px 20px; -fx-border-radius: 10px;");
@@ -177,6 +184,23 @@ public class GameScreen extends Screen {
 
     public void pausing(boolean pausing) {
         this.clock.setPausing(pausing);
+    }
+
+    public void playRound() {
+        this.playing = true;
+        this.dice.setInteractable(true);
+    }
+
+    public void EndRound() {
+        this.playing = false;
+        this.clock.setRunning(false);
+        if (userID == Globals.app.getUsers().size() - 1) {
+            userID = 0;
+        } else {
+            userID++;
+            this.updateUserInforText();
+        }
+        this.playRound();
     }
 
     private void updateUserInforText() {

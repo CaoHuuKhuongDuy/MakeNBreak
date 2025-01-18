@@ -11,27 +11,27 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Clock extends Entity {
     private int time; // seconds
     private Arrow arrow;
-    private AtomicInteger running;
-    private AtomicBoolean pausing;
+    private AtomicBoolean pausing, running;
 
     public Clock() {
         super();
         this.time = 0;
-        this.running = new AtomicInteger(0);
         this.pausing = new AtomicBoolean(false);
+        this.running = new AtomicBoolean(false);
     }
 
     public Clock(Coordinate position) {
         super(position, true);
         this.time = 0;
-        this.running = new AtomicInteger(0);
         this.pausing = new AtomicBoolean(false);
+        this.running = new AtomicBoolean(false);
     }
 
     public Clock(Coordinate position, double width, double height, int time) {
         super(position, true, width, height);
         this.time = time;
-        this.running = new AtomicInteger(0);
+        this.pausing = new AtomicBoolean(false);
+        this.running = new AtomicBoolean(false);
     }
 
 
@@ -63,12 +63,19 @@ public class Clock extends Entity {
         this.pausing.set(pausing);
     }
 
-    public void startCounting() {
-        this.running.incrementAndGet();
+    public void setRunning(boolean running) {
+        this.running.set(running);
+    }
+
+    public void startCounting(Runnable callback) {
+        if (this.running.get()) {
+            return;
+        }
+        this.running.set(true);
         double currentAngle = Math.min(this.time, 60) * 0.25 + Math.max(0, this.time - 60) * 1.25;
         this.arrow.setAngle(180 - currentAngle);
         Thread thread = new Thread(() -> {
-            while (this.time > 0 && this.running.get() == 1) {
+            while (this.time > 0 && this.running.get()) {
                 try {
                     while (this.pausing.get()) {}
                     Thread.sleep(1000);
@@ -82,7 +89,8 @@ public class Clock extends Entity {
                     e.printStackTrace();
                 }
             }
-            this.running.decrementAndGet();
+            this.running.set(false);
+            callback.run();
         });
         thread.start();
     }
