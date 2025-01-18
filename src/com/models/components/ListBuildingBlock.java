@@ -57,6 +57,30 @@ public class ListBuildingBlock {
     }
 
 
+    public void generateRandomBuildingBlocks(int numberOfBuildingBlocks) {
+        Random random = new Random();
+
+        // Ensure Globals.listBuildingBlock has predefined building blocks
+        Vector<BuildingBlock> predefinedBlocks = this.buildingBlocks;
+
+        for (int i = 0; i < numberOfBuildingBlocks; i++) {
+            int randomIndex = random.nextInt(predefinedBlocks.size());
+            BuildingBlock randomBlock = predefinedBlocks.get(randomIndex);
+
+            Color randomColor = Globals.getRandomColor();
+
+            BuildingBlock coloredBlock = new BuildingBlock(
+                    randomBlock.getCells(),
+                    randomBlock.getPosition(),
+                    randomColor,
+                    randomBlock.isInteractable()
+            );
+
+            Globals.buildingBlocks.add(coloredBlock);
+        }
+    }
+
+
     public Color[][] generateBuilding(int row, int col, int numberBlock, GameType cardType) {
         this.limitRow = row;
         this.limitCol = col;
