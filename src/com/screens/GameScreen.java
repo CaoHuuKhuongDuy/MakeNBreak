@@ -1,7 +1,6 @@
 package com.screens;
 
 import com.commons.Coordinate;
-import com.commons.GameType;
 import com.commons.Globals;
 import com.controllers.callbacks.EndRound;
 import com.controllers.mouse.GenerateCard;
@@ -12,23 +11,17 @@ import com.models.Card;
 import com.models.Clock;
 import com.models.Dice;
 import com.models.User;
-import com.models.components.BlockContainer;
+import com.models.BlockContainer;
 import com.models.components.BuildingBlock;
 import com.models.components.ListBuildingBlock;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Vector;
 
 
@@ -53,7 +46,7 @@ public class GameScreen extends Screen {
     private boolean playing;
 
     private BlockContainer blockContainer;
-    private int numBlock = 30;
+    private int numBlock = 2;
     private ListBuildingBlock blockGenerator;
 
     public GameScreen(Stage primaryStage) {
@@ -121,11 +114,6 @@ public class GameScreen extends Screen {
         kickButton.setGraphic(imageKickButton);
         kickButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
 
-        // Add play board
-        ImageView playBoard = new ImageView(new Image("/resources/assets/images/board.png"));
-        playBoard.setFitWidth(600);
-        playBoard.setFitHeight(400);
-
         // Add score rectangle
         ImageView scoreRectangle = new ImageView(new Image("/resources/assets/images/Rectangle.png"));
         scoreRectangle.setFitWidth(585);
@@ -159,9 +147,6 @@ public class GameScreen extends Screen {
         kickButton.setLayoutX(300);
         kickButton.setLayoutY(101);
 
-        playBoard.setLayoutX(395);
-        playBoard.setLayoutY(340);
-
         scoreRectangle.setLayoutX(401);
         scoreRectangle.setLayoutY(65);
 
@@ -178,40 +163,9 @@ public class GameScreen extends Screen {
             this.getChildren().add(this.closingCards.get(i));
 
         this.playRound();
-        this.getChildren().addAll(scoreRectangle, userPointText, userIDText, backButton, generateCardButton, clock, dice, kickButton, playBoard,
+        this.getChildren().addAll(scoreRectangle, userPointText, userIDText, backButton, generateCardButton, clock, dice, kickButton,
                 iconCoin, iconPlayer, iconSettingButton, blockContainer);
         this.getChildren().addAll(pausingPopup);
-
-//        int blockSpacing = 20; // Spacing between blocks
-//        int blocksPerRow = 3;
-//        int topGap = 10; // Gap above the first line of blocks
-//        int bottomGap = 10;
-//        int width = 346;
-//        int height = 559;
-//        GridPane gridPane = new GridPane();
-//        gridPane.setHgap(blockSpacing);
-//        gridPane.setVgap(blockSpacing);
-//        gridPane.setAlignment(Pos.CENTER);
-//        gridPane.setPadding(new Insets(topGap, 0, bottomGap, 0));
-////        Vector <BuildingBlock> blocks = this.blockGenerator.generateRandomBuildingBlocks(numBlock);
-//        Vector <BuildingBlock> blocks = new Vector<>(new Vector<>(Arrays.asList(Globals.buildingBlocks.getLast())));;
-//        for (int i = 0; i < blocks.size(); i++) {
-//            int row = i / blocksPerRow;
-//            int col = i % blocksPerRow;
-//            blocks.get(i).setSize(200);
-//            blocks.get(i).setPosition(new Coordinate(20, 20));
-//            blocks.get(i).setColor(Color.RED);
-//            blocks.get(i).draw();
-//            gridPane.add(blocks.get(i), col, row);
-////            this.getChildren().add(blocks.get(i));
-//        }
-//
-//        ScrollPane scrollPane = new ScrollPane(gridPane);
-//        scrollPane.setPrefSize(width, height);
-//        scrollPane.setFitToWidth(true);
-//        scrollPane.setPannable(true);
-//        scrollPane.setStyle("-fx-background: transparent;" + "-fx-background-color: rgba(217, 217, 217, 0.5);");
-//        this.getChildren().add(scrollPane);
 
         this.primaryStage.getScene().setRoot(this);
     }
