@@ -93,6 +93,9 @@ public class ListBuildingBlock {
                     for (int i = 0; i < randomRotate; i++) {
                         buildingBlock.rotate();
                     }
+                    if (random.nextBoolean()) {
+                        buildingBlock.flip();
+                    }
                     if (tryPlaceBlock(candidateCell, buildingBlock, building, offset)) {
                         numberBlock--;
                         generated = true;

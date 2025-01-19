@@ -43,8 +43,13 @@ public class BuildingBlock extends Entity {
         this.setOnMouseDragged(this.draggingGamePlayController);
         this.setOnMouseReleased(this.draggingGamePlayController);
         this.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
-            if (this.draggingGamePlayController.isDragging() && (keyEvent.getCode().toString().equals("R") || keyEvent.getCode().toString().equals("r"))) {
-                this.rotate();
+            if (this.draggingGamePlayController.isDragging()) {
+                if (keyEvent.getCode().toString().equals("F") || keyEvent.getCode().toString().equals("f")) {
+                    this.flip();
+                }
+                if (keyEvent.getCode().toString().equals("R") || keyEvent.getCode().toString().equals("r")) {
+                    this.rotate();
+                }
             }
         });
     }
@@ -129,6 +134,11 @@ public class BuildingBlock extends Entity {
 
     public void rotate() {
         this.cells.replaceAll(coordinate -> new Coordinate(coordinate.y, MAX_SIZE - 1 - coordinate.x));
+        this.draw();
+    }
+
+    public void flip() {
+        this.cells.replaceAll(coordinate -> new Coordinate(coordinate.x, MAX_SIZE - 1 - coordinate.y));
         this.draw();
     }
 
