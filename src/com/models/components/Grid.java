@@ -8,7 +8,7 @@ import javafx.scene.shape.Rectangle;
 public class Grid extends Entity {
     private Color[][] matrix;
 
-    public Grid(Color [][] matrix, Coordinate position, double width, double height) {
+    public Grid(Color[][] matrix, Coordinate position, double width, double height) {
         super(position, false, width, height);
         this.matrix = matrix;
     }

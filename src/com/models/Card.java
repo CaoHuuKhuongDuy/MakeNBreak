@@ -62,11 +62,6 @@ public class Card extends Entity {
         return this.open;
     }
 
-    public void regenerate() {
-        this.cells = Globals.listBuildingBlock.generateBuilding(10, 15, 10, this.type);
-        this.draw();
-    }
-
     public void draw() {
         this.getChildren().clear();
         if (!open) {

@@ -19,7 +19,11 @@ public class Dice extends Entity {
     }
 
     public Dice(Coordinate position, double width, double height) {
-        super(position, true, width, height);
+        this(position, width, height, true);
+    }
+
+    public Dice(Coordinate position, double width, double height, boolean interactable) {
+        super(position, interactable, width, height);
         this.value = 0;
         this.rolling = false;
     }

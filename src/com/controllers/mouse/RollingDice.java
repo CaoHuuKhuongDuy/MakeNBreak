@@ -13,9 +13,15 @@ public class RollingDice implements EventHandler<MouseEvent> {
     Dice dice;
     Clock clock;
     AtomicInteger diceValue;
+    Runnable clockCallBack;
 
     public RollingDice() {
         diceValue = new AtomicInteger();
+    }
+
+    public RollingDice setClockCallBack(Runnable clockCallBack) {
+        this.clockCallBack = clockCallBack;
+        return this;
     }
 
     public RollingDice setDependencies(Dice dice, Clock clock) {
@@ -37,6 +43,7 @@ public class RollingDice implements EventHandler<MouseEvent> {
     @Override
     public void handle(MouseEvent event) {
         if (event.getEventType().equals(MouseEvent.MOUSE_CLICKED)) {
+            if (!dice.isInteractable()) return;
             if (!dice.isRolling()) {
                 dice.setRolling(true);
                 Thread thread = new Thread(() -> {
@@ -58,7 +65,8 @@ public class RollingDice implements EventHandler<MouseEvent> {
                 dice.setValue(diceValue.get());
                 dice.setRolling(false);
                 clock.setTime(dice.getValue() * 60);
-                clock.startCounting();
+                clock.startCounting(clockCallBack);
+                dice.setInteractable(false);
             }
         }
     }

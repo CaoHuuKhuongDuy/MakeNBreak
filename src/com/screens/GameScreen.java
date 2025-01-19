@@ -1,8 +1,8 @@
 package com.screens;
 
 import com.commons.Coordinate;
-import com.commons.GameType;
 import com.commons.Globals;
+import com.controllers.callbacks.EndRound;
 import com.controllers.mouse.GenerateCard;
 import com.controllers.mouse.RollingDice;
 import com.controllers.mouse.ShowPopup;
@@ -11,8 +11,7 @@ import com.models.Card;
 import com.models.Clock;
 import com.models.Dice;
 import com.models.User;
-import com.models.components.BlockContainer;
-import com.models.components.BlockPane;
+import com.models.BlockContainer;
 import com.models.components.BuildingBlock;
 import com.models.components.ListBuildingBlock;
 import javafx.scene.control.Button;
@@ -31,6 +30,7 @@ public class GameScreen extends Screen {
     private ShowPopup showPopup;
     private RollingDice rollingDice;
     private GenerateCard generateCard;
+    private EndRound endRound;
 
     private PauseScreen pausingPopup;
 
@@ -38,23 +38,21 @@ public class GameScreen extends Screen {
     private Text userPointText, userIDText;
 
     private Vector<Card> openingCards, closingCards;
-    private int numCard = 10;
+    private int numCard = 30;
 
     private Clock clock;
     private Dice dice;
 
-    private double offsetX, offsetY;
+    private boolean playing;
 
     private BlockContainer blockContainer;
-    private BlockPane currentBlockPane;
-
+    private int numBlock = 30;
+    private ListBuildingBlock blockGenerator;
 
     public GameScreen(Stage primaryStage) {
         super(primaryStage);
         this.pausingPopup = new PauseScreen(primaryStage, this);
         this.pausingPopup.setVisible(false);
-        this.initCards();
-        this.initHandlers();
         this.userID = 0;
         Font jerseyFont = Font.loadFont(getClass().getResourceAsStream("/resources/assets/fonts/Jersey25.ttf"), 60);
         this.userPointText = new Text();
@@ -62,66 +60,34 @@ public class GameScreen extends Screen {
         this.userPointText.setFont(jerseyFont);
         this.userIDText.setFont(jerseyFont);
         this.clock = new Clock(new Coordinate(133, 92));
-        this.dice = new Dice(new Coordinate(41, 99), 66, 66);
-
-        ListBuildingBlock blockGenerator = new ListBuildingBlock();
-        blockGenerator.generateRandomBuildingBlocks(30);
-
+        this.dice = new Dice(new Coordinate(41, 99), 66, 66, false);
+        this.playing = false;
+        this.blockGenerator = new ListBuildingBlock();
+        this.initHandlers();
+        this.initCards();
     }
 
     private void initCards() {
         openingCards = new Vector<>();
         closingCards = new Vector<>();
         for (int i = 0; i < numCard; i++)
-            closingCards.add(new Card(Globals.listBuildingBlock.generateBuilding(10, 15, 10, GameType.MULTIPLE_BLOCK), new Coordinate(700, 155), 261, 174, GameType.SINGLE_BLOCK, false));
+            closingCards.add(new Card(this.blockGenerator.generateBuilding(10, 15, 10, Globals.app.getGameType()), new Coordinate(700, 155), 261, 174, Globals.app.getGameType(), false));
     }
 
     @Override
     public void initHandlers() {
         this.switchScreen = new SwitchScreen(primaryStage);
         this.showPopup = new ShowPopup(primaryStage).setCurrentScreen(this);
-        this.rollingDice = new RollingDice();
-        this.generateCard = new GenerateCard(openingCards, closingCards);
+        this.endRound = new EndRound(this);
+        this.generateCard = new GenerateCard(openingCards, closingCards).setCallBack(this.endRound);
+        this.rollingDice = new RollingDice().setClockCallBack(this.endRound);
     }
 
     @Override
     public void display() {
         this.getChildren().clear();
 
-        Vector<BlockPane> blockPanes = new Vector<>();
-        for (BuildingBlock block : Globals.buildingBlocks) {
-            BlockPane blockPane = new BlockPane(block);
-            blockPanes.add(blockPane); // Convert BuildingBlocks to BlockPanes
-
-            blockPane.setOnMousePressed(event -> {
-                // When pressed, move the BlockPane to the GameScreen
-                this.getChildren().remove(blockPane);  // Remove from BlockContainer
-                this.getChildren().add(blockPane);  // Add to GameScreen for dragging
-                currentBlockPane = blockPane;  // Keep track of the current block being dragged
-
-                // Calculate offsets using local coordinates relative to the block's parent
-                offsetX = event.getX();
-                offsetY = event.getY();
-
-            });
-
-            blockPane.setOnMouseDragged(event -> {
-                if (currentBlockPane != null) {
-                    // Update the block's position based on mouse drag
-                    currentBlockPane.setLayoutX(event.getSceneX() - offsetX);
-                    currentBlockPane.setLayoutY(event.getSceneY() - offsetY);
-                }
-            });
-
-            blockPane.setOnMouseReleased(event -> {
-            });
-        }
-
-
-        blockContainer = new BlockContainer(blockPanes);
-
-        blockContainer.setLayoutX(31);
-        blockContainer.setLayoutY(181);
+        blockContainer = new BlockContainer(new Coordinate(31, 181), 346, 559);
 
         Button backButton = new Button("Back");
         backButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10px 20px; -fx-border-radius: 10px;");
@@ -147,11 +113,6 @@ public class GameScreen extends Screen {
         ImageView imageKickButton = new ImageView(new Image("/resources/assets/images/kickButton.png"));
         kickButton.setGraphic(imageKickButton);
         kickButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
-
-        // Add play board
-        ImageView playBoard = new ImageView(new Image("/resources/assets/images/board.png"));
-        playBoard.setFitWidth(600);
-        playBoard.setFitHeight(400);
 
         // Add score rectangle
         ImageView scoreRectangle = new ImageView(new Image("/resources/assets/images/Rectangle.png"));
@@ -186,9 +147,6 @@ public class GameScreen extends Screen {
         kickButton.setLayoutX(300);
         kickButton.setLayoutY(101);
 
-        playBoard.setLayoutX(395);
-        playBoard.setLayoutY(340);
-
         scoreRectangle.setLayoutX(401);
         scoreRectangle.setLayoutY(65);
 
@@ -204,19 +162,38 @@ public class GameScreen extends Screen {
         for (int i = this.closingCards.size() - 1; i >= 0; i--)
             this.getChildren().add(this.closingCards.get(i));
 
-
-        this.getChildren().addAll(scoreRectangle, userPointText, userIDText, backButton, generateCardButton, clock, dice, kickButton, playBoard,
+        this.playRound();
+        this.getChildren().addAll(scoreRectangle, userPointText, userIDText, backButton, generateCardButton, clock, dice, kickButton,
                 iconCoin, iconPlayer, iconSettingButton, blockContainer);
-
-        // Add all the popups
         this.getChildren().addAll(pausingPopup);
-
 
         this.primaryStage.getScene().setRoot(this);
     }
 
     public void pausing(boolean pausing) {
         this.clock.setPausing(pausing);
+    }
+
+    public void playRound() {
+        this.playing = true;
+        this.dice.setInteractable(true);
+
+        Vector <BuildingBlock> block = this.blockGenerator.generateRandomBuildingBlocks(numBlock);
+        this.blockContainer.setBlocks(block);
+
+        this.initCards();
+    }
+
+    public void EndRound() {
+        this.playing = false;
+        this.clock.setRunning(false);
+        if (userID == Globals.app.getUsers().size() - 1) {
+            userID = 0;
+        } else {
+            userID++;
+            this.updateUserInforText();
+        }
+        this.playRound();
     }
 
     private void updateUserInforText() {
@@ -231,15 +208,5 @@ public class GameScreen extends Screen {
         this.userIDText.setFill(Color.RED);
         this.userIDText.setLayoutX(490);
         this.userIDText.setLayoutY(120);
-    }
-
-    private void snapToGrid(BlockPane blockPane) {
-        // Snap to nearest grid point (for example, 100x100 grid)
-        double gridSize = 100;
-        double snappedX = Math.round(blockPane.getLayoutX() / gridSize) * gridSize;
-        double snappedY = Math.round(blockPane.getLayoutY() / gridSize) * gridSize;
-
-        blockPane.setLayoutX(snappedX);
-        blockPane.setLayoutY(snappedY);
     }
 }

@@ -5,7 +5,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.Pane;
 
 
-public class Entity extends Pane {
+public abstract class Entity extends Pane {
     protected Coordinate position;
     protected boolean interactable;
     protected Canvas canvas;
@@ -45,6 +45,15 @@ public class Entity extends Pane {
         return this.position;
     }
 
+    public void setSize(double width, double height) {
+        this.width = width;
+        this.height = height;
+        this.canvas = new Canvas(width, height);
+        this.setPrefWidth(width);
+        this.setPrefHeight(height);
+        this.draw();
+    }
+
     public void setPosition(Coordinate position) {
         this.position = position;
         this.setLayoutX(position.x);
@@ -52,7 +61,7 @@ public class Entity extends Pane {
         this.draw();
     }
 
-    public void draw(){}
+    public abstract void draw();
 
     public boolean isInteractable() {
         return this.interactable;
