@@ -8,6 +8,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
+import java.util.Vector;
+
 
 public class Board extends Entity {
 
@@ -33,10 +35,31 @@ public class Board extends Entity {
         }
     }
 
-    public Coordinate snapToGrid(Coordinate position) {
+    private boolean canPlace(int x, int y) {
+        return x >= 0 && x < DEFAULT_ROW && y >= 0 && y < DEFAULT_COL && this.occupied[x][y] == Color.TRANSPARENT;
+    }
+
+    private boolean canPlaceBlock(BuildingBlock block, Coordinate root) {
+        Coordinate firstColoredCell = block.getColoredCell();
+        Coordinate diff = root.minus(firstColoredCell);
+        for (Coordinate cell : block.getCells()) {
+            int x = diff.x + cell.x;
+            int y = diff.y + cell.y;
+            if (!canPlace(x, y)) return false;
+        }
+        return true;
+    }
+
+    public void setOccupied(int x, int y, Color color) {
+        if (x < 0 || x >= DEFAULT_ROW || y < 0 || y >= DEFAULT_COL) return;
+        this.occupied[x][y] = color;
+    }
+
+    public Coordinate snapToGrid(Coordinate position, BuildingBlock block) {
         position = position.minus(this.position);
         position = position.plus(new Coordinate(20, 20));
 
+        Coordinate closetCellPosition = new Coordinate(0, 0);
         Coordinate closetCell = new Coordinate(0, 0);
         double minDistance = Double.MAX_VALUE;
         for (int i = 0; i < DEFAULT_ROW; i++) {
@@ -44,12 +67,26 @@ public class Board extends Entity {
                 double distance = position.distance(this.cells[i][j]);
                 if (distance < minDistance) {
                     minDistance = distance;
-                    closetCell = this.cells[i][j];
+                    closetCellPosition = this.cells[i][j];
+                    closetCell = new Coordinate(i, j);
                 }
             }
         }
-        closetCell = closetCell.minus(new Coordinate(20, 20));
-        return closetCell.plus(this.position);
+        if (minDistance == Double.MAX_VALUE) return null;
+        if (!canPlaceBlock(block, closetCell)) return null;
+
+        Coordinate firstColoredCell = block.getColoredCell();
+        Coordinate diff = closetCell.minus(firstColoredCell);
+        Vector<Coordinate> cellsInBoard = new Vector<>();
+        for (Coordinate cell : block.getCells()) {
+            int x = diff.x + cell.x;
+            int y = diff.y + cell.y;
+            this.occupied[x][y] = block.getColor();
+            cellsInBoard.add(new Coordinate(x, y));
+        }
+        block.getDraggingGamePlayController().setCellsInBoard(cellsInBoard);
+        closetCellPosition = closetCellPosition.minus(new Coordinate(20, 20));
+        return closetCellPosition.plus(this.position);
     }
 
     @Override
@@ -57,14 +94,5 @@ public class Board extends Entity {
         this.getChildren().clear();
         ImageView playBoard = new ImageView(new Image("/resources/assets/images/board.png"));
         this.getChildren().add(playBoard);
-
-        // test coordinate of cells
-        for (int i = 0; i < DEFAULT_ROW; i++) {
-            for (int j = 0; j < DEFAULT_COL; j++) {
-                Circle cell = new Circle(this.cells[i][j].x, this.cells[i][j].y, 1);
-                cell.setFill(Color.RED);
-                this.getChildren().add(cell);
-            }
-        }
     }
 }

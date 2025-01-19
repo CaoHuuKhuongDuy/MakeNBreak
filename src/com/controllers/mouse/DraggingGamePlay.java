@@ -4,15 +4,19 @@ import com.commons.Coordinate;
 import com.models.Entity;
 import com.models.components.Board;
 import com.models.components.BuildingBlock;
-import com.models.components.Grid;
 import javafx.event.EventHandler;
+import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.geometry.Point2D;
+
+
+import java.util.Vector;
 
 public class DraggingGamePlay implements EventHandler<MouseEvent> {
     private Entity target; // The node being dragged
@@ -22,12 +26,20 @@ public class DraggingGamePlay implements EventHandler<MouseEvent> {
     private Pane mainLayout;
     private Board board;
     private Coordinate gridPanePosition;
+    private Vector<Coordinate> cellsInBoard;
 
     public DraggingGamePlay(Entity target) {
         this.target = target;
+        this.cellsInBoard = null;
     }
 
-    public DraggingGamePlay() {}
+    public DraggingGamePlay() {
+        this.cellsInBoard = null;
+    }
+
+    public void setCellsInBoard(Vector<Coordinate> cellsInBoard) {
+        this.cellsInBoard = cellsInBoard;
+    }
 
     public DraggingGamePlay setTarget(Entity target) {
         this.target = target;
@@ -58,6 +70,10 @@ public class DraggingGamePlay implements EventHandler<MouseEvent> {
         return this;
     }
 
+    public boolean isDragging() {
+        return dragging;
+    }
+
     @Override
     public void handle(MouseEvent event) {
         if (event.getEventType() == MouseEvent.MOUSE_PRESSED) {
@@ -75,21 +91,20 @@ public class DraggingGamePlay implements EventHandler<MouseEvent> {
                 gridLayout.getChildren().remove(target);
                 mainLayout.getChildren().add(target);
             }
+            this.clearBoard();
+            target.requestFocus();
         } else if (event.getEventType() == MouseEvent.MOUSE_DRAGGED && dragging) {
             Coordinate newPosition = new Coordinate(event.getSceneX() - offset[0], event.getSceneY() - offset[1]);
             target.setPosition(newPosition);
-            BuildingBlock block = (BuildingBlock) target;
-            Coordinate snapPosition = block.getColoredCellPosition();
-            System.out.println("====================================");
-            System.out.println("Block position: " + target.getLayoutX() + ", " + target.getLayoutY());
-            System.out.println("Snap position: " + snapPosition.x + ", " + snapPosition.y);
-
+            target.requestFocus();
         } else if (event.getEventType() == MouseEvent.MOUSE_RELEASED) {
-//            this.mainLayout.getChildren().remove(target);
-//            this.gridLayout.add(target, gridPanePosition.x, gridPanePosition.y);
+            BuildingBlock block = (BuildingBlock) target;
+            Coordinate coloredCell = block.getColoredCell();
+            Coordinate coloredCellPosition = block.getCellPosition(coloredCell);
 
-            // Calculate the block's position relative to the Board
-            Bounds blockBounds = target.localToScene(target.getBoundsInLocal());
+            Bounds tmpBound = block.localToScene(block.getBoundsInLocal());
+            Bounds blockBounds = new BoundingBox(tmpBound.getMinX() + coloredCell.y * 40, tmpBound.getMinY() + coloredCell.x * 40, 40, 40);
+
             Bounds boardBounds = board.localToScene(board.getBoundsInLocal());
 
             double blockCenterX = blockBounds.getMinX() + blockBounds.getWidth() / 2.0;
@@ -101,19 +116,30 @@ public class DraggingGamePlay implements EventHandler<MouseEvent> {
             // Check if block is over the board
             if (relativeX >= 0 && relativeX <= board.getWidth() &&
                     relativeY >= 0 && relativeY <= board.getHeight()) {
-                BuildingBlock block = (BuildingBlock) target;
-                Coordinate coloredCellPosition = block.getColoredCellPosition();
-                Coordinate snapPosition = board.snapToGrid(coloredCellPosition);
-                snapPosition = target.getPosition().plus(snapPosition.minus(coloredCellPosition));
-                target.setPosition(snapPosition);
-            } else {
-                this.mainLayout.getChildren().remove(target);
-                this.gridLayout.add(target, gridPanePosition.x, gridPanePosition.y);
+                Coordinate snapPosition = board.snapToGrid(coloredCellPosition, block);
+                if (snapPosition != null) {
+                    snapPosition = target.getPosition().plus(snapPosition.minus(coloredCellPosition));
+                    target.setPosition(snapPosition);
+                    return;
+                }
             }
-
+            // If the block is not over the board or can't snap, reset its position
+            this.clearBoard();
+            this.mainLayout.getChildren().remove(target);
+            this.gridLayout.add(target, gridPanePosition.x, gridPanePosition.y);
             dragging = false;
         }
 
+
+    }
+
+    private void clearBoard() {
+        if (cellsInBoard != null) {
+            for (Coordinate cell : cellsInBoard) {
+                board.setOccupied(cell.x, cell.y, Color.TRANSPARENT);
+            }
+        }
+        this.setCellsInBoard(null);
     }
 
     private ScrollPane findScrollPane(Node node) {
