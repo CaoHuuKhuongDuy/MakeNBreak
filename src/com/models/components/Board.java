@@ -33,6 +33,25 @@ public class Board extends Entity {
         }
     }
 
+    public Coordinate snapToGrid(Coordinate position) {
+        position = position.minus(this.position);
+        position = position.plus(new Coordinate(20, 20));
+
+        Coordinate closetCell = new Coordinate(0, 0);
+        double minDistance = Double.MAX_VALUE;
+        for (int i = 0; i < DEFAULT_ROW; i++) {
+            for (int j = 0; j < DEFAULT_COL; j++) {
+                double distance = position.distance(this.cells[i][j]);
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    closetCell = this.cells[i][j];
+                }
+            }
+        }
+        closetCell = closetCell.minus(new Coordinate(20, 20));
+        return closetCell.plus(this.position);
+    }
+
     @Override
     public void draw() {
         this.getChildren().clear();

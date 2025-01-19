@@ -35,6 +35,9 @@ public class BlockContainer extends Entity {
     public void draw() {
         this.getChildren().clear(); // clear to avoid duplicate
 
+        Board board = new Board(new Coordinate(355, 160), 600, 400);
+        board.draw();
+
         GridPane gridPane = new GridPane();
         gridPane.setHgap(blockSpacing);
         gridPane.setVgap(blockSpacing);
@@ -45,8 +48,10 @@ public class BlockContainer extends Entity {
             int row = i / blocksPerRow;
             int col = i % blocksPerRow;
             BuildingBlock currentBlock = blocks.get(i);
-            currentBlock.setSize(77);
+            currentBlock.setSize(120);
             currentBlock.setLayout(gridPane, this);
+            currentBlock.setGridPanePosition(new Coordinate(col, row));
+            currentBlock.setBoard(board);
             gridPane.add(currentBlock, col, row);
         }
 
@@ -54,12 +59,12 @@ public class BlockContainer extends Entity {
         scrollPane.setPrefSize(containerWidth, containerHeight);
         scrollPane.setFitToWidth(true);
         scrollPane.setPannable(true);
-        scrollPane.setStyle("-fx-background-color: transparent;");
+        scrollPane.setStyle("-fx-background: transparent;" + "-fx-background-color: rgba(217, 217, 217, 0.5);");
+
 
         this.getChildren().add(scrollPane);
 
-        Board board = new Board(new Coordinate(355, 160), 600, 400);
-        board.draw();
+
         this.getChildren().add(board);
     }
 

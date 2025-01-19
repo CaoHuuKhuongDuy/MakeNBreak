@@ -15,10 +15,20 @@ public class Coordinate implements Comparable<Coordinate> {
         this.priority = 0;
     }
 
+    public Coordinate(double x, double y) {
+        this.x = (int) x;
+        this.y = (int) y;
+        this.priority = 0;
+    }
+
     public Coordinate(int x, int y, int priority) {
         this.x = x;
         this.y = y;
         this.priority = priority;
+    }
+
+    public double distance(Coordinate other) {
+        return Math.sqrt((this.x - other.x) * (this.x - other.x) + (this.y - other.y) * (this.y - other.y));
     }
 
     // operator to plus two coordinates
