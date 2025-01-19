@@ -46,7 +46,7 @@ public class GameScreen extends Screen {
     private boolean playing;
 
     private BlockContainer blockContainer;
-    private int numBlock = 2;
+    private int numBlock = 30;
     private ListBuildingBlock blockGenerator;
 
     public GameScreen(Stage primaryStage) {

@@ -62,7 +62,6 @@ public class BuildingBlock extends Entity {
 
     public void draw() {
         this.getChildren().clear();
-        this.setStyle("-fx-background-color: #ff5733;");
         for (Coordinate cell : this.getCells()) {
             Rectangle cellRect = new Rectangle(this.width / 2.0, this.height / 2.0);
             cellRect.setFill(this.getColor());
@@ -97,14 +96,14 @@ public class BuildingBlock extends Entity {
     }
 
     public BuildingBlock setGridPane(Pane gridPane) {
-        this.draggingGamePlayController.setGridPane((GridPane) gridPane);
-//        this.draggingGamePlayController.setRootLayout(gridPane);
+//        this.draggingGamePlayController.setGridPane((GridPane) gridPane);
+        this.draggingGamePlayController.setGridLayout(gridPane);
         return this;
     }
 
     public BuildingBlock setMainLayout(Pane mainLayout) {
+//        this.draggingGamePlayController.setMainLayout(mainLayout);
         this.draggingGamePlayController.setMainLayout(mainLayout);
-//        this.draggingGamePlayController.setDestinationLayout(mainLayout);
         return this;
     }
 

@@ -25,13 +25,13 @@ public class Globals {
         Coordinate cell21 = new Coordinate(2, 1);
         Coordinate cell22 = new Coordinate(2, 2);
 
-        BuildingBlock tBlock = new BuildingBlock(new Vector<>(Arrays.asList(cell01, cell10, cell11, cell12)));
+        BuildingBlock tBlock = new BuildingBlock(new Vector<>(Arrays.asList(cell11, cell20, cell21, cell22)));
         BuildingBlock smallZBlock = new BuildingBlock(new Vector<>(Arrays.asList(cell00, cell10, cell11, cell21)));
-        BuildingBlock oBlock = new BuildingBlock(new Vector<>(Arrays.asList(cell00, cell01, cell10, cell11)));
+        BuildingBlock oBlock = new BuildingBlock(new Vector<>(Arrays.asList(cell10, cell11, cell20, cell21)));
         BuildingBlock bigLBlock = new BuildingBlock(new Vector<>(Arrays.asList(cell00, cell10, cell20, cell21)));
         BuildingBlock plusBlock = new BuildingBlock(new Vector<>(Arrays.asList(cell01, cell10, cell11, cell12, cell21)));
         BuildingBlock qBlock = new BuildingBlock(new Vector<>(Arrays.asList(cell00, cell10, cell11, cell20, cell21)));
-        BuildingBlock smallLBlock = new BuildingBlock(new Vector<>(Arrays.asList(cell01, cell10, cell11)));
+        BuildingBlock smallLBlock = new BuildingBlock(new Vector<>(Arrays.asList(cell11, cell20, cell21)));
         BuildingBlock wBlock = new BuildingBlock(new Vector<>(Arrays.asList(cell00, cell10, cell11, cell21, cell22)));
         BuildingBlock caretBlock = new BuildingBlock(new Vector<>(Arrays.asList(cell00, cell01, cell02, cell10, cell20)));
         BuildingBlock bigZBlock = new BuildingBlock(new Vector<>(Arrays.asList(cell00, cell10, cell11, cell12, cell22)));

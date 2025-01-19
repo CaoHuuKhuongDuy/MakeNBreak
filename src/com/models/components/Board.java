@@ -25,7 +25,7 @@ public class Board extends Entity {
         }
 
         this.cells = new Coordinate[DEFAULT_ROW][DEFAULT_COL];
-        Coordinate startCenter = position.plus(new Coordinate(20, 20));
+        Coordinate startCenter = new Coordinate(20, 20);
         for (int i = 0; i < DEFAULT_ROW; i++) {
             for (int j = 0; j < DEFAULT_COL; j++) {
                 this.cells[i][j] = startCenter.plus(new Coordinate(j * 40, i * 40));
@@ -37,14 +37,12 @@ public class Board extends Entity {
     public void draw() {
         this.getChildren().clear();
         ImageView playBoard = new ImageView(new Image("/resources/assets/images/board.png"));
-        playBoard.setLayoutX(this.position.x);
-        playBoard.setLayoutY(this.position.y);
         this.getChildren().add(playBoard);
 
         // test coordinate of cells
         for (int i = 0; i < DEFAULT_ROW; i++) {
             for (int j = 0; j < DEFAULT_COL; j++) {
-                Rectangle cell = new Rectangle(this.cells[i][j].x, this.cells[i][j].y, 1, 1);
+                Circle cell = new Circle(this.cells[i][j].x, this.cells[i][j].y, 1);
                 cell.setFill(Color.RED);
                 this.getChildren().add(cell);
             }

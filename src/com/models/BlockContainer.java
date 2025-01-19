@@ -18,8 +18,8 @@ public class BlockContainer extends Entity {
     private final int containerHeight = 559; // Fixed height
     private final int blockSpacing = 50; // Spacing between blocks
     private final int blocksPerRow = 2;
-    private final int topGap = 30; // Gap above the first line of blocks
-    private final int bottomGap = 30; // Gap below the last line of blocks
+    private final int topGap = 10; // Gap above the first line of blocks
+    private final int bottomGap = 10; // Gap below the last line of blocks
 
     public BlockContainer(Coordinate position, int width, int height) {
         this(new Vector<>(), position, width, height);
@@ -33,7 +33,7 @@ public class BlockContainer extends Entity {
     }
 
     public void draw() {
-        this.getChildren().clear(); // Clear to avoid duplicates
+        this.getChildren().clear(); // clear to avoid duplicate
 
         GridPane gridPane = new GridPane();
         gridPane.setHgap(blockSpacing);
@@ -44,29 +44,23 @@ public class BlockContainer extends Entity {
         for (int i = 0; i < blocks.size(); i++) {
             int row = i / blocksPerRow;
             int col = i % blocksPerRow;
-
             BuildingBlock currentBlock = blocks.get(i);
             currentBlock.setSize(77);
             currentBlock.setLayout(gridPane, this);
             gridPane.add(currentBlock, col, row);
-//            currentBlock.setGridPanePosition(new Coordinate(col, row));
-//            currentBlock.setPosition(new Coordinate(col * (blockSpacing), row * (blockSpacing)));
-//            this.getChildren().add(currentBlock);
         }
 
-        // Add GridPane to the ScrollPane
-//        ScrollPane scrollPane = new ScrollPane(gridPane);
-//        scrollPane.setPrefSize(this.width, this.height);
-//        scrollPane.setFitToWidth(true);
-//        scrollPane.setPannable(true); // Enable panning
-//        this.setClip(null); // Disable clipping
-//        gridPane.setClip(null); // Ensure no clipping in GridPane
-//        scrollPane.setStyle("-fx-background: transparent;" + "-fx-background-color: rgba(217, 217, 217, 0.5);");
+        ScrollPane scrollPane = new ScrollPane(gridPane);
+        scrollPane.setPrefSize(containerWidth, containerHeight);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setPannable(true);
+        scrollPane.setStyle("-fx-background-color: transparent;");
 
-        Board board = new Board(new Coordinate(180, 80), 600, 400);
+        this.getChildren().add(scrollPane);
+
+        Board board = new Board(new Coordinate(355, 160), 600, 400);
         board.draw();
-
-        this.getChildren().addAll(gridPane, board);
+        this.getChildren().add(board);
     }
 
 
