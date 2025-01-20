@@ -35,6 +35,18 @@ public class Board extends Entity {
         }
     }
 
+    public void reset() {
+        for (int i = 0; i < DEFAULT_ROW; i++) {
+            for (int j = 0; j < DEFAULT_COL; j++) {
+                this.occupied[i][j] = Color.TRANSPARENT;
+            }
+        }
+    }
+
+    public Color[][] getOccupied() {
+        return this.occupied;
+    }
+
     private boolean canPlace(int x, int y) {
         return x >= 0 && x < DEFAULT_ROW && y >= 0 && y < DEFAULT_COL && this.occupied[x][y] == Color.TRANSPARENT;
     }

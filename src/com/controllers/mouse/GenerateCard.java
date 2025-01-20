@@ -1,19 +1,23 @@
 package com.controllers.mouse;
 
 import com.commons.Coordinate;
+import com.models.BlockContainer;
 import com.models.Card;
+import com.models.components.Board;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 
 import java.util.Vector;
 
-public class GenerateCard implements EventHandler<MouseEvent>  {
+public class GenerateCard implements EventHandler<MouseEvent>, Runnable  {
     private Vector <Card> openingCard, closingCard;
+    private BlockContainer blockContainer;
     private Runnable callBack;
 
-    public GenerateCard(Vector <Card> openingCard, Vector <Card> closingCard) {
+    public GenerateCard(Vector <Card> openingCard, Vector <Card> closingCard, BlockContainer blockContainer) {
         this.openingCard = openingCard;
         this.closingCard = closingCard;
+        this.blockContainer = blockContainer;
     }
 
     public GenerateCard setCards(Vector <Card> openingCard, Vector <Card> closingCard) {
@@ -30,14 +34,21 @@ public class GenerateCard implements EventHandler<MouseEvent>  {
     @Override
     public void handle(MouseEvent event) {
         if (event.getEventType().equals(MouseEvent.MOUSE_CLICKED)) {
-            if (closingCard.isEmpty()) {
-                callBack.run();
-                return;
-            }
-            closingCard.getLast().setPosition(new Coordinate(420, 155));
-            closingCard.getLast().setOpen(true);
-            openingCard.add(closingCard.getLast());
-            closingCard.removeLast();
+            this.run();
         }
+    }
+
+    @Override
+    public void run() {
+        if (closingCard.isEmpty()) {
+            callBack.run();
+            return;
+        }
+        closingCard.getLast().setPosition(new Coordinate(420, 155));
+        closingCard.getLast().setOpen(true);
+        openingCard.add(closingCard.getLast());
+        blockContainer.setBlocks(openingCard.getLast().getBuildingBlocks());
+        blockContainer.getBoard().reset();
+        closingCard.removeLast();
     }
 }

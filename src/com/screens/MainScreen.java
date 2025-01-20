@@ -26,7 +26,6 @@ public class MainScreen extends Screen {
     public MainScreen(Stage primaryStage) {
         super(primaryStage);
         this.initHandlers();
-        Globals.app.setGameType(null);
     }
 
     @Override

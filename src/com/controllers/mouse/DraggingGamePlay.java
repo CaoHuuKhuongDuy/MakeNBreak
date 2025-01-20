@@ -92,6 +92,7 @@ public class DraggingGamePlay implements EventHandler<MouseEvent> {
                 mainLayout.getChildren().add(target);
             }
             this.clearBoard();
+            this.target.toFront();
             target.requestFocus();
         } else if (event.getEventType() == MouseEvent.MOUSE_DRAGGED && dragging) {
             Coordinate newPosition = new Coordinate(event.getSceneX() - offset[0], event.getSceneY() - offset[1]);

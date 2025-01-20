@@ -20,6 +20,7 @@ public class BlockContainer extends Entity {
     private final int blocksPerRow = 2;
     private final int topGap = 10; // Gap above the first line of blocks
     private final int bottomGap = 10; // Gap below the last line of blocks
+    private Board board;
 
     public BlockContainer(Coordinate position, int width, int height) {
         this(new Vector<>(), position, width, height);
@@ -27,7 +28,7 @@ public class BlockContainer extends Entity {
 
     public BlockContainer(Vector<BuildingBlock> blocks, Coordinate position, int width, int height) {
         super(position, true, width, height);
-
+        board = new Board(new Coordinate(355, 160), 600, 400);
         this.blocks = blocks;
         this.draw();
     }
@@ -35,7 +36,6 @@ public class BlockContainer extends Entity {
     public void draw() {
         this.getChildren().clear(); // clear to avoid duplicate
 
-        Board board = new Board(new Coordinate(355, 160), 600, 400);
         board.draw();
 
         GridPane gridPane = new GridPane();
@@ -68,6 +68,9 @@ public class BlockContainer extends Entity {
         this.getChildren().add(board);
     }
 
+    public Board getBoard() {
+        return board;
+    }
 
     public void setBlocks(Vector<BuildingBlock> blocks) {
         this.blocks = blocks;

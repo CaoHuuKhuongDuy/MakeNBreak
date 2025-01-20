@@ -3,7 +3,10 @@ package com.models;
 import com.commons.Coordinate;
 import com.commons.GameType;
 import com.commons.Globals;
+import com.commons.utils.Hashing;
+import com.models.components.BuildingBlock;
 import com.models.components.Grid;
+import com.models.components.ListBuildingBlock;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -11,46 +14,83 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import java.util.Random;
+import java.util.Vector;
 
 public class Card extends Entity {
     private Color[][] cells;
-    private int number;
+    private int point;
     private GameType type;
     private boolean open;
+    private int row, col;
+    private Color[][] bound;
+    private int rowBound, colBound;
+    private Vector <BuildingBlock> buildingBlocks;
 
     public void setNumber(int number) {
-        this.number = number;
+        this.point = number;
     }
     public void setType(GameType type) {
         this.type = type;
     }
 
-    //Single block by default
-    public Card(Color[][] cells, Coordinate position, double width, double height) {
+    public Card(Color[][] cells, int row, int col, Coordinate position, double width, double height, GameType type, boolean open) {
         super(position, true, width, height);
-        this.cells = cells;
-        this.number = 1;
-        this.type = GameType.SINGLE_BLOCK; // Default to SINGLE type
-        this.open = true;
-    }
-
-    // Card with number and type (CardType enum)
-    public Card(Color[][] cells, Coordinate position, double width, double height, GameType type) {
-        super(position, true, width, height);
-        this.cells = cells;
         Random random = new Random();
-        this.number = random.nextInt(3) + 1;
-        this.type = type;
-        this.open = true;
-    }
-
-    public Card(Color[][] cells, Coordinate position, double width, double height, GameType type, boolean open) {
-        super(position, true, width, height);
-        this.cells = cells;
-        Random random = new Random();
-        this.number = random.nextInt(3) + 1;
+        this.point = random.nextInt(3) + 1;
         this.type = type;
         this.open = open;
+        this.setCells(cells, row, col);
+        this.draw();
+    }
+
+    public Card(ListBuildingBlock blockGenerator, int row, int col, Coordinate position, double width, double height, GameType type, boolean open) {
+        super(position, true, width, height);
+        Random random = new Random();
+        this.point = random.nextInt(3) + 1;
+        this.type = type;
+        this.open = open;
+        this.buildingBlocks = new Vector<>();
+        for (BuildingBlock block : blockGenerator.getBuildingBlocks()) {
+            this.buildingBlocks.add(block.clone());
+        }
+        this.setCells(blockGenerator.generateBuilding(row, col), row, col);
+        this.draw();
+    }
+
+    public Vector<BuildingBlock> getBuildingBlocks() {
+        return this.buildingBlocks;
+    }
+
+    public int getPoint() {
+        return this.point;
+    }
+
+    private void setCells(Color[][] cells, int row, int col) {
+        this.cells = cells;
+        this.row = row;
+        this.col = col;
+        int minX, minY, maxX, maxY;
+        minX = minY = Integer.MAX_VALUE;
+        maxX = maxY = Integer.MIN_VALUE;
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if (!cells[i][j].equals(Color.TRANSPARENT)) {
+                    minX = Math.min(minX, i);
+                    minY = Math.min(minY, j);
+                    maxX = Math.max(maxX, i);
+                    maxY = Math.max(maxY, j);
+                }
+            }
+        }
+        this.bound = new Color[maxX - minX + 1][maxY - minY + 1];
+        this.rowBound = maxX - minX + 1;
+        this.colBound = maxY - minY + 1;
+        for (int i = minX; i <= maxX; i++) {
+            for (int j = minY; j <= maxY; j++) {
+                this.bound[i - minX][j - minY] = cells[i][j];
+            }
+        }
+        this.draw();
     }
 
     public void setOpen(boolean open) {
@@ -110,9 +150,14 @@ public class Card extends Entity {
         gc.setFill(this.type == GameType.MULTIPLE_BLOCK ? multiScore : singleScore);  // Color based on type
         Font jerseyFont = Font.loadFont(getClass().getResourceAsStream("/resources/assets/fonts/Jersey25.ttf"), tmp * 0.18);
         gc.setFont(jerseyFont);
-        gc.fillText(Integer.toString(this.number), this.width * 0.03, this.height * 0.15); // Draw the number
-        gc.fillText(Integer.toString(this.number), this.width * 0.92, this.height * 0.15); // Draw the number
+        gc.fillText(Integer.toString(this.point), this.width * 0.03, this.height * 0.15); // Draw the number
+        gc.fillText(Integer.toString(this.point), this.width * 0.92, this.height * 0.15); // Draw the number
 
         this.getChildren().add(canvas);
+    }
+
+    public boolean matching(Color[][] matrix, int row, int col) {
+        Hashing hashing = new Hashing().setResultMatrix(this.bound, this.rowBound, this.colBound).setCompareMatrix(matrix, row, col);
+        return hashing.compare();
     }
 }
