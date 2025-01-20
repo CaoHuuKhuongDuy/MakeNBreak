@@ -3,10 +3,8 @@ package com.screens;
 import com.commons.Coordinate;
 import com.commons.Globals;
 import com.controllers.callbacks.EndRound;
-import com.controllers.mouse.GenerateCard;
-import com.controllers.mouse.RollingDice;
-import com.controllers.mouse.ShowPopup;
-import com.controllers.mouse.SwitchScreen;
+import com.controllers.commons.SubmitResult;
+import com.controllers.mouse.*;
 import com.models.Card;
 import com.models.Clock;
 import com.models.Dice;
@@ -17,8 +15,6 @@ import com.models.components.ListBuildingBlock;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -31,47 +27,67 @@ public class GameScreen extends Screen {
     private RollingDice rollingDice;
     private GenerateCard generateCard;
     private EndRound endRound;
+    private SubmitResult submitResult;
 
     private PauseScreen pausingPopup;
 
     private int userID;
-    private Text userPointText, userIDText;
+    private User currentUser;
+
 
     private Vector<Card> openingCards, closingCards;
-    private int numCard = 30;
+    private int numCard = 10;
 
     private Clock clock;
     private Dice dice;
+    private Text userPointText, userIDText;
 
     private boolean playing;
 
     private BlockContainer blockContainer;
-    private int numBlock = 30;
+    private int numBlock = 3;
     private ListBuildingBlock blockGenerator;
 
     public GameScreen(Stage primaryStage) {
         super(primaryStage);
         this.pausingPopup = new PauseScreen(primaryStage, this);
         this.pausingPopup.setVisible(false);
-        this.userID = 0;
-        Font jerseyFont = Font.loadFont(getClass().getResourceAsStream("/resources/assets/fonts/Jersey25.ttf"), 60);
-        this.userPointText = new Text();
-        this.userIDText = new Text();
-        this.userPointText.setFont(jerseyFont);
-        this.userIDText.setFont(jerseyFont);
+        this.updateUser(0);
+
         this.clock = new Clock(new Coordinate(133, 92));
         this.dice = new Dice(new Coordinate(41, 99), 66, 66, false);
         this.playing = false;
         this.blockGenerator = new ListBuildingBlock();
+        openingCards = new Vector<>();
+        closingCards = new Vector<>();
+        blockContainer = new BlockContainer(new Coordinate(31, 181), 346, 559);
         this.initHandlers();
-        this.initCards();
+    }
+
+    private void updateUser(int userID) {
+        this.userID = userID;
+        this.currentUser = Globals.app.getUsers().get(userID);
+        this.currentUser.updateUserInforText();
+        this.userPointText = this.currentUser.getUserPointText();
+        this.userIDText = this.currentUser.getUserIDText();
     }
 
     private void initCards() {
-        openingCards = new Vector<>();
-        closingCards = new Vector<>();
-        for (int i = 0; i < numCard; i++)
-            closingCards.add(new Card(this.blockGenerator.generateBuilding(10, 15, 10, Globals.app.getGameType()), new Coordinate(700, 155), 261, 174, Globals.app.getGameType(), false));
+        for (Card card : closingCards)
+            this.getChildren().remove(card);
+        for (Card card : openingCards)
+            this.getChildren().remove(card);
+        openingCards.clear();
+        closingCards.clear();
+        for (int i = 0; i < numCard; i++) {
+            int row = 10;
+            int col = 15;
+            Vector <BuildingBlock> block = this.blockGenerator.generateRandomBuildingBlocks(numBlock, Globals.app.getGameType());
+            this.blockGenerator.setBuildingBlocks(block);
+            closingCards.add(new Card(this.blockGenerator, row, col, new Coordinate(700, 155), 261, 174, Globals.app.getGameType(), false));
+        }
+        for (int i = closingCards.size() - 1; i >= 0; i--)
+            this.getChildren().add(closingCards.get(i));
     }
 
     @Override
@@ -79,23 +95,19 @@ public class GameScreen extends Screen {
         this.switchScreen = new SwitchScreen(primaryStage);
         this.showPopup = new ShowPopup(primaryStage).setCurrentScreen(this);
         this.endRound = new EndRound(this);
-        this.generateCard = new GenerateCard(openingCards, closingCards).setCallBack(this.endRound);
+        this.generateCard = new GenerateCard(openingCards, closingCards, blockContainer).setCallBack(this.endRound);
         this.rollingDice = new RollingDice().setClockCallBack(this.endRound);
+        this.submitResult = new SubmitResult(userID, openingCards, generateCard, blockContainer);
     }
 
     @Override
     public void display() {
         this.getChildren().clear();
 
-        blockContainer = new BlockContainer(new Coordinate(31, 181), 346, 559);
 
         Button backButton = new Button("Back");
         backButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10px 20px; -fx-border-radius: 10px;");
         backButton.setOnMouseClicked(this.switchScreen.setScreen(new MainScreen(primaryStage)));
-
-        for (int i = 0; i < numCard; i++) {
-            closingCards.get(i).draw();
-        }
 
         Button generateCardButton = new Button("Generate Card");
         generateCardButton.setStyle("-fx-background-color: #FF5733; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10px 20px; -fx-border-radius: 10px;");
@@ -128,8 +140,6 @@ public class GameScreen extends Screen {
         ImageView iconPlayer = new ImageView(new Image("/resources/assets/images/icon_downasaur.png"));
         iconPlayer.setFitWidth(66);
         iconPlayer.setFitHeight(53.8);
-
-        this.updateUserInforText();
 
         // Create icon setting button
         Button iconSettingButton = new Button();
@@ -166,8 +176,10 @@ public class GameScreen extends Screen {
         this.getChildren().addAll(scoreRectangle, userPointText, userIDText, backButton, generateCardButton, clock, dice, kickButton,
                 iconCoin, iconPlayer, iconSettingButton, blockContainer);
         this.getChildren().addAll(pausingPopup);
+//        this.getChildren().add(submitButton);
 
         this.primaryStage.getScene().setRoot(this);
+        this.primaryStage.getScene().setOnKeyPressed(this.submitResult);
     }
 
     public void pausing(boolean pausing) {
@@ -178,9 +190,6 @@ public class GameScreen extends Screen {
         this.playing = true;
         this.dice.setInteractable(true);
 
-        Vector <BuildingBlock> block = this.blockGenerator.generateRandomBuildingBlocks(numBlock);
-        this.blockContainer.setBlocks(block);
-
         this.initCards();
     }
 
@@ -190,23 +199,8 @@ public class GameScreen extends Screen {
         if (userID == Globals.app.getUsers().size() - 1) {
             userID = 0;
         } else {
-            userID++;
-            this.updateUserInforText();
+            this.updateUser(userID + 1);
         }
         this.playRound();
-    }
-
-    private void updateUserInforText() {
-        User currentUser = Globals.app.getUsers().get(this.userID);
-        String userPointT = String.valueOf(currentUser.getPoint());
-        this.userPointText.setText(userPointT);
-        this.userPointText.setFill(Color.YELLOW);
-        this.userPointText.setLayoutX(910 - userPointText.getBoundsInLocal().getWidth());
-        this.userPointText.setLayoutY(120);
-
-        this.userIDText.setText(currentUser.getName());
-        this.userIDText.setFill(Color.RED);
-        this.userIDText.setLayoutX(490);
-        this.userIDText.setLayoutY(120);
     }
 }

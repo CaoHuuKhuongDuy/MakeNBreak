@@ -2,15 +2,11 @@ package com.models.components;
 
 import com.commons.Coordinate;
 
-import java.util.Collections;
-import java.util.Vector;
-import java.util.PriorityQueue;
-import java.util.Random;
+import java.util.*;
 
 import com.commons.GameType;
 import com.commons.Globals;
 import javafx.scene.paint.Color;
-import java.util.Arrays;
 
 
 public class ListBuildingBlock {
@@ -37,12 +33,20 @@ public class ListBuildingBlock {
         this.buildingBlocks = buildingBlocks;
     }
 
-    public Vector <BuildingBlock> generateRandomBuildingBlocks(int numberOfBuildingBlocks) {
-        Random random = new Random();
+    public Vector <BuildingBlock> generateRandomBuildingBlocks(int numberOfBuildingBlocks, GameType gameType) {
+        Random random = new Random(System.currentTimeMillis());
 
         Vector <BuildingBlock> buildingBlocks = new Vector<>();
+        if (numberOfBuildingBlocks == 0) {
+            return buildingBlocks;
+        }
+        BuildingBlock randomBlock = Globals.buildingBlocks.get(random.nextInt(Globals.buildingBlocks.size())).clone();
         for (int i = 0; i < numberOfBuildingBlocks; i++) {
-            BuildingBlock randomBlock = Globals.buildingBlocks.get(random.nextInt(Globals.buildingBlocks.size())).clone();
+            if (gameType == GameType.MULTIPLE_BLOCK) {
+                randomBlock = Globals.buildingBlocks.get(random.nextInt(Globals.buildingBlocks.size())).clone();
+            } else {
+                randomBlock = randomBlock.clone();
+            }
             buildingBlocks.add(randomBlock);
             buildingBlocks.getLast().setColor(Globals.getRandomColor());
         }
@@ -51,11 +55,16 @@ public class ListBuildingBlock {
     }
 
 
-    public Color[][] generateBuilding(int row, int col, int numberBlock, GameType cardType) {
+    public Color[][] generateBuilding(int row, int col) {
         this.limitRow = row;
         this.limitCol = col;
-        Random random = new Random();
+        Random random = new Random(System.currentTimeMillis());
         Color[][] building = new Color[row][col];
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                building[i][j] = Color.TRANSPARENT;
+            }
+        }
         PriorityQueue<Coordinate> q = new PriorityQueue<>();
 
         int maxX = -1;
@@ -64,13 +73,8 @@ public class ListBuildingBlock {
         if (this.buildingBlocks.isEmpty()) {
             return building;
         }
-        Vector <BuildingBlock> buildingBlocks;
-        if (cardType == GameType.SINGLE_BLOCK) {
-            buildingBlocks = new Vector<>(Arrays.asList(this.buildingBlocks.get(random.nextInt(this.buildingBlocks.size()))));
-        }
-        else {
-            buildingBlocks = this.buildingBlocks;
-        }
+        Collections.shuffle(this.buildingBlocks);
+        Set <BuildingBlock> buildingBlocks = new HashSet<>(this.buildingBlocks);
 
         Vector <Coordinate> startingPoints = new Vector<>();
         for (int i = 0; i < col; i++) {
@@ -80,13 +84,13 @@ public class ListBuildingBlock {
         for (Coordinate startingPoint : startingPoints) {
             q.add(startingPoint);
             boolean generated = false;
-            while (numberBlock > 0 && !q.isEmpty()) {
+            while (!buildingBlocks.isEmpty() && !q.isEmpty()) {
                 Coordinate candidateCell = q.poll();
                 if (isCellOccupied(candidateCell, building)) {
                     continue;
                 }
 
-                Collections.shuffle(buildingBlocks);
+                Vector <BuildingBlock> removeBlocks = new Vector<>();
                 for (BuildingBlock buildingBlock : buildingBlocks) {
                     Coordinate offset = new Coordinate();
                     int randomRotate = random.nextInt(4);
@@ -97,7 +101,6 @@ public class ListBuildingBlock {
                         buildingBlock.flip();
                     }
                     if (tryPlaceBlock(candidateCell, buildingBlock, building, offset)) {
-                        numberBlock--;
                         generated = true;
                         for (Coordinate cell : buildingBlock.getCells()) {
                             Coordinate newPos = new Coordinate(cell.x - offset.x, cell.y - offset.y);
@@ -119,8 +122,12 @@ public class ListBuildingBlock {
                                 q.add(new Coordinate(newPos.x, newPos.y + 1));
                             }
                         }
+                        removeBlocks.add(buildingBlock);
                         break;
                     }
+                }
+                for (BuildingBlock removeBlock : removeBlocks) {
+                    buildingBlocks.remove(removeBlock);
                 }
             }
             if (generated) {
@@ -135,7 +142,7 @@ public class ListBuildingBlock {
         if (cell.x < 0 || cell.x >= this.limitRow || cell.y < 0 || cell.y >= this.limitCol) {
             return true;
         }
-        return building[cell.x][cell.y] != null && building[cell.x][cell.y] != Color.BLACK;
+        return building[cell.x][cell.y] != null && building[cell.x][cell.y] != Color.TRANSPARENT;
     }
 
     private boolean tryPlaceBlock(Coordinate position, BuildingBlock buildingBlock, Color[][] building, Coordinate resultOffset) {
