@@ -3,6 +3,7 @@ package com.controllers.mouse;
 import com.commons.Coordinate;
 import com.models.BlockContainer;
 import com.models.Card;
+import com.models.CardSet;
 import com.models.components.Board;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
@@ -13,6 +14,12 @@ public class GenerateCard implements EventHandler<MouseEvent>, Runnable  {
     private Vector <Card> openingCard, closingCard;
     private BlockContainer blockContainer;
     private Runnable callBack;
+
+    public GenerateCard(CardSet cardSet, BlockContainer blockContainer) {
+        this.blockContainer = blockContainer;
+        this.openingCard = cardSet.getOpeningCards();
+        this.closingCard = cardSet.getClosingCards();
+    }
 
     public GenerateCard(Vector <Card> openingCard, Vector <Card> closingCard, BlockContainer blockContainer) {
         this.openingCard = openingCard;

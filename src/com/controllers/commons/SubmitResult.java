@@ -4,6 +4,7 @@ import com.commons.Globals;
 import com.controllers.mouse.GenerateCard;
 import com.models.BlockContainer;
 import com.models.Card;
+import com.models.CardSet;
 import com.models.User;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -19,11 +20,15 @@ public class SubmitResult implements EventHandler<Event>, Runnable {
     private User user;
     private GenerateCard generateCard;
 
-    public SubmitResult(int userID, Vector <Card> openingCard, GenerateCard generateCard, BlockContainer blockContainer) {
+    public SubmitResult(int userID, CardSet cardSet, GenerateCard generateCard, BlockContainer blockContainer) {
         this.user = Globals.app.getUsers().get(userID);
         this.generateCard = generateCard;
         this.blockContainer = blockContainer;
-        this.openingCard = openingCard;
+        this.openingCard = cardSet.getOpeningCards();
+    }
+
+    public void setUser(int userID) {
+        this.user = Globals.app.getUsers().get(userID);
     }
 
     @Override

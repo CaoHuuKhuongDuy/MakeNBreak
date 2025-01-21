@@ -28,16 +28,15 @@ public class GameScreen extends Screen {
     private EndRound endRound;
     private SubmitResult submitResult;
     private PlayGame playGame;
+    private SkipCard skipCard;
 
     private PauseScreen pausingPopup;
 
     private int userID;
     private User currentUser;
 
-
-//    private Vector<Card> openingCards, closingCards;
     CardSet cardSet;
-    private int numCard = 1;
+    private int numCard = 15;
 
     private Clock clock;
     private Dice dice;
@@ -53,21 +52,20 @@ public class GameScreen extends Screen {
         super(primaryStage);
         this.pausingPopup = new PauseScreen(primaryStage, this);
         this.pausingPopup.setVisible(false);
-        this.updateUser(0);
 
         this.clock = new Clock(new Coordinate(133, 92));
         this.dice = new Dice(new Coordinate(41, 99), 66, 66, false);
         this.playing = new AtomicBoolean(false);
         this.blockGenerator = new ListBuildingBlock();
-//        openingCards = new Vector<>();
-//        closingCards = new Vector<>();
         cardSet = new CardSet();
         blockContainer = new BlockContainer(new Coordinate(31, 181), 346, 559);
         this.initHandlers();
+        this.updateUser(0);
     }
 
     public void updateUser(int userID) {
         this.userID = userID;
+        this.submitResult.setUser(userID);
         this.currentUser = Globals.app.getUsers().get(userID);
         this.currentUser.updateUserInforText();
         this.getChildren().remove(userPointText);
@@ -81,12 +79,20 @@ public class GameScreen extends Screen {
     public void initCards() {
         Vector <Card> openingCards = cardSet.getOpeningCards();
         Vector <Card> closingCards = cardSet.getClosingCards();
+        Vector <Card> skippedCards = cardSet.getSkippedCards();
+        for (Card card : openingCards)
+            this.getChildren().remove(card);
         for (Card card : closingCards)
             this.getChildren().remove(card);
-        for (Card card : openingCards)
+        for (Card card : skippedCards)
             this.getChildren().remove(card);
         openingCards.clear();
         closingCards.clear();
+        closingCards.addAll(skippedCards);
+        skippedCards.clear();
+        for (Card card: closingCards) {
+            card.getBuildingBlocks();
+        }
         for (int i = 0; i < numCard; i++) {
             int row = 10;
             int col = 15;
@@ -94,8 +100,9 @@ public class GameScreen extends Screen {
             this.blockGenerator.setBuildingBlocks(block);
             closingCards.add(new Card(this.blockGenerator, row, col, new Coordinate(700, 155), 261, 174, Globals.app.getGameType(), false));
         }
-        for (int i = closingCards.size() - 1; i >= 0; i--)
+        for (int i = closingCards.size() - 1; i >= 0; i--) {
             this.getChildren().add(closingCards.get(i));
+        }
     }
 
     @Override
@@ -103,12 +110,11 @@ public class GameScreen extends Screen {
         this.switchScreen = new SwitchScreen(primaryStage);
         this.showPopup = new ShowPopup(primaryStage).setCurrentScreen(this);
         this.endRound = new EndRound(this);
-        Vector <Card> openingCards = cardSet.getOpeningCards();
-        Vector <Card> closingCards = cardSet.getClosingCards();
-        this.generateCard = new GenerateCard(openingCards, closingCards, blockContainer).setCallBack(this.endRound);
+        this.generateCard = new GenerateCard(this.cardSet, blockContainer).setCallBack(this.endRound);
         this.rollingDice = new RollingDice().setClockCallBack(this.endRound).setGenerateCard(this.generateCard);
-        this.submitResult = new SubmitResult(userID, openingCards, generateCard, blockContainer);
+        this.submitResult = new SubmitResult(userID, cardSet, generateCard, blockContainer);
         this.playGame = new PlayGame(this);
+        this.skipCard = new SkipCard(this.cardSet, this.generateCard);
     }
 
     @Override
@@ -136,6 +142,7 @@ public class GameScreen extends Screen {
         ImageView imageKickButton = new ImageView(new Image("/resources/assets/images/kickButton.png"));
         kickButton.setGraphic(imageKickButton);
         kickButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
+        kickButton.setOnMouseClicked(this.skipCard);
 
         // Add score rectangle
         ImageView scoreRectangle = new ImageView(new Image("/resources/assets/images/Rectangle.png"));

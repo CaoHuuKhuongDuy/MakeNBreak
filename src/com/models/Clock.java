@@ -100,7 +100,7 @@ public class Clock extends Entity {
                 e.printStackTrace();
             } finally {
                 this.running.set(false);
-                Platform.runLater(callback); // Run callback on the JavaFX Application Thread
+//                Platform.runLater(callback); // Run callback on the JavaFX Application Thread
             }
         });
 

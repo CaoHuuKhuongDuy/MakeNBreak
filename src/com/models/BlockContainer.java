@@ -29,7 +29,10 @@ public class BlockContainer extends Entity {
     public BlockContainer(Vector<BuildingBlock> blocks, Coordinate position, int width, int height) {
         super(position, true, width, height);
         board = new Board(new Coordinate(355, 160), 600, 400);
-        this.blocks = blocks;
+        this.blocks = new Vector<>();
+        for (BuildingBlock block : blocks) {
+            this.blocks.add(block.clone());
+        }
         this.draw();
     }
 
@@ -73,7 +76,10 @@ public class BlockContainer extends Entity {
     }
 
     public void setBlocks(Vector<BuildingBlock> blocks) {
-        this.blocks = blocks;
+        this.blocks = new Vector<>();
+        for (BuildingBlock block : blocks) {
+            this.blocks.add(block.clone());
+        }
         draw();
     }
 

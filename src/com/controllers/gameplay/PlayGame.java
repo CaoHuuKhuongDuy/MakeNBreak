@@ -22,6 +22,7 @@ public class PlayGame {
         this.gameScreen.getBlockContainer().reset();
         int userID = this.gameScreen.getUserID();
         if (userID == Globals.app.getUsers().size() - 1) {
+            // TODO: Add logic to end game
             userID = 0;
         } else {
             this.gameScreen.updateUser(userID + 1);
