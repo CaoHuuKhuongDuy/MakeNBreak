@@ -6,11 +6,7 @@ import com.controllers.callback.EndRound;
 import com.controllers.gameplay.PlayGame;
 import com.controllers.commons.SubmitResult;
 import com.controllers.mouse.*;
-import com.models.Card;
-import com.models.Clock;
-import com.models.Dice;
-import com.models.User;
-import com.models.BlockContainer;
+import com.models.*;
 import com.models.components.BuildingBlock;
 import com.models.components.ListBuildingBlock;
 import javafx.application.Platform;
@@ -39,7 +35,8 @@ public class GameScreen extends Screen {
     private User currentUser;
 
 
-    private Vector<Card> openingCards, closingCards;
+//    private Vector<Card> openingCards, closingCards;
+    CardSet cardSet;
     private int numCard = 1;
 
     private Clock clock;
@@ -62,8 +59,9 @@ public class GameScreen extends Screen {
         this.dice = new Dice(new Coordinate(41, 99), 66, 66, false);
         this.playing = new AtomicBoolean(false);
         this.blockGenerator = new ListBuildingBlock();
-        openingCards = new Vector<>();
-        closingCards = new Vector<>();
+//        openingCards = new Vector<>();
+//        closingCards = new Vector<>();
+        cardSet = new CardSet();
         blockContainer = new BlockContainer(new Coordinate(31, 181), 346, 559);
         this.initHandlers();
     }
@@ -72,18 +70,17 @@ public class GameScreen extends Screen {
         this.userID = userID;
         this.currentUser = Globals.app.getUsers().get(userID);
         this.currentUser.updateUserInforText();
-//        Platform.runLater(() -> {
-//            // Update the JavaFX UI
-//        });
-            this.getChildren().remove(userPointText);
-            this.getChildren().remove(userIDText);
-            this.getChildren().add(this.currentUser.getUserPointText());
-            this.getChildren().add(this.currentUser.getUserIDText());
-            this.userPointText = this.currentUser.getUserPointText();
-            this.userIDText = this.currentUser.getUserIDText();
+        this.getChildren().remove(userPointText);
+        this.getChildren().remove(userIDText);
+        this.getChildren().add(this.currentUser.getUserPointText());
+        this.getChildren().add(this.currentUser.getUserIDText());
+        this.userPointText = this.currentUser.getUserPointText();
+        this.userIDText = this.currentUser.getUserIDText();
     }
 
     public void initCards() {
+        Vector <Card> openingCards = cardSet.getOpeningCards();
+        Vector <Card> closingCards = cardSet.getClosingCards();
         for (Card card : closingCards)
             this.getChildren().remove(card);
         for (Card card : openingCards)
@@ -106,6 +103,8 @@ public class GameScreen extends Screen {
         this.switchScreen = new SwitchScreen(primaryStage);
         this.showPopup = new ShowPopup(primaryStage).setCurrentScreen(this);
         this.endRound = new EndRound(this);
+        Vector <Card> openingCards = cardSet.getOpeningCards();
+        Vector <Card> closingCards = cardSet.getClosingCards();
         this.generateCard = new GenerateCard(openingCards, closingCards, blockContainer).setCallBack(this.endRound);
         this.rollingDice = new RollingDice().setClockCallBack(this.endRound).setGenerateCard(this.generateCard);
         this.submitResult = new SubmitResult(userID, openingCards, generateCard, blockContainer);
@@ -181,8 +180,8 @@ public class GameScreen extends Screen {
         iconSettingButton.setLayoutX(975);
         iconSettingButton.setLayoutY(18);
 
-        for (int i = this.closingCards.size() - 1; i >= 0; i--)
-            this.getChildren().add(this.closingCards.get(i));
+        for (int i = cardSet.getClosingCards().size() - 1; i >= 0; i--)
+            this.getChildren().add(cardSet.getClosingCards().get(i));
 
         this.playGame.playRound();
         this.getChildren().addAll(scoreRectangle, backButton, generateCardButton, clock, dice, kickButton,

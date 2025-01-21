@@ -2,6 +2,7 @@ package com.models;
 
 import com.commons.Coordinate;
 import com.models.components.Arrow;
+import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -81,24 +82,30 @@ public class Clock extends Entity {
         this.running.set(true);
         double currentAngle = Math.min(this.time, 60) * 0.25 + Math.max(0, this.time - 60) * 1.25;
         this.arrow.setAngle(180 - currentAngle);
+
         Thread thread = new Thread(() -> {
-            while (this.time > 0 && this.running.get()) {
-                try {
+            try {
+                while (this.time > 0 && this.running.get()) {
                     while (this.pausing.get()) {}
-                    Thread.sleep(1000);
+
+                    Thread.sleep(1000); // Simulate time decrement
                     this.time--;
-                    if (this.arrow.getAngle() < 165) {
-                        this.arrow.setAngle(this.arrow.getAngle() + 1.25);
-                    } else {
-                        this.arrow.setAngle(this.arrow.getAngle() + 0.25);
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+
+                    // Update arrow angle
+                    double newAngle = this.arrow.getAngle() + (this.arrow.getAngle() < 165 ? 1.25 : 0.25);
+                    double clampedAngle = Math.min(180, newAngle); // Optional safety
+                    Platform.runLater(() -> this.arrow.setAngle(clampedAngle));
                 }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                this.running.set(false);
+                Platform.runLater(callback); // Run callback on the JavaFX Application Thread
             }
-            this.running.set(false);
-            callback.run();
         });
+
+        thread.setDaemon(true); // Optional: Set the thread as a daemon thread
         thread.start();
     }
+
 }
