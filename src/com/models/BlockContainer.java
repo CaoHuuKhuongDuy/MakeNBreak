@@ -77,9 +77,7 @@ public class BlockContainer extends Entity {
 
     public void setBlocks(Vector<BuildingBlock> blocks) {
         this.blocks = new Vector<>();
-        for (BuildingBlock block : blocks) {
-            this.blocks.add(block.clone());
-        }
+        this.blocks.addAll(blocks);
         draw();
     }
 

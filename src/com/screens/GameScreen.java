@@ -36,7 +36,7 @@ public class GameScreen extends Screen {
     private User currentUser;
 
     CardSet cardSet;
-    private int numCard = 15;
+    private int numCard = 10;
 
     private Clock clock;
     private Dice dice;
