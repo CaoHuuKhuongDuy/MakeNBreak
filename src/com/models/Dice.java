@@ -41,6 +41,7 @@ public class Dice extends Entity {
     public void reset() {
         this.rolling = false;
         this.value = 0;
+        this.draw();
     }
 
     public boolean isRolling() {

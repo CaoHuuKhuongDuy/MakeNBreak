@@ -40,6 +40,13 @@ public class Clock extends Entity {
         this.time = 0;
     }
 
+    public void reset() {
+        this.time = 0;
+        this.running.set(false);
+        this.pausing.set(false);
+        this.draw();
+    }
+
     public void draw() {
         this.getChildren().clear();
 

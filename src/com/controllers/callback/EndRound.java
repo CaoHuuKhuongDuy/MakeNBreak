@@ -1,4 +1,4 @@
-package com.controllers.callbacks;
+package com.controllers.callback;
 
 
 import com.screens.GameScreen;
@@ -12,6 +12,7 @@ public class EndRound implements Runnable {
 
     @Override
     public void run() {
-        this.gameScreen.EndRound();
+        if (!this.gameScreen.getPlaying()) return;
+        this.gameScreen.getGamePlay().endRound();
     }
 }
