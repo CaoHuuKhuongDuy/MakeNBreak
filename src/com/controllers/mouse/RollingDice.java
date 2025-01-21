@@ -14,6 +14,7 @@ public class RollingDice implements EventHandler<MouseEvent> {
     Clock clock;
     AtomicInteger diceValue;
     Runnable clockCallBack;
+    GenerateCard generateCard;
 
     public RollingDice() {
         diceValue = new AtomicInteger();
@@ -37,6 +38,11 @@ public class RollingDice implements EventHandler<MouseEvent> {
 
     public RollingDice setClock(Clock clock) {
         this.clock = clock;
+        return this;
+    }
+
+    public RollingDice setGenerateCard(GenerateCard generateCard) {
+        this.generateCard = generateCard;
         return this;
     }
 
@@ -67,6 +73,7 @@ public class RollingDice implements EventHandler<MouseEvent> {
                 clock.setTime(dice.getValue() * 60);
                 clock.startCounting(clockCallBack);
                 dice.setInteractable(false);
+                generateCard.run();
             }
         }
     }

@@ -2,6 +2,7 @@ package com.screens;
 
 import com.controllers.mouse.ShowPopup;
 import com.controllers.mouse.SwitchScreen;
+import com.models.components.CustomButton;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -43,26 +44,13 @@ public class PauseScreen extends Screen {
         imageViewSettingPanel.setFitHeight(381);
 
         // Create quit button
-        Button quitButton = new Button();
-        ImageView imageViewQuitButton = new ImageView(new Image("/resources/assets/images/QuitButtonSetting.png"));
-        imageViewQuitButton.setFitWidth(130);
-        imageViewQuitButton.setFitHeight(55);
-        quitButton.setGraphic(imageViewQuitButton);
-        quitButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
+        CustomButton quitButton = new CustomButton("QUIT", "resources/assets/images/Button/redButton.png");
+        quitButton.setSize(130, 55);
         quitButton.setOnMouseClicked(this.switchScreen.setScreen(new IntroScreen(primaryStage)));
-
-        quitButton.setOnMouseClicked(event -> {
-            new SwitchScreen(primaryStage, new IntroScreen(primaryStage)).run();
-        });
-
-        // Create resume button
-        Button resumeButton = new Button();
-        ImageView imageViewResumeButton = new ImageView(new Image("/resources/assets/images/ResumeButtonSetting.png"));
-        imageViewResumeButton.setFitWidth(130);
-        imageViewResumeButton.setFitHeight(55);
-        resumeButton.setGraphic(imageViewResumeButton);
-        resumeButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
+        
+        CustomButton resumeButton = new CustomButton("RESUME", "resources/assets/images/Button/yellowButton.png");
         resumeButton.setOnMouseClicked(this.showPopup.setPopUpScreen(this).setVisible(false));
+        resumeButton.setSize(130, 55);
 
 
         // Create cross button

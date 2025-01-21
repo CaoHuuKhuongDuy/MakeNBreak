@@ -77,6 +77,11 @@ public class BlockContainer extends Entity {
         draw();
     }
 
+    public void reset() {
+        blocks.clear();
+        draw();
+    }
+
     public void addBlockPane(BuildingBlock newBlockPane) {
         blocks.add(newBlockPane);
         draw();
