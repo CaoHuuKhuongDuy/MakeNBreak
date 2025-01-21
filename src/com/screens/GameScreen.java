@@ -90,9 +90,6 @@ public class GameScreen extends Screen {
         closingCards.clear();
         closingCards.addAll(skippedCards);
         skippedCards.clear();
-        for (Card card: closingCards) {
-            card.getBuildingBlocks();
-        }
         for (int i = 0; i < numCard; i++) {
             int row = 10;
             int col = 15;
