@@ -4,6 +4,7 @@ import com.controllers.mouse.SwitchScreen;
 import com.models.User;
 import com.models.components.CustomButton;
 import com.commons.Globals;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -18,6 +19,7 @@ public class LeaderboardScreen extends Screen {
     public LeaderboardScreen(Stage primaryStage) {
         super(primaryStage);
         this.initHandlers();
+        setupBackground("/resources/assets/images/leaderBoard.png");
     }
 
     @Override
