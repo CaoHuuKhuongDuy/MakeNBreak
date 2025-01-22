@@ -55,13 +55,13 @@ public class ListBuildingBlock {
     }
 
 
-    public Color[][] generateBuilding(int row, int col) {
+    public Color[][] generateBuilding(int row, int col, int low, int high) {
         this.limitRow = row;
         this.limitCol = col;
         Random random = new Random(System.currentTimeMillis());
         Color[][] building = new Color[row][col];
 
-        int blockLimit = 5 + random.nextInt(6);
+        int blockLimit = low + random.nextInt(high - low + 1);
 
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {

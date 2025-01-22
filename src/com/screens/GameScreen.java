@@ -95,7 +95,7 @@ public class GameScreen extends Screen {
             int col = 15;
             Vector <BuildingBlock> block = this.blockGenerator.generateRandomBuildingBlocks(numBlock, Globals.app.getGameType());
             this.blockGenerator.setBuildingBlocks(block);
-            closingCards.add(new Card(this.blockGenerator, row, col, new Coordinate(700, 155), 261, 174, Globals.app.getGameType(), false));
+            closingCards.add(new Card(this.blockGenerator, row, col, new Coordinate(700, 155), 261, 174, Globals.app.getGameType(), false, numBlock/2, numBlock));
         }
         for (int i = closingCards.size() - 1; i >= 0; i--) {
             this.getChildren().add(closingCards.get(i));

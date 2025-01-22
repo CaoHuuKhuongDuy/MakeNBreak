@@ -25,6 +25,8 @@ public class Card extends Entity {
     private Color[][] bound;
     private int rowBound, colBound;
     private Vector <BuildingBlock> buildingBlocks;
+    private int lowerBound;
+    private int upperBound;
 
     public void setNumber(int number) {
         this.point = number;
@@ -43,10 +45,12 @@ public class Card extends Entity {
         this.draw();
     }
 
-    public Card(ListBuildingBlock blockGenerator, int row, int col, Coordinate position, double width, double height, GameType type, boolean open) {
+    public Card(ListBuildingBlock blockGenerator, int row, int col, Coordinate position, double width, double height, GameType type, boolean open,  int lowerBound, int upperBound) {
         super(position, true, width, height);
         Random random = new Random();
         this.type = type;
+        this.upperBound = upperBound;
+        this.lowerBound = lowerBound;
         if (this.type == GameType.MULTIPLE_BLOCK){
             this.point = random.nextInt(3) + 1;
         }
@@ -58,7 +62,7 @@ public class Card extends Entity {
         for (BuildingBlock block : blockGenerator.getBuildingBlocks()) {
             this.buildingBlocks.add(block.clone());
         }
-        this.setCells(blockGenerator.generateBuilding(row, col), row, col);
+        this.setCells(blockGenerator.generateBuilding(row, col, lowerBound, upperBound), row, col);
         this.draw();
     }
 
