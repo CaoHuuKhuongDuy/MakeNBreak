@@ -46,8 +46,13 @@ public class Card extends Entity {
     public Card(ListBuildingBlock blockGenerator, int row, int col, Coordinate position, double width, double height, GameType type, boolean open) {
         super(position, true, width, height);
         Random random = new Random();
-        this.point = random.nextInt(3) + 1;
         this.type = type;
+        if (this.type == GameType.MULTIPLE_BLOCK){
+            this.point = random.nextInt(3) + 1;
+        }
+        else {
+            this.point = 1;
+        }
         this.open = open;
         this.buildingBlocks = new Vector<>();
         for (BuildingBlock block : blockGenerator.getBuildingBlocks()) {
