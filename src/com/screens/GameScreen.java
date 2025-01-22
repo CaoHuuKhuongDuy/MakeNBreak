@@ -117,7 +117,7 @@ public class GameScreen extends Screen {
     @Override
     public void display() {
         this.getChildren().clear();
-
+        ImageView title = new ImageView(new Image("/resources/assets/images/smallTitle.png"));
 
         Button backButton = new Button("Back");
         backButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10px 20px; -fx-border-radius: 10px;");
@@ -166,6 +166,9 @@ public class GameScreen extends Screen {
 
         iconSettingButton.setOnMouseClicked(showPopup.setPopUpScreen(pausingPopup).setVisible(true));
 
+        title.setLayoutX(10);
+        title.setLayoutY(10);
+
         generateCardButton.setLayoutX(75);
         generateCardButton.setLayoutY(0);
 
@@ -188,7 +191,7 @@ public class GameScreen extends Screen {
             this.getChildren().add(cardSet.getClosingCards().get(i));
 
         this.playGame.playRound();
-        this.getChildren().addAll(scoreRectangle, backButton, generateCardButton, clock, dice, kickButton,
+        this.getChildren().addAll(title, scoreRectangle, backButton, generateCardButton, clock, dice, kickButton,
                 iconCoin, iconPlayer, iconSettingButton, blockContainer);
         this.getChildren().addAll(pausingPopup);
         this.getChildren().addAll(userPointText, userIDText);
