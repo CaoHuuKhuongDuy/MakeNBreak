@@ -45,7 +45,7 @@ public class GameScreen extends Screen {
     private AtomicBoolean playing;
 
     private BlockContainer blockContainer;
-    private int numBlock = 3;
+    private int numBlock = 10;
     private ListBuildingBlock blockGenerator;
 
     public GameScreen(Stage primaryStage) {
