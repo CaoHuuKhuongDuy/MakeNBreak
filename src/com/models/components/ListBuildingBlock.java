@@ -55,11 +55,14 @@ public class ListBuildingBlock {
     }
 
 
-    public Color[][] generateBuilding(int row, int col) {
+    public Color[][] generateBuilding(int row, int col, int low, int high) {
         this.limitRow = row;
         this.limitCol = col;
         Random random = new Random(System.currentTimeMillis());
         Color[][] building = new Color[row][col];
+
+        int blockLimit = low + random.nextInt(high - low + 1);
+
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
                 building[i][j] = Color.TRANSPARENT;
@@ -81,6 +84,9 @@ public class ListBuildingBlock {
             startingPoints.add(new Coordinate(row - 1, i));
         }
         Collections.shuffle(startingPoints);
+
+        int blocksPlaced = 0;
+
         for (Coordinate startingPoint : startingPoints) {
             q.add(startingPoint);
             boolean generated = false;
@@ -102,6 +108,7 @@ public class ListBuildingBlock {
                     }
                     if (tryPlaceBlock(candidateCell, buildingBlock, building, offset)) {
                         generated = true;
+                        blocksPlaced++;
                         for (Coordinate cell : buildingBlock.getCells()) {
                             Coordinate newPos = new Coordinate(cell.x - offset.x, cell.y - offset.y);
                             if (!isCellOccupied(new Coordinate(newPos.x - 1, newPos.y), building) && !inqueue[newPos.x - 1][newPos.y]) {
@@ -129,8 +136,11 @@ public class ListBuildingBlock {
                 for (BuildingBlock removeBlock : removeBlocks) {
                     buildingBlocks.remove(removeBlock);
                 }
+                if (blocksPlaced >= blockLimit) {
+                    break;
+                }
             }
-            if (generated) {
+            if (generated  && blocksPlaced >= blockLimit) {
                 break;
             }
         }
