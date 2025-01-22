@@ -88,7 +88,7 @@ public class Clock extends Entity {
                 while (this.time > 0 && this.running.get()) {
                     while (this.pausing.get()) {}
 
-                    Thread.sleep(100); // Simulate time decrement
+                    Thread.sleep(1000); // Simulate time decrement
                     this.time--;
 
                     // Update arrow angle
