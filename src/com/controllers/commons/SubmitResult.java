@@ -57,7 +57,8 @@ public class SubmitResult implements EventHandler<Event>, Runnable {
             if (!card.getSkipped()) {
                 user.increaseSolvedCard();
             }
-            this.generateCard.run(user.getSolvedCard() < maxSolvedCard);
+            this.generateCard.run(true);
+//            this.generateCard.run(user.getSolvedCard() < maxSolvedCard);
         }
     }
 

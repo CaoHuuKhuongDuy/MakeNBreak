@@ -1,8 +1,10 @@
 package com.controllers.mouse;
 
 import com.commons.Coordinate;
+import com.commons.Globals;
 import com.models.Card;
 import com.models.CardSet;
+import com.screens.GameScreen;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.event.EventHandler;
@@ -14,10 +16,12 @@ import java.util.Vector;
 public class SkipCard implements EventHandler<MouseEvent>, Runnable {
     private CardSet cardSet;
     private GenerateCard generateCard;
+    private GameScreen gameScreen;
 
-    public SkipCard(CardSet cardSet, GenerateCard generateCard) {
+    public SkipCard(CardSet cardSet, GenerateCard generateCard, GameScreen gameScreen) {
         this.cardSet = cardSet;
         this.generateCard = generateCard;
+        this.gameScreen = gameScreen;
     }
 
     @Override
@@ -44,7 +48,8 @@ public class SkipCard implements EventHandler<MouseEvent>, Runnable {
             transition.setAutoReverse(false);          // Do not reverse
             transition.setOnFinished(_ -> {
                 skippedCard.setLayoutX(skippedCard.getLayoutX() + skippedCard.getTranslateX());
-                skippedCard.setPoint(skippedCard.getPoint() + 1);
+                int userID = (gameScreen.getUserID() + 1) % Globals.app.getUsers().size();
+                Globals.getUser(userID).setPoint(Globals.getUser(userID).getPoint() + 1);
                 skippedCard.setTranslateX(0);
             });
         } else {
