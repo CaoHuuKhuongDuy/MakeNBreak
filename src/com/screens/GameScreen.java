@@ -36,7 +36,7 @@ public class GameScreen extends Screen {
     private User currentUser;
 
     CardSet cardSet;
-    private int numCard = 10;
+    private int maxResolvedCard = 4;
 
     private Clock clock;
     private Dice dice;
@@ -46,7 +46,6 @@ public class GameScreen extends Screen {
 
     private BlockContainer blockContainer;
     private int numBlock = 10;
-    private ListBuildingBlock blockGenerator;
 
     public GameScreen(Stage primaryStage) {
         super(primaryStage);
@@ -56,8 +55,7 @@ public class GameScreen extends Screen {
         this.clock = new Clock(new Coordinate(133, 92));
         this.dice = new Dice(new Coordinate(41, 99), 66, 66, false);
         this.playing = new AtomicBoolean(false);
-        this.blockGenerator = new ListBuildingBlock();
-        cardSet = new CardSet();
+        cardSet = new CardSet(this, numBlock);
         blockContainer = new BlockContainer(new Coordinate(31, 181), 346, 559);
         this.initHandlers();
         this.updateUser(0);
@@ -95,17 +93,13 @@ public class GameScreen extends Screen {
         openingCards.clear();
         closingCards.clear();
         removedCards.clear();
-        for (int i = 0; i < numCard; i++) {
-            int row = 10;
-            int col = 15;
-            Vector <BuildingBlock> block = this.blockGenerator.generateRandomBuildingBlocks(numBlock, Globals.app.getGameType());
-            this.blockGenerator.setBuildingBlocks(block);
-            closingCards.add(new Card(this.blockGenerator, row, col, new Coordinate(700, 155), 261, 174, Globals.app.getGameType(), false, numBlock/2, numBlock));
-        }
         closingCards.addAll(skippedCards);
         skippedCards.clear();
         for (Card card : closingCards) {
             this.getChildren().add(card);
+        }
+        if (closingCards.isEmpty()) {
+            cardSet.genNewClosingCard();
         }
     }
 
@@ -116,7 +110,7 @@ public class GameScreen extends Screen {
         this.endRound = new EndRound(this);
         this.generateCard = new GenerateCard(this.cardSet, blockContainer).setCallBack(this.endRound);
         this.rollingDice = new RollingDice().setClockCallBack(this.endRound).setGenerateCard(this.generateCard);
-        this.submitResult = new SubmitResult(userID, cardSet, generateCard, blockContainer);
+        this.submitResult = new SubmitResult(userID, cardSet, generateCard, blockContainer, maxResolvedCard);
         this.playGame = new PlayGame(this);
         this.skipCard = new SkipCard(this.cardSet, this.generateCard);
     }
@@ -235,6 +229,10 @@ public class GameScreen extends Screen {
 
     public int getUserID() {
         return userID;
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
     }
 
     public PlayGame getGamePlay() {

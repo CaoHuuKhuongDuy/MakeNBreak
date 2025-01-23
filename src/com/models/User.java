@@ -7,7 +7,7 @@ import javafx.scene.text.Text;
 
 public class User {
     private String name;
-    private int point, userID, currentRound;
+    private int point, userID, currentRound, solvedCard;
     private Text userPointText, userIDText, currentRoundText;
 
 
@@ -25,6 +25,7 @@ public class User {
         this.currentRoundText.setFont(jerseyFontSmall);
         this.userID = 0;
         this.currentRound = 0;
+        this.solvedCard = 0;
     }
 
     public User(String name) {
@@ -61,6 +62,18 @@ public class User {
 
     public int getCurrentRound() {
         return this.currentRound;
+    }
+
+    public int getSolvedCard() {
+        return this.solvedCard;
+    }
+
+    public void setSolvedCard(int solvedCard) {
+        this.solvedCard = solvedCard;
+    }
+
+    public void increaseSolvedCard() {
+        this.solvedCard++;
     }
 
     public void updateUserInforText() {

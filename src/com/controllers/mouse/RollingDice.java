@@ -73,7 +73,7 @@ public class RollingDice implements EventHandler<MouseEvent> {
                 clock.setTime(dice.getValue() * 60);
                 clock.startCounting(clockCallBack);
                 dice.setInteractable(false);
-                generateCard.run();
+                generateCard.run(true);
             }
         }
     }

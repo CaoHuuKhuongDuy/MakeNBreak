@@ -64,10 +64,9 @@ public class SkipCard implements EventHandler<MouseEvent>, Runnable {
                 fadeTransition.play();
             });
         }
-        skippedCard.toFront();
         skippedCard.setSkipped(true);
-
         transition.play();
-        generateCard.run();
+        skippedCard.toFront();
+        generateCard.run(true);
     }
 }
