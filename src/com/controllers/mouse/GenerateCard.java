@@ -54,6 +54,7 @@ public class GenerateCard implements EventHandler<MouseEvent>, Runnable  {
         closingCard.getLast().setPosition(new Coordinate(420, 155));
         closingCard.getLast().setOpen(true);
         openingCard.add(closingCard.getLast());
+        openingCard.getLast().toFront();
         blockContainer.setBlocks(openingCard.getLast().getBuildingBlocks());
         blockContainer.getBoard().reset();
         closingCard.removeLast();

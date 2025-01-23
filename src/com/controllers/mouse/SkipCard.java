@@ -3,6 +3,7 @@ package com.controllers.mouse;
 import com.commons.Coordinate;
 import com.models.Card;
 import com.models.CardSet;
+import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
@@ -33,20 +34,39 @@ public class SkipCard implements EventHandler<MouseEvent>, Runnable {
         Vector <Card> skippedCards = cardSet.getSkippedCards();
         Card skippedCard = openingCard.getLast();
         openingCard.removeLast();
-        skippedCards.add(skippedCard);
-
         TranslateTransition transition = new TranslateTransition();
-        transition.setDuration(Duration.seconds(1.5)); // Duration of the animation
-        transition.setNode(skippedCard);              // Set the node to animate
-        transition.setByX(280);                    // Move 280 units horizontally
-        transition.setCycleCount(1);               // Only run once
-        transition.setAutoReverse(false);          // Do not reverse
-        transition.setOnFinished(_ -> {
-            skippedCard.setOpen(false);
-            skippedCard.setLayoutX(skippedCard.getLayoutX() + skippedCard.getTranslateX());
-            skippedCard.setTranslateX(0);
-        });
-//         Start the animation
+        if (!skippedCard.getSkipped()) {
+            skippedCards.add(skippedCard);
+            transition.setDuration(Duration.seconds(1.5)); // Duration of the animation
+            transition.setNode(skippedCard);              // Set the node to animate
+            transition.setByX(280);                    // Move 280 units horizontally
+            transition.setCycleCount(1);               // Only run once
+            transition.setAutoReverse(false);          // Do not reverse
+            transition.setOnFinished(_ -> {
+                skippedCard.setLayoutX(skippedCard.getLayoutX() + skippedCard.getTranslateX());
+                skippedCard.setPoint(skippedCard.getPoint() + 1);
+                skippedCard.setTranslateX(0);
+            });
+        } else {
+            Vector <Card> removedCards = cardSet.getRemovedCards();
+            removedCards.add(skippedCard);
+            transition.setDuration(Duration.seconds(1)); // Duration of the animation
+            transition.setNode(skippedCard);              // Set the node to animate
+            transition.setByY(-180);                    // Move 280 units horizontally
+            transition.setCycleCount(1);               // Only run once
+            transition.setAutoReverse(false);          // Do not reverse
+            transition.setOnFinished(_ -> {
+                FadeTransition fadeTransition = new FadeTransition();
+                fadeTransition.setDuration(Duration.seconds(0.5)); // Duration of the fade-out
+                fadeTransition.setNode(skippedCard);              // Set the node to animate
+                fadeTransition.setFromValue(1.0);                 // Start fully visible
+                fadeTransition.setToValue(0.0);
+                fadeTransition.play();
+            });
+        }
+        skippedCard.toFront();
+        skippedCard.setSkipped(true);
+
         transition.play();
         generateCard.run();
     }

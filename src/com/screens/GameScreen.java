@@ -83,16 +83,18 @@ public class GameScreen extends Screen {
         Vector <Card> openingCards = cardSet.getOpeningCards();
         Vector <Card> closingCards = cardSet.getClosingCards();
         Vector <Card> skippedCards = cardSet.getSkippedCards();
+        Vector <Card> removedCards = cardSet.getRemovedCards();
         for (Card card : openingCards)
             this.getChildren().remove(card);
         for (Card card : closingCards)
             this.getChildren().remove(card);
         for (Card card : skippedCards)
             this.getChildren().remove(card);
+        for (Card card : removedCards)
+            this.getChildren().remove(card);
         openingCards.clear();
         closingCards.clear();
-        closingCards.addAll(skippedCards);
-        skippedCards.clear();
+        removedCards.clear();
         for (int i = 0; i < numCard; i++) {
             int row = 10;
             int col = 15;
@@ -100,8 +102,10 @@ public class GameScreen extends Screen {
             this.blockGenerator.setBuildingBlocks(block);
             closingCards.add(new Card(this.blockGenerator, row, col, new Coordinate(700, 155), 261, 174, Globals.app.getGameType(), false, numBlock/2, numBlock));
         }
-        for (int i = closingCards.size() - 1; i >= 0; i--) {
-            this.getChildren().add(closingCards.get(i));
+        closingCards.addAll(skippedCards);
+        skippedCards.clear();
+        for (Card card : closingCards) {
+            this.getChildren().add(card);
         }
     }
 

@@ -21,6 +21,7 @@ public class Card extends Entity {
     private int point;
     private GameType type;
     private boolean open;
+    private boolean skipped;
     private int row, col;
     private Color[][] bound;
     private int rowBound, colBound;
@@ -33,16 +34,6 @@ public class Card extends Entity {
     }
     public void setType(GameType type) {
         this.type = type;
-    }
-
-    public Card(Color[][] cells, int row, int col, Coordinate position, double width, double height, GameType type, boolean open) {
-        super(position, true, width, height);
-        Random random = new Random();
-        this.point = random.nextInt(3) + 1;
-        this.type = type;
-        this.open = open;
-        this.setCells(cells, row, col);
-        this.draw();
     }
 
     public Card(ListBuildingBlock blockGenerator, int row, int col, Coordinate position, double width, double height, GameType type, boolean open,  int lowerBound, int upperBound) {
@@ -63,6 +54,7 @@ public class Card extends Entity {
             this.buildingBlocks.add(block.clone());
         }
         this.setCells(blockGenerator.generateBuilding(row, col, lowerBound, upperBound), row, col);
+        this.skipped = false;
         this.draw();
     }
 
@@ -72,6 +64,11 @@ public class Card extends Entity {
 
     public int getPoint() {
         return this.point;
+    }
+
+    public void setPoint(int point) {
+        this.point = point;
+        this.draw();
     }
 
     private void setCells(Color[][] cells, int row, int col) {
@@ -111,8 +108,17 @@ public class Card extends Entity {
         return this.open;
     }
 
+    public void setSkipped(boolean skipped) {
+        this.skipped = skipped;
+    }
+
+    public boolean getSkipped() {
+        return this.skipped;
+    }
+
     public void draw() {
         this.getChildren().clear();
+        this.canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         if (!open) {
             ImageView imageViewCard = new ImageView(new Image("/resources/assets/images/back_of_card.png"));
             imageViewCard.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
