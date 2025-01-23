@@ -154,6 +154,7 @@ public class MainScreen extends Screen {
 
         if (players > 0 && rounds > 0 && Globals.app.getGameType() != null) {
             updateUsers(players);
+            Globals.app.setNumberOfRound(rounds);
             switchScreen.setScreen(new LoadingScreen(primaryStage));
             switchScreen.handle(event);
         }
@@ -170,8 +171,10 @@ public class MainScreen extends Screen {
 
     private void updateUsers(int numberOfPlayers) {
         Globals.app.getUsers().clear();
-        for (int i = 0; i < numberOfPlayers; i++) {
-            Globals.app.addUser(new User("Player " + (i + 1)));
+        for (int i = 1; i <= numberOfPlayers; i++) {
+            User user = new User("Player " + (i));
+            user.setUserID(i);
+            Globals.app.addUser(user);
         }
     }
 

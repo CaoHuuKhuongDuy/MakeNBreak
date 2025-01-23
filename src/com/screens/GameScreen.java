@@ -114,6 +114,19 @@ public class GameScreen extends Screen {
         this.skipCard = new SkipCard(this.cardSet, this.generateCard);
     }
 
+    public void handleEndGame() {
+        Platform.runLater(() -> {
+            if (this.switchScreen == null) {
+                System.out.println("SwitchScreen is not initialized!");
+                return;
+            }
+            LeaderboardScreen leaderboardScreen = new LeaderboardScreen(primaryStage);
+
+            this.switchScreen.setScreen(leaderboardScreen);
+            this.switchScreen.run();
+        });
+    }
+
     @Override
     public void display() {
         this.getChildren().clear();
