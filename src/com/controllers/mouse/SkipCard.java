@@ -55,7 +55,7 @@ public class SkipCard implements EventHandler<MouseEvent>, Runnable {
             removedCards.add(skippedCard);
             transition.setDuration(Duration.seconds(1)); // Duration of the animation
             transition.setNode(skippedCard);              // Set the node to animate
-            transition.setByY(-180);                    // Move 280 units horizontally
+            transition.setByY(-180);                    // Move -180 units vertically
             transition.setCycleCount(1);               // Only run once
             transition.setAutoReverse(false);          // Do not reverse
             transition.setOnFinished(_ -> {
