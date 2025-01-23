@@ -26,7 +26,6 @@ public class MainScreen extends Screen {
     public MainScreen(Stage primaryStage) {
         super(primaryStage);
         this.initHandlers();
-        Globals.app.setGameType(null);
     }
 
     @Override
@@ -36,14 +35,13 @@ public class MainScreen extends Screen {
 
     @Override
     public void display() {
-        clearScreen();
+        this.getChildren().clear();
+        if (Globals.app.getGameType() != null) {
+            Globals.app.setGameType(null);
+        }
         addTitleImage();
         configureComponents();
         this.primaryStage.getScene().setRoot(this);
-    }
-
-    private void clearScreen() {
-        this.getChildren().clear();
     }
 
     private void addTitleImage() {

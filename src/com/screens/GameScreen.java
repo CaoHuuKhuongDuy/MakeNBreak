@@ -193,8 +193,9 @@ public class GameScreen extends Screen {
         this.playGame.playRound();
         this.getChildren().addAll(title, scoreRectangle, backButton, generateCardButton, clock, dice, kickButton,
                 iconCoin, iconPlayer, iconSettingButton, blockContainer);
-        this.getChildren().addAll(pausingPopup);
         this.getChildren().addAll(userPointText, userIDText);
+        this.getChildren().addAll(pausingPopup);
+
 
         this.primaryStage.getScene().setRoot(this);
         this.primaryStage.getScene().setOnKeyPressed(this.submitResult);
