@@ -30,6 +30,10 @@ public class LoadingScreen extends Screen {
         ImageView titleImageView = new ImageView(titleImage);
         titleImageView.setLayoutY(30);
 
+        ImageView instructionText = new ImageView(new Image("resources/assets/images/text.png"));
+        instructionText.setLayoutX(154);
+        instructionText.setLayoutY(595);
+
         // Add loading bar
         LoadingBar loadingBar = new LoadingBar(512, 48);
         loadingBar.configureTimeline(() -> {
@@ -40,7 +44,7 @@ public class LoadingScreen extends Screen {
         loadingBar.getProgressBar().setLayoutY(646);
         loadingBar.getProgressBar().setLayoutX(256);
 
-        this.getChildren().addAll(loadingBar.getProgressBar(), titleImageView);
+        this.getChildren().addAll(loadingBar.getProgressBar(), titleImageView, instructionText);
 
         this.primaryStage.getScene().setRoot(this);
         loadingBar.startAnimation();
