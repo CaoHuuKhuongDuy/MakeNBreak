@@ -48,8 +48,6 @@ public class SkipCard implements EventHandler<MouseEvent>, Runnable {
             transition.setAutoReverse(false);          // Do not reverse
             transition.setOnFinished(_ -> {
                 skippedCard.setLayoutX(skippedCard.getLayoutX() + skippedCard.getTranslateX());
-                int userID = (gameScreen.getUserID() + 1) % Globals.app.getUsers().size();
-                Globals.getUser(userID).setPoint(Globals.getUser(userID).getPoint() + 1);
                 skippedCard.setTranslateX(0);
             });
         } else {
@@ -69,6 +67,8 @@ public class SkipCard implements EventHandler<MouseEvent>, Runnable {
                 fadeTransition.play();
             });
         }
+        int userID = (gameScreen.getUserID() + 1) % Globals.app.getUsers().size();
+        Globals.getUser(userID).setPoint(Globals.getUser(userID).getPoint() + 1);
         skippedCard.setSkipped(true);
         transition.play();
         skippedCard.toFront();
