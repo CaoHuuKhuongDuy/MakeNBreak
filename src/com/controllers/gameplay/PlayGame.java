@@ -21,12 +21,37 @@ public class PlayGame {
         this.gameScreen.getDice().reset();
         this.gameScreen.getBlockContainer().reset();
         int userID = this.gameScreen.getUserID();
+
         if (userID == Globals.app.getUsers().size() - 1) {
-            // TODO: Add logic to end game
-            userID = 0;
+            int remainingRounds = Globals.app.getNumberOfRound();
+
+            if (remainingRounds > 1) {
+                Globals.app.setNumberOfRound(remainingRounds - 1);
+                this.gameScreen.setPlaying(true);
+                this.gameScreen.getDice().setInteractable(true);
+                this.gameScreen.initCards();
+            } else {
+                endGame();
+                return;
+            }
+            this.gameScreen.updateUser(0);
         } else {
             this.gameScreen.updateUser(userID + 1);
         }
-        this.playRound();
+
+        if (Globals.app.getNumberOfRound() > 0) {
+            playRound();
+        }
     }
+
+    private void endGame() {
+        this.gameScreen.setPlaying(false);
+        this.gameScreen.getClock().reset();
+        this.gameScreen.getDice().reset();
+        this.gameScreen.getBlockContainer().reset();
+
+        this.gameScreen.handleEndGame();
+        Globals.app.setNumberOfRound(0);
+    }
+
 }
