@@ -1,6 +1,7 @@
 package com.controllers.gameplay;
 
 import com.commons.Globals;
+import com.models.User;
 import com.screens.GameScreen;
 
 public class PlayGame {
@@ -21,27 +22,14 @@ public class PlayGame {
         this.gameScreen.getDice().reset();
         this.gameScreen.getBlockContainer().reset();
         int userID = this.gameScreen.getUserID();
-
-        if (userID == Globals.app.getUsers().size() - 1) {
-            int remainingRounds = Globals.app.getNumberOfRound();
-
-            if (remainingRounds > 1) {
-                Globals.app.setNumberOfRound(remainingRounds - 1);
-                this.gameScreen.setPlaying(true);
-                this.gameScreen.getDice().setInteractable(true);
-                this.gameScreen.initCards();
-            } else {
-                endGame();
-                return;
-            }
-            this.gameScreen.updateUser(0);
-        } else {
-            this.gameScreen.updateUser(userID + 1);
+        Globals.getUser(userID).setCurrentRound(Globals.getUser(userID).getCurrentRound() + 1);
+        userID = (userID + 1) % Globals.app.getUsers().size();
+        if (Globals.getUser(userID).getCurrentRound() >= Globals.app.getNumberOfRound()) {
+            this.endGame();
+            return;
         }
-
-        if (Globals.app.getNumberOfRound() > 0) {
-            playRound();
-        }
+        this.gameScreen.updateUser(userID);
+        this.playRound();
     }
 
     private void endGame() {

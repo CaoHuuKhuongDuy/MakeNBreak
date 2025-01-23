@@ -40,7 +40,7 @@ public class GameScreen extends Screen {
 
     private Clock clock;
     private Dice dice;
-    private Text userPointText, userIDText;
+    private Text userPointText, userIDText, roundText;
 
     private AtomicBoolean playing;
 
@@ -70,10 +70,13 @@ public class GameScreen extends Screen {
         this.currentUser.updateUserInforText();
         this.getChildren().remove(userPointText);
         this.getChildren().remove(userIDText);
+        this.getChildren().remove(roundText);
         this.getChildren().add(this.currentUser.getUserPointText());
         this.getChildren().add(this.currentUser.getUserIDText());
+        this.getChildren().add(this.currentUser.getCurrentRoundText());
         this.userPointText = this.currentUser.getUserPointText();
         this.userIDText = this.currentUser.getUserIDText();
+        this.roundText = this.currentUser.getCurrentRoundText();
     }
 
     public void initCards() {
@@ -206,7 +209,7 @@ public class GameScreen extends Screen {
         this.playGame.playRound();
         this.getChildren().addAll(title, scoreRectangle, backButton, generateCardButton, clock, dice, kickButton,
                 iconCoin, iconPlayer, iconSettingButton, blockContainer);
-        this.getChildren().addAll(userPointText, userIDText);
+        this.getChildren().addAll(userPointText, userIDText, roundText);
         this.getChildren().addAll(pausingPopup);
 
 

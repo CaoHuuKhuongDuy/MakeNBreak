@@ -48,6 +48,9 @@ public class ShowPopup implements EventHandler<MouseEvent>, Runnable{
     public void handle(MouseEvent event) {
         if (event.getEventType().equals(MouseEvent.MOUSE_CLICKED)) {
             popUpScreen.setVisible(visible);
+            if (visible) {
+                popUpScreen.toFront();
+            }
             if (pausing) currentScreen.pausing(visible);
         }
     }
@@ -55,6 +58,9 @@ public class ShowPopup implements EventHandler<MouseEvent>, Runnable{
     // Triggered directly (Runnable)
     @Override
     public void run() {
+        if (visible) {
+            popUpScreen.toFront();
+        }
         popUpScreen.setVisible(visible);
     }
 }

@@ -1,5 +1,6 @@
 package com.commons;
 
+import com.models.User;
 import com.models.components.BuildingBlock;
 import com.models.components.ListBuildingBlock;
 import javafx.scene.paint.Color;
@@ -56,5 +57,9 @@ public class Globals {
 
     public static Color getRandomColor() {
         return listColors[(int) (Math.random() * listColors.length)];
+    }
+
+    public static User getUser(int userID) {
+        return app.getUsers().get(userID);
     }
 }

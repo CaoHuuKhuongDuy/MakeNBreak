@@ -12,37 +12,19 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Clock extends Entity {
     private int time; // seconds
     private Arrow arrow;
-    private AtomicBoolean pausing, running;
-
-    public Clock() {
-        super();
-        this.time = 0;
-        this.pausing = new AtomicBoolean(false);
-        this.running = new AtomicBoolean(false);
-    }
+    private AtomicBoolean pausing, running, interrupted;
 
     public Clock(Coordinate position) {
         super(position, true);
         this.time = 0;
         this.pausing = new AtomicBoolean(false);
         this.running = new AtomicBoolean(false);
-    }
-
-    public Clock(Coordinate position, double width, double height, int time) {
-        super(position, true, width, height);
-        this.time = time;
-        this.pausing = new AtomicBoolean(false);
-        this.running = new AtomicBoolean(false);
-    }
-
-
-    public Clock(Coordinate position, double width, double height) {
-        super(position, true, width, height);
-        this.time = 0;
+        this.interrupted = new AtomicBoolean(false);
     }
 
     public void reset() {
         this.time = 0;
+        this.interrupted.set(true);
         this.running.set(false);
         this.pausing.set(false);
         this.draw();
@@ -80,6 +62,7 @@ public class Clock extends Entity {
             return;
         }
         this.running.set(true);
+        this.interrupted.set(false);
         double currentAngle = Math.min(this.time, 60) * 0.25 + Math.max(0, this.time - 60) * 1.25;
         this.arrow.setAngle(180 - currentAngle);
 
@@ -100,7 +83,7 @@ public class Clock extends Entity {
                 e.printStackTrace();
             } finally {
                 this.running.set(false);
-                Platform.runLater(callback); // Run callback on the JavaFX Application Thread
+                if (!this.interrupted.get()) Platform.runLater(callback); // Run callback on the JavaFX Application Thread
             }
         });
 
