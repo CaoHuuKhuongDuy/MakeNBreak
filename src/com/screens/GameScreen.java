@@ -37,7 +37,6 @@ public class GameScreen extends Screen {
     private User currentUser;
 
     CardSet cardSet;
-    private int maxResolvedCard = 1;
 
     private Clock clock;
     private Dice dice;
@@ -113,7 +112,7 @@ public class GameScreen extends Screen {
         this.endRound = new EndRound(this);
         this.generateCard = new GenerateCard(this.cardSet, blockContainer).setCallBack(this.endRound);
         this.rollingDice = new RollingDice().setClockCallBack(this.endRound).setGenerateCard(this.generateCard);
-        this.submitResult = new SubmitResult(userID, cardSet, generateCard, blockContainer, maxResolvedCard);
+        this.submitResult = new SubmitResult(userID, cardSet, generateCard, blockContainer);
         this.playGame = new PlayGame(this);
         this.skipCard = new SkipCard(this.cardSet, this.generateCard, this);
     }

@@ -19,14 +19,12 @@ public class SubmitResult implements EventHandler<Event>, Runnable {
     private BlockContainer blockContainer;
     private User user;
     private GenerateCard generateCard;
-    private int maxSolvedCard;
 
-    public SubmitResult(int userID, CardSet cardSet, GenerateCard generateCard, BlockContainer blockContainer, int maxSolvedCard) {
+    public SubmitResult(int userID, CardSet cardSet, GenerateCard generateCard, BlockContainer blockContainer) {
         this.user = Globals.app.getUsers().get(userID);
         this.generateCard = generateCard;
         this.blockContainer = blockContainer;
         this.openingCard = cardSet.getOpeningCards();
-        this.maxSolvedCard = maxSolvedCard;
     }
 
     public void setUser(int userID) {
@@ -58,7 +56,6 @@ public class SubmitResult implements EventHandler<Event>, Runnable {
                 user.increaseSolvedCard();
             }
             this.generateCard.run(true);
-//            this.generateCard.run(user.getSolvedCard() < maxSolvedCard);
         }
     }
 
