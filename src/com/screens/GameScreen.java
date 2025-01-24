@@ -176,7 +176,7 @@ public class GameScreen extends Screen {
         CustomButton iconSettingButton = new CustomButton("", "/resources/assets/images/Icon_Settings.png");
         iconSettingButton.setOnMouseClicked(showPopup.setPopUpScreen(pausingPopup).setVisible(true));
 
-        CustomButton infoButton = new CustomButton("", "resources/assets/images/Button/info.png");
+        CustomButton infoButton = new CustomButton("", "/resources/assets/images/Button/info.png");
         infoButton.setOnMouseClicked(showPopupInstruction.setPopUpScreen(instructionPopup).setVisible(true));
 
         infoButton.setLayoutX(936);

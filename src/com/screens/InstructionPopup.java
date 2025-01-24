@@ -31,7 +31,7 @@ public class InstructionPopup extends Screen {
     public void display() {
         this.getChildren().clear();
 
-        CustomButton returnButton = new CustomButton("", "resources/assets/images/Icon_Cross.png");
+        CustomButton returnButton = new CustomButton("", "/resources/assets/images/Icon_Cross.png");
         returnButton.setOnMouseClicked(this.showPopup.setPopUpScreen(this).setVisible(false));
 
         returnButton.setLayoutX(973);

@@ -14,7 +14,7 @@ public class CustomButton extends Button {
         this.setGraphic(imageView);
 
 
-        this.getStylesheets().add("resources/assets/styles/Button.css");
+        this.getStylesheets().add("/resources/assets/styles/Button.css");
 
 
         this.setContentDisplay(ContentDisplay.CENTER);

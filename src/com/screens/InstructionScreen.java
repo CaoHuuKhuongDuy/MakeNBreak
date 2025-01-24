@@ -23,7 +23,7 @@ public class InstructionScreen extends Screen {
     public void display() {
         this.getChildren().clear();
 
-        CustomButton exitButton = new CustomButton("", "resources/assets/images/Icon_Cross.png");
+        CustomButton exitButton = new CustomButton("", "/resources/assets/images/Icon_Cross.png");
         exitButton.setOnMouseClicked(this.switchScreen.setScreen(new MainScreen(primaryStage)));
 
         exitButton.setLayoutX(973);

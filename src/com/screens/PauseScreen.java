@@ -43,22 +43,22 @@ public class PauseScreen extends Screen {
         imageViewSettingPanel.setFitWidth(371);
         imageViewSettingPanel.setFitHeight(381);
 
-        ImageView panelBackground = new ImageView(new Image("resources/assets/images/meme.png"));
+        ImageView panelBackground = new ImageView(new Image("/resources/assets/images/meme.png"));
         panelBackground.setLayoutX(253);
         panelBackground.setLayoutY(286);
 
         // Create quit button
-        CustomButton quitButton = new CustomButton("QUIT", "resources/assets/images/Button/redButton.png");
+        CustomButton quitButton = new CustomButton("QUIT", "/resources/assets/images/Button/redButton.png");
         quitButton.setSize(130, 55);
         quitButton.setOnMouseClicked(this.switchScreen.setScreen(new IntroScreen(primaryStage)));
         
-        CustomButton resumeButton = new CustomButton("RESUME", "resources/assets/images/Button/yellowButton.png");
+        CustomButton resumeButton = new CustomButton("RESUME", "/resources/assets/images/Button/yellowButton.png");
         resumeButton.setOnMouseClicked(this.showPopup.setPopUpScreen(this).setVisible(false));
         resumeButton.setSize(130, 55);
 
 
         // Create cross button
-        CustomButton crossButton = new CustomButton("", "resources/assets/images/Icon_Cross.png");
+        CustomButton crossButton = new CustomButton("", "/resources/assets/images/Icon_Cross.png");
         crossButton.setOnMouseClicked(this.showPopup.setPopUpScreen(this).setVisible(false));
 
         imageViewSettingPanel.setLayoutX(314);

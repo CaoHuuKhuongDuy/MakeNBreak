@@ -92,7 +92,7 @@ public class MainScreen extends Screen {
     }
 
     private void createPlayerButton(String label, int players, Text numOfPlayersText, TextField playerField, int x, int y) {
-        CustomButton button = new CustomButton(label, "resources/assets/images/Button/yellowButton.png");
+        CustomButton button = new CustomButton(label, "/resources/assets/images/Button/yellowButton.png");
         button.setLayoutX(x);
         button.setLayoutY(y);
         playerButtons.add(button);
@@ -107,7 +107,7 @@ public class MainScreen extends Screen {
     }
 
     private void createCustomButton(Text numOfPlayersText, TextField playerField, int x, int y) {
-        CustomButton customButton = new CustomButton("CUSTOMIZE", "resources/assets/images/Button/redButton.png");
+        CustomButton customButton = new CustomButton("CUSTOMIZE", "/resources/assets/images/Button/redButton.png");
         customButton.setLayoutX(x);
         customButton.setLayoutY(y);
         playerButtons.add(customButton);
@@ -120,8 +120,8 @@ public class MainScreen extends Screen {
     }
 
     private void createGameTypeButtons() {
-        createGameTypeButton("Single Block Type", GameType.SINGLE_BLOCK, "resources/assets/images/Button/longerYellow.png", 715, 417);
-        createGameTypeButton("Multiple Block Type", GameType.MULTIPLE_BLOCK, "resources/assets/images/Button/redLonger.png", 702, 503);
+        createGameTypeButton("Single Block Type", GameType.SINGLE_BLOCK, "/resources/assets/images/Button/longerYellow.png", 715, 417);
+        createGameTypeButton("Multiple Block Type", GameType.MULTIPLE_BLOCK, "/resources/assets/images/Button/redLonger.png", 702, 503);
     }
 
     private void createGameTypeButton(String label, GameType type, String imagePath, int x, int y) {
@@ -137,7 +137,7 @@ public class MainScreen extends Screen {
     }
 
     private void createPlayButton(Text numOfPlayersText, TextField playerField, TextField roundField) {
-        CustomButton playButton = new CustomButton("PLAY", "resources/assets/images/Button/yellowButton.png");
+        CustomButton playButton = new CustomButton("PLAY", "/resources/assets/images/Button/yellowButton.png");
         playButton.setLayoutX(739);
         playButton.setLayoutY(672);
         playButton.setOnMouseClicked(event -> handlePlayButton(numOfPlayersText, playerField, roundField, event));  // Pass event

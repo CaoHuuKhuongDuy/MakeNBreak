@@ -30,7 +30,7 @@ public class LoadingScreen extends Screen {
         ImageView titleImageView = new ImageView(titleImage);
         titleImageView.setLayoutY(30);
 
-        ImageView instructionText = new ImageView(new Image("resources/assets/images/text.png"));
+        ImageView instructionText = new ImageView(new Image("/resources/assets/images/text.png"));
         instructionText.setLayoutX(154);
         instructionText.setLayoutY(595);
 

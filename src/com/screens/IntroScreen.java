@@ -29,9 +29,9 @@ public class IntroScreen extends Screen {
         ImageView titleImageView = new ImageView(titleImage);
 
         // Create the buttons
-        CustomButton startButton = new CustomButton("START", "resources/assets/images/Button/yellowButton.png");
+        CustomButton startButton = new CustomButton("START", "/resources/assets/images/Button/yellowButton.png");
 
-        CustomButton quitButton = new CustomButton("QUIT", "resources/assets/images/Button/redButton.png");
+        CustomButton quitButton = new CustomButton("QUIT", "/resources/assets/images/Button/redButton.png");
 
         // Add event handlers for buttons
         startButton.setOnAction(event -> {

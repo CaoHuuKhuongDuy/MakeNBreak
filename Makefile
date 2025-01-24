@@ -2,31 +2,32 @@
 JAVAFX_LIB := javafx-sdk-23.0.1/lib  # Modify with your JavaFX SDK path
 SRC_DIR := src
 BIN_DIR := bin
+DIST_DIR := dist
 MAIN_CLASS := com.Main
 JAVA_FILES := $(shell find $(SRC_DIR)/com -name "*.java")  # Use 'find' to gather all Java files
 
 # The target to compile the Java files
-all: compile
+all: jar
 
 # Compile Java files using javac
 compile:
 	mkdir -p $(BIN_DIR)  # Ensure the bin directory exists
 	javac --module-path $(JAVAFX_LIB) --add-modules javafx.controls -d $(BIN_DIR) $(JAVA_FILES)
-	mkdir -p $(BIN_DIR)/resources/assets/images/
-	mkdir -p $(BIN_DIR)/resources/assets/styles/
-	cp -r $(SRC_DIR)/resources/assets/images/ $(BIN_DIR)/resources/assets/images/
-	cp -r $(SRC_DIR)/resources/assets/styles/ $(BIN_DIR)/resources/assets/styles/
-	cp -r $(SRC_DIR)/resources/assets/fonts/ $(BIN_DIR)/resources/assets/fonts/
 
-
+# Package the project into a runnable JAR file
+jar: compile
+	mkdir -p $(DIST_DIR)
+	echo "Main-Class: $(MAIN_CLASS)" > MANIFEST.MF
+	jar cfm $(DIST_DIR)/MyApp.jar MANIFEST.MF -C $(BIN_DIR) . -C $(SRC_DIR) .
+	rm -f MANIFEST.MF
 
 # Run the Java program
-run: compile
-	java --module-path $(JAVAFX_LIB) --add-modules javafx.controls -cp $(BIN_DIR) $(MAIN_CLASS)
+run: jar
+	java --module-path $(JAVAFX_LIB) --add-modules javafx.controls -jar $(DIST_DIR)/MyApp.jar
 
-# Clean up compiled class files
+# Clean up compiled class files and JARs
 clean:
-	rm -rf $(BIN_DIR)/*
+	rm -rf $(BIN_DIR)/* $(DIST_DIR)/*
 
 # Phony targets to avoid conflicts with file names
-.PHONY: all compile run clean
+.PHONY: all compile jar run clean
