@@ -45,7 +45,7 @@ public class IntroScreen extends Screen {
             Platform.exit();
         });
 
-        startButton.setOnMouseClicked(this.switchScreen.setScreen(new MainScreen(primaryStage)));
+        startButton.setOnMouseClicked(this.switchScreen.setScreen(new InstructionScreen(primaryStage)));
 
         titleImageView.setLayoutX(0);
         titleImageView.setLayoutY(30);

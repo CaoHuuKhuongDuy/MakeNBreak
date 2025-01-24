@@ -7,8 +7,7 @@ import com.controllers.gameplay.PlayGame;
 import com.controllers.commons.SubmitResult;
 import com.controllers.mouse.*;
 import com.models.*;
-import com.models.components.BuildingBlock;
-import com.models.components.ListBuildingBlock;
+import com.models.components.CustomButton;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -23,6 +22,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class GameScreen extends Screen {
     private SwitchScreen switchScreen;
     private ShowPopup showPopup;
+    private ShowPopup showPopupInstruction;
     private RollingDice rollingDice;
     private GenerateCard generateCard;
     private EndRound endRound;
@@ -31,6 +31,7 @@ public class GameScreen extends Screen {
     private SkipCard skipCard;
 
     private PauseScreen pausingPopup;
+    private InstructionPopup instructionPopup;
 
     private int userID;
     private User currentUser;
@@ -51,7 +52,8 @@ public class GameScreen extends Screen {
         super(primaryStage);
         this.pausingPopup = new PauseScreen(primaryStage, this);
         this.pausingPopup.setVisible(false);
-
+        this.instructionPopup = new InstructionPopup(primaryStage, this);
+        this.instructionPopup.setVisible(false);
         this.clock = new Clock(new Coordinate(133, 92));
         this.dice = new Dice(new Coordinate(41, 99), 66, 66, false);
         this.playing = new AtomicBoolean(false);
@@ -107,6 +109,7 @@ public class GameScreen extends Screen {
     public void initHandlers() {
         this.switchScreen = new SwitchScreen(primaryStage);
         this.showPopup = new ShowPopup(primaryStage).setCurrentScreen(this);
+        this.showPopupInstruction = new ShowPopup(primaryStage).setCurrentScreen(this);
         this.endRound = new EndRound(this);
         this.generateCard = new GenerateCard(this.cardSet, blockContainer).setCallBack(this.endRound);
         this.rollingDice = new RollingDice().setClockCallBack(this.endRound).setGenerateCard(this.generateCard);
@@ -171,14 +174,14 @@ public class GameScreen extends Screen {
         iconPlayer.setFitHeight(53.8);
 
         // Create icon setting button
-        Button iconSettingButton = new Button();
-        ImageView imageIconSettingButton = new ImageView(new Image("/resources/assets/images/Icon_Settings.png"));
-        imageIconSettingButton.setFitWidth(30);
-        imageIconSettingButton.setFitHeight(30);
-        iconSettingButton.setGraphic(imageIconSettingButton);
-        iconSettingButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
-
+        CustomButton iconSettingButton = new CustomButton("", "/resources/assets/images/Icon_Settings.png");
         iconSettingButton.setOnMouseClicked(showPopup.setPopUpScreen(pausingPopup).setVisible(true));
+
+        CustomButton infoButton = new CustomButton("", "resources/assets/images/Button/info.png");
+        infoButton.setOnMouseClicked(showPopupInstruction.setPopUpScreen(instructionPopup).setVisible(true));
+
+        infoButton.setLayoutX(936);
+        infoButton.setLayoutY(21);
 
         title.setLayoutX(10);
         title.setLayoutY(10);
@@ -206,9 +209,9 @@ public class GameScreen extends Screen {
 
         this.playGame.playRound();
         this.getChildren().addAll(title, scoreRectangle, clock, dice, kickButton,
-                iconCoin, iconPlayer, iconSettingButton, blockContainer);
+                iconCoin, iconPlayer, iconSettingButton, blockContainer, infoButton);
         this.getChildren().addAll(userPointText, userIDText, roundText);
-        this.getChildren().addAll(pausingPopup);
+        this.getChildren().addAll(pausingPopup, instructionPopup);
 
 
         this.primaryStage.getScene().setRoot(this);
