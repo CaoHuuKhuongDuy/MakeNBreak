@@ -41,7 +41,7 @@ public class SubmitResult implements EventHandler<Event>, Runnable {
         }
         if (event.getEventType().equals(KeyEvent.KEY_PRESSED)) {
             KeyEvent keyEvent = (KeyEvent) event;
-            if (keyEvent.getCode() == KeyCode.ENTER) {
+            if (keyEvent.getCode() == KeyCode.SPACE) {
                 this.run();
             }
         }
