@@ -17,14 +17,6 @@ public class ListBuildingBlock {
         this.buildingBlocks = new Vector<>();
     }
 
-    public ListBuildingBlock(Vector<BuildingBlock> buildingBlocks) {
-        this.buildingBlocks = buildingBlocks;
-    }
-
-    public void addBuildingBlock(BuildingBlock buildingBlock) {
-        this.buildingBlocks.add(buildingBlock);
-    }
-
     public Vector <BuildingBlock> getBuildingBlocks() {
         return this.buildingBlocks;
     }

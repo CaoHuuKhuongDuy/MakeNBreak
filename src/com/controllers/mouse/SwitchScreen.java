@@ -10,11 +10,6 @@ public class SwitchScreen implements EventHandler<MouseEvent>, Runnable{
     Stage primaryStage;
     Screen nextScreen;
 
-    public SwitchScreen(Stage primaryStage, Screen nextScreen) {
-        this.primaryStage = primaryStage;
-        this.nextScreen = nextScreen;
-    }
-
     public SwitchScreen(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }

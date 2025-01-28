@@ -3,11 +3,8 @@ package com.models.components;
 import com.commons.Coordinate;
 import com.commons.Globals;
 import com.models.Entity;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 
 import java.util.Vector;
 

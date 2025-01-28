@@ -11,13 +11,6 @@ public class ShowPopup implements EventHandler<MouseEvent>, Runnable{
     Screen popUpScreen, currentScreen;
     boolean visible, pausing;
 
-    public ShowPopup(Stage primaryStage, Screen nextScreen) {
-        this.primaryStage = primaryStage;
-        this.popUpScreen = nextScreen;
-        this.visible = true;
-        this.pausing = true;
-    }
-
     public ShowPopup(Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.visible = true;

@@ -8,8 +8,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
-import java.util.Objects;
-
 public class IntroScreen extends Screen {
 
     private SwitchScreen switchScreen;
@@ -31,20 +29,11 @@ public class IntroScreen extends Screen {
         Image titleImage = new Image(Globals.getResource("/resources/assets/images/titleSlanted.png"));
         ImageView titleImageView = new ImageView(titleImage);
 
-        // Create the buttons
         CustomButton startButton = new CustomButton("START", "/resources/assets/images/Button/yellowButton.png");
 
         CustomButton quitButton = new CustomButton("QUIT", "/resources/assets/images/Button/redButton.png");
 
-        // Add event handlers for buttons
-        startButton.setOnAction(event -> {
-            // Your action for button 1
-            System.out.println("Button 1 clicked");
-        });
-
         quitButton.setOnAction(event -> {
-            // Your action for button 1
-            System.out.println("Button 2 clicked");
             Platform.exit();
         });
 
@@ -59,10 +48,7 @@ public class IntroScreen extends Screen {
         quitButton.setLayoutX(408);
         quitButton.setLayoutY(651);
 
-        // Add all the elements to the Pane
         this.getChildren().addAll(titleImageView, startButton, quitButton);
-
-
         this.primaryStage.getScene().setRoot(this);
     }
 }

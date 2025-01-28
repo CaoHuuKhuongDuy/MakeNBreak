@@ -8,7 +8,6 @@ import com.models.components.BuildingBlock;
 import com.models.components.Grid;
 import com.models.components.ListBuildingBlock;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -31,9 +30,6 @@ public class Card extends Entity {
 
     public void setNumber(int number) {
         this.point = number;
-    }
-    public void setType(GameType type) {
-        this.type = type;
     }
 
     public Card(ListBuildingBlock blockGenerator, int row, int col, Coordinate position, double width, double height, GameType type, boolean open,  int lowerBound, int upperBound) {

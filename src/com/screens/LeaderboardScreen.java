@@ -4,7 +4,6 @@ import com.controllers.mouse.SwitchScreen;
 import com.models.User;
 import com.models.components.CustomButton;
 import com.commons.Globals;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

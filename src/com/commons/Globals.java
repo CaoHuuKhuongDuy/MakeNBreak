@@ -2,11 +2,9 @@ package com.commons;
 
 import com.models.User;
 import com.models.components.BuildingBlock;
-import com.models.components.ListBuildingBlock;
 import javafx.scene.paint.Color;
 
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.Vector;
 
 public class Globals {

@@ -1,21 +1,21 @@
 @font-face {
     font-family: "Poppins";
-    src: url("../fonts/Poppins-Black.ttf"); /* Make sure to adjust the path */
+    src: url("../fonts/Poppins-Black.ttf");
 }
 
 .label-user-id {
-    -fx-translate-y: -2px; /* Moves the text 5px down (adjust this value as needed) */
-    -fx-text-fill: white; /* Text color */
-    -fx-font-size: 25px; /* Font size */
+    -fx-translate-y: -2px;
+    -fx-text-fill: white;
+    -fx-font-size: 25px;
     -fx-alignment: center;
     -fx-font-family: "Poppins";
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 7, 0.0, 2, 2);
 }
 
 .label-score {
-    -fx-translate-y: -2px; /* Moves the text 5px down (adjust this value as needed) */
-    -fx-text-fill: white; /* Text color */
-    -fx-font-size: 25px; /* Font size */
+    -fx-translate-y: -2px;
+    -fx-text-fill: white;
+    -fx-font-size: 25px;
     -fx-alignment: center;
     -fx-font-family: "Poppins";
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 7, 0.0, 2, 2);

@@ -14,12 +14,12 @@ import java.util.Vector;
 public class BlockContainer extends Entity {
     private Vector<BuildingBlock> blocks;
 
-    private final int containerWidth = 346; // Fixed width
-    private final int containerHeight = 559; // Fixed height
-    private final int blockSpacing = 50; // Spacing between blocks
+    private final int containerWidth = 346;
+    private final int containerHeight = 559;
+    private final int blockSpacing = 50;
     private final int blocksPerRow = 2;
-    private final int topGap = 10; // Gap above the first line of blocks
-    private final int bottomGap = 10; // Gap below the last line of blocks
+    private final int topGap = 10;
+    private final int bottomGap = 10;
     private Board board;
 
     public BlockContainer(Coordinate position, int width, int height) {
@@ -37,7 +37,7 @@ public class BlockContainer extends Entity {
     }
 
     public void draw() {
-        this.getChildren().clear(); // clear to avoid duplicate
+        this.getChildren().clear();
 
         board.draw();
 
@@ -83,11 +83,6 @@ public class BlockContainer extends Entity {
 
     public void reset() {
         blocks.clear();
-        draw();
-    }
-
-    public void addBlockPane(BuildingBlock newBlockPane) {
-        blocks.add(newBlockPane);
         draw();
     }
 }

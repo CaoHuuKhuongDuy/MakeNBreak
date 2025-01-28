@@ -1,7 +1,6 @@
 package com.controllers.gameplay;
 
 import com.commons.Globals;
-import com.models.User;
 import com.screens.GameScreen;
 
 public class PlayGame {

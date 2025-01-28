@@ -153,7 +153,7 @@ public class GameScreen extends Screen {
 
         // Create Kick Button
         Button kickButton = new Button();
-        ImageView imageKickButton = new ImageView(new Image(Globals.getResource("/resources/assets/images/kickButton.png")));
+        ImageView imageKickButton = new ImageView(new Image(Globals.getResource("/resources/assets/images/Button/kickButton.png")));
         kickButton.setGraphic(imageKickButton);
         kickButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
         kickButton.setOnMouseClicked(this.skipCard);
@@ -232,10 +232,6 @@ public class GameScreen extends Screen {
 
     public int getUserID() {
         return userID;
-    }
-
-    public User getCurrentUser() {
-        return currentUser;
     }
 
     public PlayGame getGamePlay() {

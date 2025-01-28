@@ -13,8 +13,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.geometry.Point2D;
-
 
 import java.util.Vector;
 
@@ -33,17 +31,8 @@ public class DraggingGamePlay implements EventHandler<MouseEvent> {
         this.cellsInBoard = null;
     }
 
-    public DraggingGamePlay() {
-        this.cellsInBoard = null;
-    }
-
     public void setCellsInBoard(Vector<Coordinate> cellsInBoard) {
         this.cellsInBoard = cellsInBoard;
-    }
-
-    public DraggingGamePlay setTarget(Entity target) {
-        this.target = target;
-        return this;
     }
 
     public void setGridPanePosition(Coordinate gridPanePosition) {

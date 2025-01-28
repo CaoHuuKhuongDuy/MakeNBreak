@@ -3,7 +3,6 @@ package com.controllers.mouse;
 import com.models.Clock;
 import com.models.Dice;
 import javafx.event.EventHandler;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 
 import java.util.Random;
@@ -27,16 +26,6 @@ public class RollingDice implements EventHandler<MouseEvent> {
 
     public RollingDice setDependencies(Dice dice, Clock clock) {
         this.dice = dice;
-        this.clock = clock;
-        return this;
-    }
-
-    public RollingDice setDice(Dice dice) {
-        this.dice = dice;
-        return this;
-    }
-
-    public RollingDice setClock(Clock clock) {
         this.clock = clock;
         return this;
     }

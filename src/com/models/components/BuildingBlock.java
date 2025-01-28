@@ -21,8 +21,6 @@ public class BuildingBlock extends Entity {
     private static final int MAX_SIZE = 3;
     private int cellSpacing = 0;
 
-//    private Pane rootLayout, destinationLayout;
-
     public BuildingBlock(Vector<Coordinate> cells, Coordinate position, Color color, boolean interactable) {
         super(position, interactable);
         this.cells = cells;
@@ -75,13 +73,9 @@ public class BuildingBlock extends Entity {
         this.draw();
     }
 
-    public int getCellSize() {
-        return (int) this.width / 3;
-    }
-
     public void draw() {
         this.getChildren().clear();
-//        this.setStyle("-fx-background-color: red;");
+
         int maxX = -1, maxY = -1;
         for (Coordinate cell : this.getCells()) {
             maxX = Math.max(maxX, cell.x);
@@ -140,16 +134,6 @@ public class BuildingBlock extends Entity {
     public void flip() {
         this.cells.replaceAll(coordinate -> new Coordinate(coordinate.x, MAX_SIZE - 1 - coordinate.y));
         this.draw();
-    }
-
-    public BuildingBlock setGridPane(GridPane gridPane) {
-        this.draggingGamePlayController.setGridLayout(gridPane);
-        return this;
-    }
-
-    public BuildingBlock setMainLayout(Pane mainLayout) {
-        this.draggingGamePlayController.setMainLayout(mainLayout);
-        return this;
     }
 
     public BuildingBlock setLayout(GridPane gridPane, Pane mainLayout) {

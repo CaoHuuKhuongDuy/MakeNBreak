@@ -6,16 +6,16 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
 public class Arrow extends Entity {
-    private double length; // Length of the arrow shaft
-    private double angle;  // Angle of the arrow in degrees
+    private double length;
+    private double angle;
 
-    private Line shaft;    // The main shaft of the arrow
-    private Line leftHead; // Left side of the arrowhead
-    private Line rightHead; // Right side of the arrowhead
+    private Line shaft;
+    private Line leftHead;
+    private Line rightHead;
 
-    private static final double HEAD_LENGTH = 10; // Length of the arrowhead lines
-    private static final double HEAD_ANGLE = Math.toRadians(30); // Angle of the arrowhead (30 degrees)
-    private static final double THICKNESS = 3; // Thickness of the arrow lines
+    private static final double HEAD_LENGTH = 10;
+    private static final double HEAD_ANGLE = Math.toRadians(30);
+    private static final double THICKNESS = 3;
 
     public Arrow(Coordinate position, double length, double angle) {
         super(position, true);
@@ -39,7 +39,6 @@ public class Arrow extends Entity {
         styleLine(leftHead);
         styleLine(rightHead);
 
-        // Add the lines to this Entity
         this.getChildren().addAll(shaft, leftHead, rightHead);
     }
 
@@ -80,15 +79,6 @@ public class Arrow extends Entity {
         rightHead.setStartY(endY);
         rightHead.setEndX(rightX);
         rightHead.setEndY(rightY);
-    }
-
-    public double getLength() {
-        return this.length;
-    }
-
-    public void setLength(double length) {
-        this.length = length;
-        draw();
     }
 
     public double getAngle() {

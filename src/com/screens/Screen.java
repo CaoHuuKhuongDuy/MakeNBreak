@@ -1,6 +1,5 @@
 package com.screens;
 
-import com.commons.App;
 import com.commons.Globals;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.Pane;

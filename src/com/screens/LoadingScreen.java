@@ -1,5 +1,6 @@
 package com.screens;
 
+import com.commons.Coordinate;
 import com.commons.Globals;
 import com.models.components.LoadingBar;
 import com.controllers.mouse.SwitchScreen;
@@ -10,9 +11,11 @@ import javafx.stage.Stage;
 public class LoadingScreen extends Screen {
 
     private SwitchScreen switchScreen;
+    private LoadingBar loadingBar;
 
     public LoadingScreen(Stage primaryStage) {
         super(primaryStage);
+        this.loadingBar = new LoadingBar(new Coordinate(256, 646), 512, 48);
         this.initHandlers();
     }
 
@@ -36,14 +39,10 @@ public class LoadingScreen extends Screen {
         instructionText.setLayoutY(595);
 
         // Add loading bar
-        LoadingBar loadingBar = new LoadingBar(512, 48);
+        //LoadingBar loadingBar = new LoadingBar(new Coordinate(256, 646), 512, 48);
         loadingBar.configureTimeline(() -> {
             switchScreen.setScreen(new GameScreen(primaryStage)).run();
         });
-
-        // Position progress bar
-        loadingBar.getProgressBar().setLayoutY(646);
-        loadingBar.getProgressBar().setLayoutX(256);
 
         this.getChildren().addAll(loadingBar.getProgressBar(), titleImageView, instructionText);
 
@@ -51,3 +50,5 @@ public class LoadingScreen extends Screen {
         loadingBar.startAnimation();
     }
 }
+
+

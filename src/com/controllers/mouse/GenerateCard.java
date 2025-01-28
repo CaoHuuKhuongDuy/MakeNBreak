@@ -4,7 +4,6 @@ import com.commons.Coordinate;
 import com.models.BlockContainer;
 import com.models.Card;
 import com.models.CardSet;
-import com.screens.GameScreen;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 

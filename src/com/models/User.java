@@ -1,6 +1,5 @@
 package com.models;
 
-import com.commons.Globals;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -62,10 +61,6 @@ public class User {
 
     public int getCurrentRound() {
         return this.currentRound;
-    }
-
-    public int getSolvedCard() {
-        return this.solvedCard;
     }
 
     public void setSolvedCard(int solvedCard) {

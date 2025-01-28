@@ -1,6 +1,5 @@
 package com.controllers.mouse;
 
-import com.commons.Coordinate;
 import com.commons.Globals;
 import com.models.Card;
 import com.models.CardSet;
