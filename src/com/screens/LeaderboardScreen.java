@@ -30,7 +30,7 @@ public class LeaderboardScreen extends Screen {
     @Override
     public void display() {
         this.getChildren().clear();
-        this.getStylesheets().add(Globals.getResource("resources/assets/styles/Text.css"));
+        this.getStylesheets().add(Globals.getResource("/resources/assets/styles/Text.css"));
 
         Image firstPlace = new Image(Globals.getResource("/resources/assets/images/Trophy.png"));
         ImageView firstPlaceView = new ImageView(firstPlace);
@@ -64,7 +64,7 @@ public class LeaderboardScreen extends Screen {
             addLeaderboardEntry(firstPlaceView, Globals.app.getUsers().getFirst(), 474, 330);
         }
 
-        CustomButton homeButton = new CustomButton("", "resources/assets/images/Button/home.png");
+        CustomButton homeButton = new CustomButton("", "/resources/assets/images/Button/home.png");
         homeButton.setOnMouseClicked(this.switchScreen.setScreen(new IntroScreen(primaryStage)));
 
         homeButton.setLayoutX(485);

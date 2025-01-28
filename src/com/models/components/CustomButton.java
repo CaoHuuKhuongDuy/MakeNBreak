@@ -13,11 +13,7 @@ public class CustomButton extends Button {
         Image image = new Image(imagePath);
         imageView = new ImageView(image);
         this.setGraphic(imageView);
-
-
-        this.getStylesheets().add("resources/assets/styles/Button.css");
-
-
+        this.getStylesheets().add(Globals.getResource("/resources/assets/styles/Button.css"));
         this.setContentDisplay(ContentDisplay.CENTER);
     }
 
