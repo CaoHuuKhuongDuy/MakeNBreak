@@ -1,5 +1,6 @@
 package com.models.components;
 
+import com.commons.Globals;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -15,7 +16,7 @@ public class LoadingBar {
         this.progressBar = new ProgressBar(0);
         this.progressBar.setPrefWidth(width);
         this.progressBar.setPrefHeight(height);
-        this.progressBar.getStylesheets().add("/resources/assets/styles/progressBar.css");
+        this.progressBar.getStylesheets().add(Globals.getResource("/resources/assets/styles/progressBar.css"));
     }
 
     public void configureTimeline(Runnable onFinish) {

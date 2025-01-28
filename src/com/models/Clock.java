@@ -1,6 +1,7 @@
 package com.models;
 
 import com.commons.Coordinate;
+import com.commons.Globals;
 import com.models.components.Arrow;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
@@ -33,7 +34,7 @@ public class Clock extends Entity {
     public void draw() {
         this.getChildren().clear();
 
-        ImageView imageViewDice = new ImageView(new Image("/resources/assets/images/clock.png"));
+        ImageView imageViewDice = new ImageView(new Image(Globals.getResource("/resources/assets/images/clock.png")));
         imageViewDice.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
         // 15 -> 165 = 120s => 1s = 1.25
         // 165 -> 180 = 60s => 1s = 0.25

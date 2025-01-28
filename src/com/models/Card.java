@@ -120,7 +120,7 @@ public class Card extends Entity {
         this.getChildren().clear();
         this.canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         if (!open) {
-            ImageView imageViewCard = new ImageView(new Image("/resources/assets/images/back_of_card.png"));
+            ImageView imageViewCard = new ImageView(Globals.getResource("/resources/assets/images/back_of_card.png"));
             imageViewCard.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
             this.getChildren().add(imageViewCard);
             return;
@@ -163,7 +163,7 @@ public class Card extends Entity {
         this.getChildren().add(grid);
 
         gc.setFill(this.type == GameType.MULTIPLE_BLOCK ? multiScore : singleScore);  // Color based on type
-        Font jerseyFont = Font.loadFont(getClass().getResourceAsStream("/resources/assets/fonts/Jersey25.ttf"), tmp * 0.18);
+        Font jerseyFont = Font.loadFont(Globals.getResource("/resources/assets/fonts/Jersey25.ttf"), tmp * 0.18);
         gc.setFont(jerseyFont);
         gc.fillText(Integer.toString(this.point), this.width * 0.03, this.height * 0.15); // Draw the number
         gc.fillText(Integer.toString(this.point), this.width * 0.92, this.height * 0.15); // Draw the number

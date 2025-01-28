@@ -1,4 +1,5 @@
 package com.models.components;
+import com.commons.Globals;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -8,7 +9,7 @@ public class CustomButton extends Button {
     private ImageView imageView;
     public CustomButton(String text, String imagePath) {
         super(text);
-
+        imagePath = Globals.getResource(imagePath);
         Image image = new Image(imagePath);
         imageView = new ImageView(image);
         this.setGraphic(imageView);

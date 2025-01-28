@@ -30,6 +30,7 @@ public abstract class Screen extends Pane {
 
     // For setting a specific background in any screen
     protected void setupBackground(String imagePath) {
+        imagePath = Globals.getResource(imagePath);
         Image backgroundImage = new Image(imagePath);
 
         BackgroundImage bgImage = new BackgroundImage(

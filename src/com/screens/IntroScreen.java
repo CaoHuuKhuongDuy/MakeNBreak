@@ -1,11 +1,14 @@
 package com.screens;
 
+import com.commons.Globals;
 import com.controllers.mouse.SwitchScreen;
 import com.models.components.CustomButton;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+
+import java.util.Objects;
 
 public class IntroScreen extends Screen {
 
@@ -25,13 +28,13 @@ public class IntroScreen extends Screen {
     public void display() {
         this.getChildren().clear();
 
-        Image titleImage = new Image("/resources/assets/images/titleSlanted.png");
+        Image titleImage = new Image(Globals.getResource("/resources/assets/images/titleSlanted.png"));
         ImageView titleImageView = new ImageView(titleImage);
 
         // Create the buttons
-        CustomButton startButton = new CustomButton("START", "resources/assets/images/Button/yellowButton.png");
+        CustomButton startButton = new CustomButton("START", "/resources/assets/images/Button/yellowButton.png");
 
-        CustomButton quitButton = new CustomButton("QUIT", "resources/assets/images/Button/redButton.png");
+        CustomButton quitButton = new CustomButton("QUIT", "/resources/assets/images/Button/redButton.png");
 
         // Add event handlers for buttons
         startButton.setOnAction(event -> {

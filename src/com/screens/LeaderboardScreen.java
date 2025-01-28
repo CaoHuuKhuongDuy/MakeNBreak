@@ -30,18 +30,18 @@ public class LeaderboardScreen extends Screen {
     @Override
     public void display() {
         this.getChildren().clear();
-        this.getStylesheets().add("resources/assets/styles/Text.css");
+        this.getStylesheets().add(Globals.getResource("resources/assets/styles/Text.css"));
 
-        Image firstPlace = new Image("/resources/assets/images/Trophy.png");
+        Image firstPlace = new Image(Globals.getResource("/resources/assets/images/Trophy.png"));
         ImageView firstPlaceView = new ImageView(firstPlace);
 
-        Image secondPlace = new Image("/resources/assets/images/Gold.png");
+        Image secondPlace = new Image(Globals.getResource("/resources/assets/images/Gold.png"));
         ImageView secondPlaceView = new ImageView(secondPlace);
 
-        Image thirdPlace = new Image("/resources/assets/images/Silver.png");
+        Image thirdPlace = new Image(Globals.getResource("/resources/assets/images/Silver.png"));
         ImageView thirdPlaceView = new ImageView(thirdPlace);
 
-        Image fourthPlace = new Image("/resources/assets/images/Bronze.png");
+        Image fourthPlace = new Image(Globals.getResource("/resources/assets/images/Bronze.png"));
         ImageView fourthPlaceView = new ImageView(fourthPlace);
 
         Globals.app.getUsers().sort(Comparator.comparingInt(User::getPoint).reversed());
@@ -73,6 +73,7 @@ public class LeaderboardScreen extends Screen {
 
         this.primaryStage.getScene().setRoot(this);
     }
+
 
     private void addLeaderboardEntry(ImageView placeView, User user, double x, double y) {
         placeView.setLayoutX(x);

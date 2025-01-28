@@ -1,5 +1,6 @@
 package com.screens;
 
+import com.commons.Globals;
 import com.models.components.LoadingBar;
 import com.controllers.mouse.SwitchScreen;
 import javafx.scene.image.Image;
@@ -26,11 +27,11 @@ public class LoadingScreen extends Screen {
         this.getChildren().clear();
 
         // Add title image
-        Image titleImage = new Image("/resources/assets/images/titleSlanted.png");
+        Image titleImage = new Image(Globals.getResource("/resources/assets/images/titleSlanted.png"));
         ImageView titleImageView = new ImageView(titleImage);
         titleImageView.setLayoutY(30);
 
-        ImageView instructionText = new ImageView(new Image("resources/assets/images/text.png"));
+        ImageView instructionText = new ImageView(new Image(Globals.getResource("/resources/assets/images/text.png")));
         instructionText.setLayoutX(154);
         instructionText.setLayoutY(595);
 

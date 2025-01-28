@@ -1,5 +1,6 @@
 package com.screens;
 
+import com.commons.Globals;
 import com.controllers.mouse.ShowPopup;
 import com.controllers.mouse.SwitchScreen;
 import com.models.components.CustomButton;
@@ -39,26 +40,26 @@ public class PauseScreen extends Screen {
         overlay.setFill(javafx.scene.paint.Color.rgb(0, 0, 0, 0.5)); // Black with 50% opacity
 
         // Add outer panel
-        ImageView imageViewSettingPanel = new ImageView(new Image("/resources/assets/images/OuterPanel.png"));
+        ImageView imageViewSettingPanel = new ImageView(Globals.getResource("/resources/assets/images/OuterPanel.png"));
         imageViewSettingPanel.setFitWidth(371);
         imageViewSettingPanel.setFitHeight(381);
 
-        ImageView panelBackground = new ImageView(new Image("resources/assets/images/meme.png"));
-        panelBackground.setLayoutX(253);
-        panelBackground.setLayoutY(286);
+//        ImageView panelBackground = new ImageView(Globals.getResource("/resources/assets/images/InnerPanel.png"));
+//        panelBackground.setLayoutX(253);
+//        panelBackground.setLayoutY(286);
 
         // Create quit button
-        CustomButton quitButton = new CustomButton("QUIT", "resources/assets/images/Button/redButton.png");
+        CustomButton quitButton = new CustomButton("QUIT", "/resources/assets/images/Button/redButton.png");
         quitButton.setSize(130, 55);
         quitButton.setOnMouseClicked(this.switchScreen.setScreen(new IntroScreen(primaryStage)));
         
-        CustomButton resumeButton = new CustomButton("RESUME", "resources/assets/images/Button/yellowButton.png");
+        CustomButton resumeButton = new CustomButton("RESUME", "/resources/assets/images/Button/yellowButton.png");
         resumeButton.setOnMouseClicked(this.showPopup.setPopUpScreen(this).setVisible(false));
         resumeButton.setSize(130, 55);
 
 
         // Create cross button
-        CustomButton crossButton = new CustomButton("", "resources/assets/images/Icon_Cross.png");
+        CustomButton crossButton = new CustomButton("", "/resources/assets/images/Icon_Cross.png");
         crossButton.setOnMouseClicked(this.showPopup.setPopUpScreen(this).setVisible(false));
 
         imageViewSettingPanel.setLayoutX(314);
@@ -73,7 +74,7 @@ public class PauseScreen extends Screen {
         crossButton.setLayoutX(637);
         crossButton.setLayoutY(220);
 
-        this.getChildren().addAll(overlay, imageViewSettingPanel, panelBackground, quitButton, resumeButton, crossButton);
+        this.getChildren().addAll(overlay, imageViewSettingPanel, quitButton, resumeButton, crossButton);
         System.out.println("Pause screen components added.");
 
 

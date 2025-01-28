@@ -6,6 +6,7 @@ import com.models.components.ListBuildingBlock;
 import javafx.scene.paint.Color;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Vector;
 
 public class Globals {
@@ -61,5 +62,11 @@ public class Globals {
 
     public static User getUser(int userID) {
         return app.getUsers().get(userID);
+    }
+
+    public static String getResource(String path) {
+        var url = Globals.class.getResource(path);
+        if (url == null) return "";
+        return url.toExternalForm();
     }
 }

@@ -1,9 +1,7 @@
 package com;
 
 import com.commons.Globals;
-import com.screens.GameScreen;
 import com.screens.IntroScreen;
-import com.screens.MainScreen;
 import com.screens.Screen;
 import javafx.application.Application;
 import javafx.scene.Scene;

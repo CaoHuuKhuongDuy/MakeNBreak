@@ -1,6 +1,7 @@
 package com.models.components;
 
 import com.commons.Coordinate;
+import com.commons.Globals;
 import com.models.Entity;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -104,7 +105,7 @@ public class Board extends Entity {
     @Override
     public void draw() {
         this.getChildren().clear();
-        ImageView playBoard = new ImageView(new Image("/resources/assets/images/board.png"));
+        ImageView playBoard = new ImageView(Globals.getResource("/resources/assets/images/board.png"));
         this.getChildren().add(playBoard);
     }
 }

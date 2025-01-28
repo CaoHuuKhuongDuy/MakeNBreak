@@ -133,7 +133,8 @@ public class GameScreen extends Screen {
     @Override
     public void display() {
         this.getChildren().clear();
-        ImageView title = new ImageView(new Image("/resources/assets/images/smallTitle.png"));
+        ImageView title = new ImageView(new Image(Globals.getResource("/resources/assets/images/smallTitle.png")));
+
 
         Button backButton = new Button("Back");
         backButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10px 20px; -fx-border-radius: 10px;");
@@ -152,23 +153,23 @@ public class GameScreen extends Screen {
 
         // Create Kick Button
         Button kickButton = new Button();
-        ImageView imageKickButton = new ImageView(new Image("/resources/assets/images/kickButton.png"));
+        ImageView imageKickButton = new ImageView(new Image(Globals.getResource("/resources/assets/images/kickButton.png")));
         kickButton.setGraphic(imageKickButton);
         kickButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
         kickButton.setOnMouseClicked(this.skipCard);
 
         // Add score rectangle
-        ImageView scoreRectangle = new ImageView(new Image("/resources/assets/images/Rectangle.png"));
+        ImageView scoreRectangle = new ImageView(new Image(Globals.getResource("/resources/assets/images/Rectangle.png")));
         scoreRectangle.setFitWidth(585);
         scoreRectangle.setFitHeight(76);
 
         // Add coin symbol
-        ImageView iconCoin = new ImageView(new Image("/resources/assets/images/icon_coin.png"));
+        ImageView iconCoin = new ImageView(new Image(Globals.getResource("/resources/assets/images/icon_coin.png")));
         iconCoin.setFitWidth(55.35);
         iconCoin.setFitHeight(55.35);
 
         // Add player symbol
-        ImageView iconPlayer = new ImageView(new Image("/resources/assets/images/icon_downasaur.png"));
+        ImageView iconPlayer = new ImageView(new Image(Globals.getResource("/resources/assets/images/icon_downasaur.png")));
         iconPlayer.setFitWidth(66);
         iconPlayer.setFitHeight(53.8);
 
@@ -176,7 +177,7 @@ public class GameScreen extends Screen {
         CustomButton iconSettingButton = new CustomButton("", "/resources/assets/images/Icon_Settings.png");
         iconSettingButton.setOnMouseClicked(showPopup.setPopUpScreen(pausingPopup).setVisible(true));
 
-        CustomButton infoButton = new CustomButton("", "resources/assets/images/Button/info.png");
+        CustomButton infoButton = new CustomButton("", "/resources/assets/images/Button/info.png");
         infoButton.setOnMouseClicked(showPopupInstruction.setPopUpScreen(instructionPopup).setVisible(true));
 
         infoButton.setLayoutX(936);

@@ -1,6 +1,7 @@
 package com.models;
 
 import com.commons.Coordinate;
+import com.commons.Globals;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -30,7 +31,7 @@ public class Dice extends Entity {
 
     public void draw() {
         this.getChildren().clear();
-        imageViewDice = new ImageView(new Image("/resources/assets/images/diceButton.png"));
+        imageViewDice = new ImageView(new Image(Globals.getResource("/resources/assets/images/diceButton.png")));
         imageViewDice.setFitHeight(this.height);
         imageViewDice.setFitWidth(this.width);
         imageViewDice.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
