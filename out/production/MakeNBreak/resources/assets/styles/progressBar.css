@@ -1,0 +1,20 @@
+.progress-bar {
+    -fx-accent: #A39B32;                     /* Filled portion color */
+    -fx-border-color: #4D0000;               /* Border color */
+    -fx-border-width:10px;                   /*Border thickness */
+    -fx-border-radius: 4px;
+    -fx-background-color: transparent;       /* Transparent background */
+    -fx-background-radius: 2px;
+}
+
+.progress-bar .track {
+    -fx-background-color: transparent;       /* Transparent unfilled track */
+    -fx-background-radius: 2px;
+    -fx-background-width: 10px;
+ }
+
+.progress-bar .bar {
+    -fx-background-color: #A39B32;          /* Custom bar color (optional) */
+    -fx-background-radius: 2px;
+    -fx-background-width: 10px;
+}
