@@ -21,7 +21,6 @@ public class PlayGame {
         this.gameScreen.getDice().reset();
         this.gameScreen.getBlockContainer().reset();
         int userID = this.gameScreen.getUserID();
-        Globals.getUser(userID).setSolvedCard(0);
         Globals.getUser(userID).setCurrentRound(Globals.getUser(userID).getCurrentRound() + 1);
         userID = (userID + 1) % Globals.app.getUsers().size();
         if (Globals.getUser(userID).getCurrentRound() >= Globals.app.getNumberOfRound()) {

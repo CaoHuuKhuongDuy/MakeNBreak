@@ -52,9 +52,6 @@ public class SubmitResult implements EventHandler<Event>, Runnable {
         if (card != null && card.matching(blockContainer.getBoard().getOccupied(), 10, 15)) {
             user.setPoint(user.getPoint() + card.getPoint());
             user.updateUserInforText();
-            if (!card.getSkipped()) {
-                user.increaseSolvedCard();
-            }
             this.generateCard.run(true);
         }
     }
