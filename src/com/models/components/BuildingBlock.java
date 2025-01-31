@@ -102,7 +102,6 @@ public class BuildingBlock extends Entity {
      */
     public void draw() {
         this.getChildren().clear();
-
         int maxX = -1, maxY = -1;
         for (Coordinate cell : this.getCells()) {
             maxX = Math.max(maxX, cell.x);
@@ -127,7 +126,8 @@ public class BuildingBlock extends Entity {
         for (Coordinate cell : this.cells) {
             if (cell.x < position.x) {
                 position = cell;
-            } else if (cell.x == position.x && cell.y < position.y) position = cell;
+            }
+            else if (cell.x == position.x && cell.y < position.y) position = cell;
         }
         return position;
     }

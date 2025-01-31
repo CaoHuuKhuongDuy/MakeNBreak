@@ -74,9 +74,9 @@ public class BlockContainer extends Entity {
      * Draws the container UI, placing blocks inside a scrollable grid layout.
      */
     public void draw() {
-        this.getChildren().clear(); // Clears existing UI elements
+        this.getChildren().clear(); // clear to avoid duplicate
 
-        board.draw(); // Draws the game board
+        board.draw();
 
         GridPane gridPane = new GridPane();
         gridPane.setHgap(blockSpacing);
@@ -84,7 +84,6 @@ public class BlockContainer extends Entity {
         gridPane.setAlignment(Pos.CENTER);
         gridPane.setPadding(new Insets(topGap, 0, bottomGap, 0));
 
-        // Arranges blocks inside the grid
         for (int i = 0; i < blocks.size(); i++) {
             int row = i / blocksPerRow;
             int col = i % blocksPerRow;

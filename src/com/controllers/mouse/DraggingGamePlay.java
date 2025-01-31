@@ -138,13 +138,13 @@ public class DraggingGamePlay implements EventHandler<MouseEvent> {
             this.clearBoard();
             this.target.toFront();
             target.requestFocus();
-        } else if (event.getEventType() == MouseEvent.MOUSE_DRAGGED && dragging) {
-            // Update the block's position based on the mouse movement
+        }
+        else if (event.getEventType() == MouseEvent.MOUSE_DRAGGED && dragging) {
             Coordinate newPosition = new Coordinate(event.getSceneX() - offset[0], event.getSceneY() - offset[1]);
             target.setPosition(newPosition);
             target.requestFocus();
-        } else if (event.getEventType() == MouseEvent.MOUSE_RELEASED) {
-            // Handles snapping the block back to the grid or resetting its position
+        }
+        else if (event.getEventType() == MouseEvent.MOUSE_RELEASED) {
             BuildingBlock block = (BuildingBlock) target;
             Coordinate coloredCell = block.getColoredCell();
             Coordinate coloredCellPosition = block.getCellPosition(coloredCell);
@@ -160,6 +160,7 @@ public class DraggingGamePlay implements EventHandler<MouseEvent> {
             double relativeX = blockCenterX - boardBounds.getMinX();
             double relativeY = blockCenterY - boardBounds.getMinY();
 
+            // Check if block is over the board
             if (relativeX >= 0 && relativeX <= board.getWidth() &&
                     relativeY >= 0 && relativeY <= board.getHeight()) {
                 Coordinate snapPosition = board.snapToGrid(coloredCellPosition, block);
@@ -169,6 +170,7 @@ public class DraggingGamePlay implements EventHandler<MouseEvent> {
                     return;
                 }
             }
+            // If the block is not over the board or can't snap, reset its position
             this.clearBoard();
             this.mainLayout.getChildren().remove(target);
             this.gridLayout.add(target, gridPanePosition.x, gridPanePosition.y);

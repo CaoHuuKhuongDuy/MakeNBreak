@@ -78,7 +78,7 @@ public class CardSet {
      */
     public void genNewClosingCard() {
         // Generate random building blocks based on the game type and number of blocks
-        Vector<BuildingBlock> block = this.blockGenerator.generateRandomBuildingBlocks(numBlock, Globals.app.getGameType());
+        Vector <BuildingBlock> block = this.blockGenerator.generateRandomBuildingBlocks(numBlock, Globals.app.getGameType());
         this.blockGenerator.setBuildingBlocks(block);
 
         // Create a new closing card with the generated blocks and add it to the game screen
