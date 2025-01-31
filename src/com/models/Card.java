@@ -1,19 +1,27 @@
+/**
+ * OOP Java Project  WiSe 2024/2025
+ * Purpose: Represents a card in the game, containing a building block configuration and point value.
+ * @Hong Minh Dao
+ * @Phan Khanh Linh Dang
+ * @version 1.0
+ */
+
 package com.models;
 
-import com.commons.Coordinate;
-import com.commons.GameType;
-import com.commons.Globals;
-import com.commons.utils.Hashing;
-import com.models.components.BuildingBlock;
-import com.models.components.Grid;
-import com.models.components.ListBuildingBlock;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import java.util.Random;
-import java.util.Vector;
+import com.commons.Coordinate; // Import for coordinate handling in the game world
+import com.commons.GameType; // Import for handling different game types (e.g., MULTIPLE_BLOCK)
+import com.commons.Globals; // Import for accessing global variables and resources
+import com.commons.utils.Hashing; // Import for comparing the card's structure to a matrix using hashing
+import com.models.components.BuildingBlock; // Import for handling building blocks that make up the card's structure
+import com.models.components.Grid; // Import for rendering a grid representing the building's layout
+import com.models.components.ListBuildingBlock; // Import for generating random building blocks
+import javafx.scene.canvas.GraphicsContext; // Import for drawing on the canvas
+import javafx.scene.image.ImageView; // Import for displaying images on the card
+import javafx.scene.paint.Color; // Import for defining colors used in the card's design
+import javafx.scene.shape.Rectangle; // Import for drawing rectangular shapes (card and border)
+import javafx.scene.text.Font; // Import for font handling when displaying point values
+import java.util.Random; // Import for random number generation (used for point assignment)
+import java.util.Vector; // Import for using Vector to store building blocks and cards
 
 public class Card extends Entity {
     private Color[][] cells;
@@ -24,14 +32,31 @@ public class Card extends Entity {
     private int row, col;
     private Color[][] bound;
     private int rowBound, colBound;
-    private Vector <BuildingBlock> buildingBlocks;
+    private Vector<BuildingBlock> buildingBlocks;
     private int lowerBound;
     private int upperBound;
 
+    /**
+     * Sets the point value for the card.
+     * @param number The point value to be set.
+     */
     public void setNumber(int number) {
         this.point = number;
     }
 
+    /**
+     * Constructs a new Card with the given parameters and generates its building blocks.
+     * @param blockGenerator The block generator for generating the building blocks.
+     * @param row The number of rows in the card's grid.
+     * @param col The number of columns in the card's grid.
+     * @param position The position of the card in the game world.
+     * @param width The width of the card.
+     * @param height The height of the card.
+     * @param type The type of the game (MULTIPLE_BLOCK or single).
+     * @param open Whether the card is open or not.
+     * @param lowerBound The lower bound for the building block generation.
+     * @param upperBound The upper bound for the building block generation.
+     */
     public Card(ListBuildingBlock blockGenerator, int row, int col, Coordinate position, double width, double height, GameType type, boolean open,  int lowerBound, int upperBound) {
         super(position, true, width, height);
         Random random = new Random();
@@ -54,19 +79,37 @@ public class Card extends Entity {
         this.draw();
     }
 
+    /**
+     * Returns the list of building blocks for the card.
+     * @return A vector containing the building blocks for the card.
+     */
     public Vector<BuildingBlock> getBuildingBlocks() {
         return this.buildingBlocks;
     }
 
+    /**
+     * Returns the point value of the card.
+     * @return The point value of the card.
+     */
     public int getPoint() {
         return this.point;
     }
 
+    /**
+     * Sets the point value of the card and redraws it.
+     * @param point The new point value to be set.
+     */
     public void setPoint(int point) {
         this.point = point;
         this.draw();
     }
 
+    /**
+     * Sets the cells representing the card's structure and calculates its bounds.
+     * @param cells The 2D array of colors representing the card's structure.
+     * @param row The number of rows in the card's grid.
+     * @param col The number of columns in the card's grid.
+     */
     private void setCells(Color[][] cells, int row, int col) {
         this.cells = cells;
         this.row = row;
@@ -95,23 +138,42 @@ public class Card extends Entity {
         this.draw();
     }
 
+    /**
+     * Sets the open state of the card and redraws it.
+     * @param open Whether the card is open or not.
+     */
     public void setOpen(boolean open) {
         this.open = open;
         this.draw();
     }
 
+    /**
+     * Returns whether the card is open.
+     * @return true if the card is open, false otherwise.
+     */
     public boolean getOpen() {
         return this.open;
     }
 
+    /**
+     * Sets the skipped state of the card.
+     * @param skipped Whether the card is skipped or not.
+     */
     public void setSkipped(boolean skipped) {
         this.skipped = skipped;
     }
 
+    /**
+     * Returns whether the card is skipped.
+     * @return true if the card is skipped, false otherwise.
+     */
     public boolean getSkipped() {
         return this.skipped;
     }
 
+    /**
+     * Draws the card on the screen with the appropriate visual elements.
+     */
     public void draw() {
         this.getChildren().clear();
         this.canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -167,6 +229,13 @@ public class Card extends Entity {
         this.getChildren().add(canvas);
     }
 
+    /**
+     * Checks if the given matrix matches the card's building layout.
+     * @param matrix The matrix to compare against.
+     * @param row The number of rows in the matrix.
+     * @param col The number of columns in the matrix.
+     * @return true if the matrix matches the card's layout, false otherwise.
+     */
     public boolean matching(Color[][] matrix, int row, int col) {
         Hashing hashing = new Hashing().setResultMatrix(this.bound, this.rowBound, this.colBound).setCompareMatrix(matrix, row, col);
         return hashing.compare();

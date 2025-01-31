@@ -1,19 +1,35 @@
+/**
+ * OOP Java Project WiSe 2024/2025
+ *
+ * Purpose: Represents a clock in the game. Manages the countdown timer and updates the
+ * visual representation of the clock's arrow. Provides functionality to start, pause, and
+ * reset the timer.
+ *
+ * @Hong Minh Dao
+ * @Phan Khanh Linh Dang
+ * @version 1.0
+ */
 package com.models;
 
-import com.commons.Coordinate;
-import com.commons.Globals;
-import com.models.components.Arrow;
-import javafx.application.Platform;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import com.commons.Coordinate; // Represents a coordinate in the game grid.
+import com.commons.Globals; // Provides global constants and utility methods for the application.
+import com.models.components.Arrow; // Represents the arrow component of the clock.
+import javafx.application.Platform; // Provides platform-specific functionality.
+import javafx.scene.image.Image; // Represents an image that can be displayed.
+import javafx.scene.image.ImageView; // Displays an image in the UI.
 
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicBoolean; // Provides atomic operations for thread-safe variables.
 
 public class Clock extends Entity {
-    private int time; // seconds
-    private Arrow arrow;
-    private AtomicBoolean pausing, running, interrupted;
+    private int time; // The remaining time in seconds.
+    private Arrow arrow; // The arrow component of the clock.
+    private AtomicBoolean pausing, running, interrupted; // Thread-safe flags for controlling the clock.
 
+    /**
+     * Constructs a Clock with the specified position.
+     *
+     * @param position The position of the clock.
+     */
     public Clock(Coordinate position) {
         super(position, true);
         this.time = 0;
@@ -22,6 +38,9 @@ public class Clock extends Entity {
         this.interrupted = new AtomicBoolean(false);
     }
 
+    /**
+     * Resets the clock to its initial state.
+     */
     public void reset() {
         this.time = 0;
         this.interrupted.set(true);
@@ -30,13 +49,15 @@ public class Clock extends Entity {
         this.draw();
     }
 
+    @Override
     public void draw() {
+        // Clear the current children and set up the clock's visual components.
         this.getChildren().clear();
 
         ImageView imageViewDice = new ImageView(new Image(Globals.getResource("/resources/assets/images/Clock.png")));
         imageViewDice.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;");
-        // 15 -> 165 = 120s => 1s = 1.25
-        // 165 -> 180 = 60s => 1s = 0.25
+
+        // Initialize the arrow and add it to the clock.
         this.arrow = new Arrow(new Coordinate(this.position.x - 95, this.position.y - 59), 35, 15);
         this.getChildren().addAll(imageViewDice, arrow);
     }
@@ -57,6 +78,11 @@ public class Clock extends Entity {
         this.running.set(running);
     }
 
+    /**
+     * Starts the countdown timer and updates the clock's arrow.
+     *
+     * @param callback The callback to execute when the timer reaches zero.
+     */
     public void startCounting(Runnable callback) {
         if (this.running.get()) {
             return;
@@ -90,5 +116,4 @@ public class Clock extends Entity {
         thread.setDaemon(true); // Optional: Set the thread as a daemon thread
         thread.start();
     }
-
 }

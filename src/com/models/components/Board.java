@@ -1,20 +1,42 @@
+/**
+ * OOP Java Project  WiSe 2024/2025
+ *
+ * Purpose: This class represents the game board for the application.
+ * It manages the grid where building blocks are placed, ensuring valid positioning.
+ *
+ * @Hong Minh Dao
+ * @Phan Khanh Linh Dang
+ * @version 1.0
+ */
+
 package com.models.components;
 
-import com.commons.Coordinate;
-import com.commons.Globals;
-import com.models.Entity;
-import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
+// Import necessary classes for coordinates, global variables, and entity structure
+import com.commons.Coordinate; // Represents a 2D coordinate system used for block placement
+import com.commons.Globals; // Stores global game resources like images and settings
+import com.models.Entity; // Base class for all drawable entities in the game
+import javafx.scene.image.ImageView; // Used to render the board image
+import javafx.scene.paint.Color; // Manages colors for occupied cells on the board
+import java.util.Vector; // Stores coordinates of cells occupied by a placed block
 
-import java.util.Vector;
-
-
+/**
+ * Represents the game board where players place building blocks.
+ * The board is a 2D grid where each cell tracks whether it is occupied.
+ */
 public class Board extends Entity {
 
-    private Color[][] occupied;
-    private Coordinate[][] cells;
-    private final int DEFAULT_ROW = 10, DEFAULT_COL = 15;
+    private Color[][] occupied; // Tracks occupied cells and their colors
+    private Coordinate[][] cells; // Stores the positions of each grid cell
+    private final int DEFAULT_ROW = 10, DEFAULT_COL = 15; // Default board size
 
+    /**
+     * Constructs a Board object with a grid of specified width and height.
+     * Initializes the occupied cells and sets up the grid layout.
+     *
+     * @param position The top-left position of the board.
+     * @param width    The width of the board.
+     * @param height   The height of the board.
+     */
     public Board(Coordinate position, int width, int height) {
         super(position, false, width, height);
         this.occupied = new Color[DEFAULT_ROW][DEFAULT_COL];
@@ -33,6 +55,9 @@ public class Board extends Entity {
         }
     }
 
+    /**
+     * Resets the board by clearing all occupied cells.
+     */
     public void reset() {
         for (int i = 0; i < DEFAULT_ROW; i++) {
             for (int j = 0; j < DEFAULT_COL; j++) {
@@ -41,14 +66,33 @@ public class Board extends Entity {
         }
     }
 
+    /**
+     * Returns the 2D array representing occupied cells on the board.
+     *
+     * @return The color matrix of occupied cells.
+     */
     public Color[][] getOccupied() {
         return this.occupied;
     }
 
+    /**
+     * Checks if a specific cell on the board is available for placement.
+     *
+     * @param x Row index.
+     * @param y Column index.
+     * @return True if the cell is free, otherwise false.
+     */
     private boolean canPlace(int x, int y) {
         return x >= 0 && x < DEFAULT_ROW && y >= 0 && y < DEFAULT_COL && this.occupied[x][y] == Color.TRANSPARENT;
     }
 
+    /**
+     * Determines if a building block can be placed at a specific board position.
+     *
+     * @param block The building block to be placed.
+     * @param root  The target position for the block.
+     * @return True if placement is valid, otherwise false.
+     */
     private boolean canPlaceBlock(BuildingBlock block, Coordinate root) {
         Coordinate firstColoredCell = block.getColoredCell();
         Coordinate diff = root.minus(firstColoredCell);
@@ -60,11 +104,25 @@ public class Board extends Entity {
         return true;
     }
 
+    /**
+     * Marks a specific cell as occupied by a given color.
+     *
+     * @param x     Row index.
+     * @param y     Column index.
+     * @param color Color to mark the cell with.
+     */
     public void setOccupied(int x, int y, Color color) {
         if (x < 0 || x >= DEFAULT_ROW || y < 0 || y >= DEFAULT_COL) return;
         this.occupied[x][y] = color;
     }
 
+    /**
+     * Adjusts a given position to the nearest grid cell and places a block if valid.
+     *
+     * @param position The position to snap.
+     * @param block    The building block being placed.
+     * @return Adjusted coordinate if placement is valid, otherwise null.
+     */
     public Coordinate snapToGrid(Coordinate position, BuildingBlock block) {
         position = position.minus(this.position);
         position = position.plus(new Coordinate(20, 20));
@@ -99,6 +157,9 @@ public class Board extends Entity {
         return closetCellPosition.plus(this.position);
     }
 
+    /**
+     * Renders the game board by adding an image representation.
+     */
     @Override
     public void draw() {
         this.getChildren().clear();

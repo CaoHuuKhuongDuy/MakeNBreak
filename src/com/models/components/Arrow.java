@@ -1,22 +1,39 @@
+/**
+ * OOP Java Project WiSe 2024/2025
+ *
+ * Purpose: Represents an arrow in the game. Manages the arrow's geometry and provides
+ * functionality to update its angle and position.
+ *
+ * @Hong Minh Dao
+ * @Phan Khanh Linh Dang
+ * @version 1.0
+ */
 package com.models.components;
 
-import com.commons.Coordinate;
-import com.models.Entity;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
+import com.commons.Coordinate; // Represents a coordinate in the game grid.
+import com.models.Entity; // Base class for game entities.
+import javafx.scene.paint.Color; // Represents a color in the JavaFX color space.
+import javafx.scene.shape.Line; // Represents a line in JavaFX.
 
 public class Arrow extends Entity {
-    private double length;
-    private double angle;
+    private double length; // The length of the arrow.
+    private double angle; // The angle of the arrow.
 
-    private Line shaft;
-    private Line leftHead;
-    private Line rightHead;
+    private Line shaft; // The shaft of the arrow.
+    private Line leftHead; // The left head of the arrow.
+    private Line rightHead; // The right head of the arrow.
 
-    private static final double HEAD_LENGTH = 10;
-    private static final double HEAD_ANGLE = Math.toRadians(30);
-    private static final double THICKNESS = 3;
+    private static final double HEAD_LENGTH = 10; // The length of the arrowhead.
+    private static final double HEAD_ANGLE = Math.toRadians(30); // The angle of the arrowhead.
+    private static final double THICKNESS = 3; // The thickness of the arrow lines.
 
+    /**
+     * Constructs an Arrow with the specified position, length, and angle.
+     *
+     * @param position The position of the arrow.
+     * @param length   The length of the arrow.
+     * @param angle    The angle of the arrow.
+     */
     public Arrow(Coordinate position, double length, double angle) {
         super(position, true);
         this.length = length;
@@ -25,6 +42,9 @@ public class Arrow extends Entity {
         initializeArrow();
     }
 
+    /**
+     * Initializes the arrow's lines and styles them.
+     */
     private void initializeArrow() {
         // Initialize the three lines of the arrow
         this.shaft = new Line();
@@ -42,6 +62,11 @@ public class Arrow extends Entity {
         this.getChildren().addAll(shaft, leftHead, rightHead);
     }
 
+    /**
+     * Styles a line with a black color and a specified thickness.
+     *
+     * @param line The line to style.
+     */
     private void styleLine(Line line) {
         line.setStroke(Color.BLACK);
         line.setStrokeWidth(THICKNESS);
@@ -85,11 +110,21 @@ public class Arrow extends Entity {
         return -this.angle;
     }
 
+    /**
+     * Sets the angle of the arrow and updates its geometry.
+     *
+     * @param angle The new angle of the arrow.
+     */
     public void setAngle(double angle) {
         this.angle = -angle;
         draw();
     }
 
+    /**
+     * Sets the position of the arrow and updates its geometry.
+     *
+     * @param position The new position of the arrow.
+     */
     public void setPosition(Coordinate position) {
         this.position = position;
         draw();
