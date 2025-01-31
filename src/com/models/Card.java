@@ -79,6 +79,7 @@ public class Card extends Entity {
         this.draw();
     }
 
+
     /**
      * Returns the list of building blocks for the card.
      * @return A vector containing the building blocks for the card.
