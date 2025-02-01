@@ -25,11 +25,6 @@ public class LeaderboardScreen extends Screen {
 
     private SwitchScreen switchScreen; // Handles screen switching logic.
 
-    /**
-     * Constructs a LeaderboardScreen with the specified primary stage.
-     *
-     * @param primaryStage The primary stage (window) of the application.
-     */
     public LeaderboardScreen(Stage primaryStage) {
         super(primaryStage);
         this.initHandlers();

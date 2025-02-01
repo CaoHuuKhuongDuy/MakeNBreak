@@ -18,11 +18,6 @@ public class InstructionScreen extends Screen {
 
     private SwitchScreen switchScreen; // Handles screen switching logic.
 
-    /**
-     * Constructs an InstructionScreen with the specified primary stage.
-     *
-     * @param primaryStage The primary stage (window) of the application.
-     */
     public InstructionScreen(Stage primaryStage) {
         super(primaryStage);
         this.initHandlers();

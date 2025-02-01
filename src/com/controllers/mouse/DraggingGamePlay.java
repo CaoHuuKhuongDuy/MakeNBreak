@@ -12,31 +12,19 @@
 
 package com.controllers.mouse;
 
-// Represents a coordinate point in the game
-import com.commons.Coordinate;
-// Represents a generic game entity that can be interacted with
-import com.models.Entity;
-// Represents the game board where blocks are placed
-import com.models.components.Board;
-// Represents individual building blocks used in the game
-import com.models.components.BuildingBlock;
-// Handles mouse events for detecting user interactions
-import javafx.event.EventHandler;
-// Represents bounding boxes for UI elements
-import javafx.geometry.BoundingBox;
+import com.commons.Coordinate;// Represents a coordinate point in the game
+import com.models.Entity;// Represents a generic game entity that can be interacted with
+import com.models.components.Board;// Represents the game board where blocks are placed
+import com.models.components.BuildingBlock;// Represents individual building blocks used in the game
+import javafx.event.EventHandler;// Handles mouse events for detecting user interactions
+import javafx.geometry.BoundingBox;// Represents bounding boxes for UI elements
 import javafx.geometry.Bounds;
-// Represents a JavaFX node (UI component)
-import javafx.scene.Node;
-// Allows scrolling of game components
-import javafx.scene.control.ScrollPane;
-// Represents a grid layout in JavaFX, used for positioning elements
-import javafx.scene.layout.GridPane;
-// Handles mouse event detection
-import javafx.scene.input.MouseEvent;
-// Represents a basic layout container
-import javafx.scene.layout.Pane;
-// Represents colors used for blocks and board interactions
-import javafx.scene.paint.Color;
+import javafx.scene.Node;// Represents a JavaFX node (UI component)
+import javafx.scene.control.ScrollPane;// Allows scrolling of game components
+import javafx.scene.layout.GridPane;// Represents a grid layout in JavaFX, used for positioning elements
+import javafx.scene.input.MouseEvent;// Handles mouse event detection
+import javafx.scene.layout.Pane;// Represents a basic layout container
+import javafx.scene.paint.Color;// Represents colors used for blocks and board interactions
 
 import java.util.Vector;
 

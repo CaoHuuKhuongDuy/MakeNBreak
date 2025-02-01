@@ -30,15 +30,6 @@ public class SubmitResult implements EventHandler<Event>, Runnable {
     private User user; // The current user.
     private GenerateCard generateCard; // Handles the generation of cards.
 
-    /**
-     * Constructs a SubmitResult object with the specified user ID, card set, generate card handler,
-     * and block container.
-     *
-     * @param userID          The ID of the current user.
-     * @param cardSet         The set of cards in the game.
-     * @param generateCard    The handler for generating cards.
-     * @param blockContainer  The container for building blocks.
-     */
     public SubmitResult(int userID, CardSet cardSet, GenerateCard generateCard, BlockContainer blockContainer) {
         this.user = Globals.app.getUsers().get(userID);
         this.generateCard = generateCard;

@@ -21,12 +21,6 @@ public class InstructionPopup extends Screen {
     private SwitchScreen switchScreen; // Handles screen switching logic.
     private Screen previousScreen; // The screen that was displayed before the pop-up.
 
-    /**
-     * Constructs an InstructionPopup with the specified primary stage and previous screen.
-     *
-     * @param primaryStage   The primary stage (window) of the application.
-     * @param previousScreen The screen that was displayed before the pop-up.
-     */
     public InstructionPopup(Stage primaryStage, Screen previousScreen) {
         super(primaryStage);
         this.previousScreen = previousScreen;

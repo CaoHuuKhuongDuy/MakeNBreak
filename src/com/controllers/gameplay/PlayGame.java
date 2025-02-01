@@ -16,11 +16,6 @@ import com.screens.GameScreen; // Represents the game screen of the application.
 public class PlayGame {
     private GameScreen gameScreen; // The game screen associated with this gameplay logic.
 
-    /**
-     * Constructs a PlayGame object with the specified game screen.
-     *
-     * @param gameScreen The game screen to manage.
-     */
     public PlayGame(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
     }

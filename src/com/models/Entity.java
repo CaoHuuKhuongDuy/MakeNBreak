@@ -72,12 +72,6 @@ public abstract class Entity extends Pane {
         return this.position;
     }
 
-    /**
-     * Sets the size of the entity.
-     *
-     * @param width  The new width of the entity.
-     * @param height The new height of the entity.
-     */
     public void setSize(double width, double height) {
         this.width = width;
         this.height = height;
@@ -87,11 +81,6 @@ public abstract class Entity extends Pane {
         this.draw();
     }
 
-    /**
-     * Sets the position of the entity.
-     *
-     * @param position The new position of the entity.
-     */
     public void setPosition(Coordinate position) {
         this.position = position;
         this.setLayoutX(position.x);
@@ -100,7 +89,7 @@ public abstract class Entity extends Pane {
     }
 
     /**
-     * Abstract method to draw the entity. Must be implemented by subclasses.
+     * Abstract method to draw the entity.
      */
     public abstract void draw();
 

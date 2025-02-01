@@ -15,11 +15,6 @@ import com.screens.GameScreen; // Represents the game screen of the application.
 public class EndRound implements Runnable {
     private GameScreen gameScreen; // The game screen associated with this callback.
 
-    /**
-     * Constructs an EndRound object with the specified game screen.
-     *
-     * @param gameScreen The game screen to manage.
-     */
     public EndRound(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
     }

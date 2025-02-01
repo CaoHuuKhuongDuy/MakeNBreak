@@ -23,11 +23,6 @@ public class LoadingScreen extends Screen {
     private SwitchScreen switchScreen; // Handles screen switching logic.
     private LoadingBar loadingBar; // Represents the loading bar component.
 
-    /**
-     * Constructs a LoadingScreen with the specified primary stage.
-     *
-     * @param primaryStage The primary stage (window) of the application.
-     */
     public LoadingScreen(Stage primaryStage) {
         super(primaryStage);
         this.loadingBar = new LoadingBar(new Coordinate(256, 646), 512, 48);

@@ -46,29 +46,14 @@ public class CardSet {
         this.numBlock = numBlock;
     }
 
-    /**
-     * Gets the vector of opening cards.
-     *
-     * @return A vector containing all the opening cards.
-     */
     public Vector<Card> getOpeningCards() {
         return this.openingCards;
     }
 
-    /**
-     * Gets the vector of closing cards.
-     *
-     * @return A vector containing all the closing cards.
-     */
     public Vector<Card> getClosingCards() {
         return this.closingCards;
     }
 
-    /**
-     * Gets the vector of skipped cards.
-     *
-     * @return A vector containing all the skipped cards.
-     */
     public Vector<Card> getSkippedCards() {
         return this.skippedCards;
     }
@@ -87,11 +72,6 @@ public class CardSet {
         this.closingCards.lastElement().toBack();
     }
 
-    /**
-     * Gets the vector of removed cards.
-     *
-     * @return A vector containing all the removed cards.
-     */
     public Vector<Card> getRemovedCards() {
         return this.removedCards;
     }

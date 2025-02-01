@@ -79,31 +79,14 @@ public class Card extends Entity {
         this.draw();
     }
 
-
-    /**
-     * Returns the list of building blocks for the card.
-     * @return A vector containing the building blocks for the card.
-     */
     public Vector<BuildingBlock> getBuildingBlocks() {
         return this.buildingBlocks;
     }
 
-    /**
-     * Returns the point value of the card.
-     * @return The point value of the card.
-     */
     public int getPoint() {
         return this.point;
     }
 
-    /**
-     * Sets the point value of the card and redraws it.
-     * @param point The new point value to be set.
-     */
-    public void setPoint(int point) {
-        this.point = point;
-        this.draw();
-    }
 
     /**
      * Sets the cells representing the card's structure and calculates its bounds.
@@ -148,10 +131,6 @@ public class Card extends Entity {
         this.draw();
     }
 
-    /**
-     * Returns whether the card is open.
-     * @return true if the card is open, false otherwise.
-     */
     public boolean getOpen() {
         return this.open;
     }

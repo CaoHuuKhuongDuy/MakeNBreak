@@ -40,11 +40,6 @@ public class User {
         this.currentRound = 0;
     }
 
-    /**
-     * Constructs a User object with a name and default points (0).
-     *
-     * @param name The name of the user.
-     */
     public User(String name) {
         this(name, 0);
     }
