@@ -11,8 +11,6 @@
 
 package com.models.components;
 
-// Import necessary classes
-
 // Coordinate class is used for handling positions in the game grid
 import com.commons.Coordinate;
 // Entity class serves as a base class for all game components that have a position
