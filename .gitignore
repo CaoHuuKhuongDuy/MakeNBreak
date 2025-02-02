@@ -1,5 +1,6 @@
 bin/
 javafx-sdk-23.0.1/
+javafx-sdk-23.0.1-window/
 .idea/
 .vscode/
 .DS_Store

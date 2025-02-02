@@ -43,3 +43,12 @@ make run
 
 Note: Ngoài ra ta có thể config JavaFX trên IntelliJ khỏi cần dùng đến Makefile. GPT để biết rõ hơn..
 
+## Run MakeNBreak
+Mac:
+```
+java --module-path javafx-sdk-23.0.1/lib --add-modules javafx.controls,javafx.fxml -jar out/artifacts/MakeNBreak_jar/MakeNBreak.jar
+```
+Windows:
+```
+java --module-path javafx-sdk-23.0.1-window/lib --add-modules javafx.controls,javafx.fxml -jar out/artifacts/MakeNBreak_jar/MakeNBreak.jar
+```
